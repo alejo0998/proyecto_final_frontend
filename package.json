@@ -39,5 +39,6 @@
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]
+  ],
+  "resolutions": { "eslint-loader": "2.1.2" }
 }
