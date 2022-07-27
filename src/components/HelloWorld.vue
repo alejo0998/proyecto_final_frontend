@@ -32,6 +32,7 @@ export default {
           return null;
         }
         this.user = googleUser.getBasicProfile().getEmail();
+        console.log(googleUser)
       } catch (error) {
         console.log(error);
         return null;
