@@ -1,13 +1,10 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    
-    <h1>Is Initialized: {{ Vue3GoogleOauth.isInit }}</h1>
-    <h1>Is Authorized: {{ Vue3GoogleOauth.isAuthorized }}</h1>
-    <h2 v-if='user'>Logged in user: {{ user }}</h2>
+    <h2 v-if='user'>Usuario: {{ user }}</h2>
 
-    <button @click='handleSignIn' :disabled='!Vue3GoogleOauth.isInit || Vue3GoogleOauth.isAuthorized'>Sign In</button>
-    <button @click='handleSignOut' :disabled='!Vue3GoogleOauth.isAuthorized'>Sign Out</button>
+    <button @click='handleSignIn' :disabled='!Vue3GoogleOauth.isInit || Vue3GoogleOauth.isAuthorized'>Iniciar sesión</button>
+    <button @click='handleSignOut' :disabled='!Vue3GoogleOauth.isAuthorized'>Cerrar sesión</button>
   </div>
 </template>
 
@@ -33,6 +30,7 @@ export default {
         }
         this.user = googleUser.getBasicProfile().getEmail();
         console.log(googleUser)
+        localStorage.setItem('googleAccount', googleUser)
       } catch (error) {
         console.log(error);
         return null;
