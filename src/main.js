@@ -1,8 +1,9 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
-const app = createApp(App)
+const app = createApp(App).use(router)
 import gAuthPlugin from 'vue3-google-oauth2';
+import router from './router'
 let gauthClientId = '1089712608540-enk2ak2g0vcmhv3ghs3en79bhorgdtvi.apps.googleusercontent.com';
 app.use(gAuthPlugin, {
   clientId: gauthClientId,
