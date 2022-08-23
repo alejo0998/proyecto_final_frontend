@@ -9,10 +9,10 @@
     </div>
     <div class="nav_derecha">
         <ul class="nav_menu">
-        <li class="nav_menu_item"><router-link to="/aprendizajeCategorias">Aprendizaje</router-link></li>
-        <li class="nav_menu_item"><router-link to="/">Práctica</router-link></li>
-        <li class="nav_menu_item"><router-link to="/">Juegos Integrales</router-link></li>
-        <li class="nav_menu_item"><router-link to="/" @click="handleSignOut">Cerrar Sesión</router-link></li>
+        <li class="nav_menu_item" v-if="SesionLog"><router-link to="/aprendizajeCategorias">Aprendizaje</router-link></li>
+        <li class="nav_menu_item" v-if="SesionLog"><router-link to="/">Práctica</router-link></li>
+        <li class="nav_menu_item" v-if="SesionLog"><router-link to="/">Juegos Integrales</router-link></li>
+        <li class="nav_menu_item" v-if="SesionLog"><router-link to="/" @click="handleSignOut">Cerrar Sesión</router-link></li>
         </ul>
     </div>
     </nav>
@@ -36,6 +36,11 @@
 <script>
 export default{
   name: 'app-header',
+  data() {
+    return {
+      SesionLog: localStorage.getItem('mailAccount') != null,
+    }
+  },
   methods:{
     async handleSignOut() {
       try {
@@ -49,7 +54,7 @@ export default{
       } catch (error) {
         console.log(error);
       }
-    }
+    },
 },
 }
 </script>
