@@ -7,7 +7,7 @@
       <h3>{{categoria}}</h3>
     </div>
     <div class="section_senias">
-    <router-link v-for="(senia, index) in senias" v-bind:key="index" :to="{name: 'AprendizajeVideo' , params: {senias: senias , index: index}}" class="contenedor_senia">
+    <router-link v-for="(senia, index) in senias" v-bind:key="index" :to="{name: 'AprendizajeVideo' , params: {seniasVideo: senias, categoriaVideo: categoria, index: index}}" class="contenedor_senia">
       <span class="boton_senia">{{senia.nombre}}</span>
     </router-link>
   </div>
@@ -23,20 +23,6 @@ export default {
   data () {
     return {
       senias: [
-        { id: 1, nombre: 'Hola', ruta: 'https://drive.google.com/file/d/104i7fGeVl3K_U7CjTlUeOY118-RqI_Wi/preview' },
-        { id: 2, nombre: 'Chau', ruta: 'ponerRuta' },
-        { id: 3, nombre: '¿Cómo Estas?', ruta: 'ponerRuta' },
-        { id: 4, nombre: '¿Cómo?', ruta: 'ponerRuta' },
-        { id: 5, nombre: '¿Cual?', ruta: 'ponerRuta' },
-        { id: 6, nombre: '¿Donde?', ruta: 'ponerRuta' },
-        { id: 7, nombre: '¿Cuando?', ruta: 'ponerRuta' },
-        { id: 1, nombre: 'Hola', ruta: 'https://drive.google.com/file/d/104i7fGeVl3K_U7CjTlUeOY118-RqI_Wi/preview' },
-        { id: 2, nombre: 'Chau', ruta: 'ponerRuta' },
-        { id: 3, nombre: '¿Cómo Estas?', ruta: 'ponerRuta' },
-        { id: 4, nombre: '¿Cómo?', ruta: 'ponerRuta' },
-        { id: 5, nombre: '¿Cual?', ruta: 'ponerRuta' },
-        { id: 6, nombre: '¿Donde?', ruta: 'ponerRuta' },
-        { id: 7, nombre: '¿Cuando?', ruta: 'ponerRuta' },
         { id: 1, nombre: 'Hola', ruta: 'https://drive.google.com/file/d/104i7fGeVl3K_U7CjTlUeOY118-RqI_Wi/preview' },
         { id: 2, nombre: 'Chau', ruta: 'ponerRuta' },
         { id: 3, nombre: '¿Cómo Estas?', ruta: 'ponerRuta' },
@@ -87,5 +73,92 @@ h3 {
   align-items: center;
   display: flex;
   justify-content: center;
+}
+
+@media only screen and (max-width:850px){
+    .imagenMenu{
+        display: none;
+    }
+    .container{
+        flex-direction: column;
+        height: 40vh;
+        margin: 0;
+    }
+    .botonImagenMenu{
+        width: 100vw;
+    }
+    .nav_pc{
+        display: none;
+    }
+
+    .nav_responsive{
+        display: flex;
+    }
+
+    .nav_izquierda{
+        width: 80%;
+    }
+    .nav_derecha{
+        width: 20%;
+    }
+
+    header h2{
+        font-size: large;
+    }
+
+    h2{
+        font-size: x-large;
+    }
+
+    button{
+        font-size: small;
+    }
+
+    h4{
+        font-size: small;
+    }
+
+    .menuPrincipal_texto{
+        margin: 5% auto;
+    }
+
+    .menu{
+        height: 70vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .menu_flotante{
+        background-color: white;
+        border: 1px solid black;
+        color:black;
+        font-size: small;
+        position: relative;
+        text-align: right;
+        top:-1000px ;
+        z-index: 1;
+        display: none;
+       /* width: 70vw;*/
+    }
+
+    .icono_menu_responsive{
+        font-size: 30px;
+        /* z-index: 100;*/
+    }
+
+    .icono_menu_responsive:hover > .menu_flotante{
+        top:0;
+    }
+
+    .categoria{
+        width: 150px;
+        height: 150px;
+    }
+
+    .containerCategorias{
+        margin-top: 10px;
+        
+    }
 }
 </style>

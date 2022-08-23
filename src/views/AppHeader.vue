@@ -26,7 +26,7 @@
         <div class="nav_derecha">
           <div class="icono_menu_responsive fas fa-bars"></div>
           <div class="menu_flotante">
-            <a>Cerrar Sesión</a>
+            <a @click="cerrarSesion">Cerrar Sesión</a>
           </div>
         </div> 
       </nav>
@@ -35,7 +35,14 @@
 
 <script>
 export default{
-  name: 'app-header'
+  name: 'app-header',
+  methods:{
+    cerrarSesion(){
+        console.log("prueba")
+        localStorage.setItem('mailAccount' , '');
+        this.$router.push("/");
+    }
+  }
 }
 </script>
 

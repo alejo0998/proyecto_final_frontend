@@ -1,14 +1,14 @@
 <template >
-  <div class="hello">
+  <div class="hello" @load='pepe'>
     <div class="container_logo">
-      <h1>Instructor LSA</h1>
+      <h1>Bienvenidos</h1>
       <img src="../assets/icono.png" alt="Instructor LSA" title="Instructor LSA" class="logo">
-      <h3>Aprendé, jugá, incluí</h3>
+      <h3 class="slogan">¿Qué esperás para practicar Lengua de Señas Argentina como nunca antes?</h3>
     </div>
     <h2 v-if='user'>Usuario: {{ user }}</h2>
     <div class="container_boton_inicio">
-      <button @click='handleSignIn' :disabled='!Vue3GoogleOauth.isInit || Vue3GoogleOauth.isAuthorized' class="boton_inicio">Iniciar sesión</button>
-      <button @click='handleSignOut' :disabled='!Vue3GoogleOauth.isAuthorized' class="boton_inicio" >Cerrar sesión</button>
+      <button @click='handleSignIn' class="boton_inicio">Iniciar sesión</button>
+      <button @click='handleSignOut' class="boton_inicio" >Cerrar sesión</button>
     </div>
   </div>
 </template>
@@ -25,6 +25,12 @@ export default {
       user: '',
     }
   },
+  mounted(){
+    console.log( !!localStorage.getItem('mailAccount') )
+    if(localStorage.getItem('mailAccount')){
+      this.$router.push('/AppHome')
+    }
+  },
   methods: {
     async handleSignIn() {
       try {
@@ -37,17 +43,20 @@ export default {
         console.log(googleUser)
         this.$router.push('/AppHome')
         localStorage.setItem('googleAccount', googleUser)
+        localStorage.setItem('mailAccount', this.user)
       } catch (error) {
         console.log(error);
         return null;
       }
-      
     },
     async handleSignOut() {
       try {
         await this.$gAuth.signOut();
+
         // console.log(this.$gAuth.signOut);
         this.user = '';
+        localStorage.setItem('mailAccount', '');
+        console.log(this.user);
       } catch (error) {
         console.log(error);
       }
@@ -55,9 +64,13 @@ export default {
   },
   setup() {
     const Vue3GoogleOauth = inject('Vue3GoogleOauth');
+    
     return {
       Vue3GoogleOauth,
     };
+  },
+  pepe(){
+    console.log("hola")
   }
 }
 </script>
@@ -79,11 +92,14 @@ a {
   color: #42b983;
 }
 
+.nav_menu_item{
+  display: none;
+}
+
 .hello{
-  position: absolute;
+  position: relative;
   width: 100vw;
-  height: 100vh;
-  z-index: 100;
+  height: 85vh;
   top: 0;
   left: 0;
   right: 0;
@@ -91,11 +107,14 @@ a {
   margin: auto;
   background-color: #EAF4FF;
   display: flex;
+  flex-direction: column;
   justify-content: space-evenly;
 }
+
 .logo{
-  width: 300px;
-  height: 300px;
+  width: 250px;
+  height: 250px;
+  margin: 50px;
   object-fit: contain;
   border-radius: 500px;
 }
@@ -104,16 +123,108 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 .container_logo{
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 .boton_inicio{
   min-width: 250px;
   max-width: 500px;
   margin: 15px;
   min-height: 50px;
+}
+
+@media only screen and (max-width:850px){
+    .slogan{
+      display: none;
+    }
+    .imagenMenu{
+        display: none;
+    }
+    .container{
+        flex-direction: column;
+        height: 40vh;
+        margin: 0;
+    }
+    .botonImagenMenu{
+        width: 100vw;
+    }
+    .nav_pc{
+        display: none;
+    }
+
+    .nav_responsive{
+        display: flex;
+    }
+
+    .nav_izquierda{
+        width: 80%;
+    }
+    .nav_derecha{
+        width: 20%;
+    }
+
+    header h2{
+        font-size: large;
+    }
+
+    h2{
+        font-size: x-large;
+    }
+
+    button{
+        font-size: small;
+    }
+
+    h4{
+        font-size: small;
+    }
+
+    .menuPrincipal_texto{
+        margin: 5% auto;
+    }
+
+    .menu{
+        height: 70vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .menu_flotante{
+        background-color: white;
+        border: 1px solid black;
+        color:black;
+        font-size: small;
+        position: relative;
+        text-align: right;
+        top:-1000px ;
+        z-index: 1;
+        display: none;
+       /* width: 70vw;*/
+    }
+
+    .icono_menu_responsive{
+        font-size: 30px;
+        /* z-index: 100;*/
+    }
+
+    .icono_menu_responsive:hover > .menu_flotante{
+        top:0;
+    }
+
+    .categoria{
+        width: 150px;
+        height: 150px;
+    }
+
+    .containerCategorias{
+        margin-top: 10px;
+        
+    }
 }
 </style>

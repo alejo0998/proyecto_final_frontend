@@ -1,15 +1,15 @@
 <template>
     <div>
         <div>
-            <h1 id="titulo_senia">{{senias[index].nombre}}</h1>
+            <h1 id="titulo_senia">{{seniasVideo[index].nombre}}</h1>
         </div>
         <div class="container_video_flechas">
-            <div class="container_flecha"><router-link :to="{name: 'AprendizajeVideo' , params: {senias:senias , index:index-1}}"><i class="fas fa-solid fa-angle-left flecha"></i></router-link></div>
+            <div class="container_flecha"><router-link :to="{name: 'AprendizajeVideo' , params: {seniasVideo:seniasVideo ,categoriaVideo: categoriaVideo , index:index-1}}"><i class="fas fa-solid fa-angle-left flecha"></i></router-link></div>
             <div class="container_video">
-                <iframe :src="senias[index].ruta" allow="autoplay"
+                <iframe :src="seniasVideo[index].ruta" allow="autoplay"
                     class="video"></iframe>
             </div>
-            <div class="container_flecha"><router-link :to="{name: 'AprendizajeVideo' , params: {senias:senias , index:index+1}}"><i class="fas fa-solid fa-angle-right flecha"></i></router-link></div>
+            <div class="container_flecha"><router-link :to="{name: 'AprendizajeVideo' , params: {seniasVideo:seniasVideo ,categoriaVideo: categoriaVideo , index:index+1}}"><i class="fas fa-solid fa-angle-right flecha"></i></router-link></div>
         </div>
     </div>
 </template>
@@ -18,7 +18,8 @@
 export default {
   name: 'app-aprendizaje-video',
   props: {
-    senias: [{id: Number, nombre: String, ruta: String}],
+    seniasVideo: [{id: Number, nombre: String, ruta: String}],
+    categoriaVideo: String,
     index: Number
   }
 }
