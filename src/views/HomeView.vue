@@ -8,7 +8,6 @@
     <h2 v-if='user'>Usuario: {{ user }}</h2>
     <div class="container_boton_inicio">
       <button @click='handleSignIn' class="boton_inicio">Iniciar sesión</button>
-      <button @click='handleSignOut' class="boton_inicio" >Cerrar sesión</button>
     </div>
   </div>
 </template>
@@ -44,23 +43,13 @@ export default {
         this.$router.push('/AppHome')
         localStorage.setItem('googleAccount', googleUser)
         localStorage.setItem('mailAccount', this.user)
+        localStorage.setItem('token', googleUser.getId())
+        console.log(googleUser.getId())
       } catch (error) {
         console.log(error);
         return null;
       }
     },
-    async handleSignOut() {
-      try {
-        await this.$gAuth.signOut();
-
-        // console.log(this.$gAuth.signOut);
-        this.user = '';
-        localStorage.setItem('mailAccount', '');
-        console.log(this.user);
-      } catch (error) {
-        console.log(error);
-      }
-    }
   },
   setup() {
     const Vue3GoogleOauth = inject('Vue3GoogleOauth');

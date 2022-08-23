@@ -12,7 +12,7 @@
         <li class="nav_menu_item"><router-link to="/aprendizajeCategorias">Aprendizaje</router-link></li>
         <li class="nav_menu_item"><router-link to="/">Práctica</router-link></li>
         <li class="nav_menu_item"><router-link to="/">Juegos Integrales</router-link></li>
-        <li class="nav_menu_item"><router-link to="/">Cerrar Sesión</router-link></li>
+        <li class="nav_menu_item"><router-link to="/" @click="handleSignOut">Cerrar Sesión</router-link></li>
         </ul>
     </div>
     </nav>
@@ -26,7 +26,7 @@
         <div class="nav_derecha">
           <div class="icono_menu_responsive fas fa-bars"></div>
           <div class="menu_flotante">
-            <a @click="cerrarSesion">Cerrar Sesión</a>
+            <a @click="handleSignOut">Cerrar Sesión</a>
           </div>
         </div> 
       </nav>
@@ -37,12 +37,20 @@
 export default{
   name: 'app-header',
   methods:{
-    cerrarSesion(){
-        console.log("prueba")
-        localStorage.setItem('mailAccount' , '');
+    async handleSignOut() {
+      try {
+        await this.$gAuth.signOut();
+        this.user = '';
+        console.log(this.user);
+        localStorage.removeItem('mailAccount');
+        localStorage.removeItem('googleAccount');
+        localStorage.removeItem('token');
         this.$router.push("/");
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
+},
 }
 </script>
 
