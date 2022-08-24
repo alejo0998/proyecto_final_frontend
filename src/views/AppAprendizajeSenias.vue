@@ -7,7 +7,7 @@
       <h3>{{categoria}}</h3>
     </div>
     <div class="section_senias">
-    <router-link v-for="(senia, index) in senias" v-bind:key="index" :to="{name: 'AprendizajeVideo' , params: {seniasVideo: senias, categoriaVideo: categoria, index: index}}" class="contenedor_senia">
+    <router-link v-for="(senia, index) in senias" v-bind:key="index" :to="{name: 'AprendizajeVideo' , params: {senias: senias, categoria: categoria, index: index}}" class="contenedor_senia">
       <span class="boton_senia">{{senia.nombre}}</span>
     </router-link>
   </div>
@@ -27,15 +27,19 @@ export default {
     }
   },
   mounted(){
-    var url = 'http://instructorlsa.herokuapp.com/sign/category?category='+this.categoria
+    var url_get = 'http://instructorlsa.herokuapp.com/sign/category?category='+this.categoria
     var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
     var tokenSend = 'Token '+token
-    var response_prueba = axios.get(url, {
+    axios.get(url_get, {
       headers: {
         'Authorization': tokenSend
       }
-    }).then(response => (this.senias = response.data))
-    console.log(response_prueba)
+    })
+    .then(response => (this.senias = response.data,
+    console.log(response.data),
+    console.log(response.data[0].url)),
+    
+    )
   }
 }
 </script>

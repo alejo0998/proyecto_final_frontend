@@ -29,7 +29,7 @@ const routes = [
     props: true
   },
   {
-    path: '/AprendizajeVideo/:categoriaVideo/:index',
+    path: '/AprendizajeVideo/:categoria/:index',
     name: 'AprendizajeVideo',
     component: AprendizajeVideo,
     props: true
