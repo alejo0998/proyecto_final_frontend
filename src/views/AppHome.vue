@@ -12,9 +12,9 @@
             </div>
             <div class="botonImagenMenu">
                 <img src="../assets/practica.png" alt="Práctica" title="Practica" class="imagenMenu">
-                <form action="index.html">
+                <router-link to="PracticaCategorias">
                     <button class="botonMenu">Sección Práctica</button>
-                </form>
+                </router-link>
             </div>
             <div class="botonImagenMenu">
                 <img src="../assets/Integrales.png" alt="Juegos Integrales" title="Integrales" class="imagenMenu">

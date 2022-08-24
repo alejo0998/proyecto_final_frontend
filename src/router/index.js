@@ -5,6 +5,9 @@ import AprendizajeCategorias from '../views/AppAprendizajeCategorias.vue'
 import AprendizajeSenias from '../views/AppAprendizajeSenias.vue'
 import AprendizajeVideo from '../views/AppAprendizajeVideo.vue'
 import ErrorServerView from '../views/ErrorServerView.vue'
+import PracticaEscribi from '../views/AppPracticaEscribi.vue'
+import PracticaCategorias from '../views/AppPracticaCategorias.vue'
+import PracticaSenias from '../views/AppPracticaSenias.vue'
 
 const routes = [
   {
@@ -38,6 +41,24 @@ const routes = [
     path: '/ErrorServer',
     name: 'ErrorServer',
     component: ErrorServerView,
+    props: true
+  },
+  {
+    path: '/PracticaEscribi/:categoria/:index',
+    name: 'PracticaEscribi',
+    component: PracticaEscribi,
+    props: true
+  },
+  {
+    path: '/PracticaCategorias',
+    name: 'PracticaCategorias',
+    component: PracticaCategorias,
+    props: true
+  },
+  {
+    path: '/PracticaSenias/:categoria',
+    name: 'PracticaSenias',
+    component: PracticaSenias,
     props: true
   }
 ]

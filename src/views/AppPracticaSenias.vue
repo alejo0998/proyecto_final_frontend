@@ -1,13 +1,13 @@
 <template>
   <section>
     <div>
-      <h1>Sección Aprendizaje</h1>
+      <h1>Sección Práctica</h1>
     </div>
     <div>
       <h3>{{categoria}}</h3>
     </div>
     <div class="section_senias">
-    <router-link v-for="(senia, index) in senias" v-bind:key="index" :to="{name: 'AprendizajeVideo' , params: {senias: JSON.stringify(senias), categoria: categoria, index: index}}" class="contenedor_senia">
+    <router-link v-for="(senia, index) in senias" v-bind:key="index" :to="{name: 'PracticaEscribi' , params: {senias: JSON.stringify(senias), categoria: categoria, index: index}}" class="contenedor_senia">
       <span class="boton_senia">{{senia.nombre}}</span>
     </router-link>
   </div>
@@ -17,7 +17,7 @@
 <script>
 import axios from 'axios';
 export default {
-  name: 'app-aprendizaje-senias',
+  name: 'app-practica-senias',
   props: {
     categoria: String
   },
