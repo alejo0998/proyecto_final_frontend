@@ -34,7 +34,6 @@ export default{
   },
   methods:{
     cerrarSesion(){
-        console.log("prueba")
         localStorage.setItem('mailAccount' , '');
         this.$router.push("/");
     }

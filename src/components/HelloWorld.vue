@@ -29,7 +29,7 @@ export default {
           return null;
         }
         this.user = googleUser.getBasicProfile().getEmail();
-        console.log(googleUser)
+        //console.log(googleUser)
         localStorage.setItem('googleAccount', googleUser)
       } catch (error) {
         console.log(error);

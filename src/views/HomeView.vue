@@ -14,6 +14,7 @@
 
 <script>
 import { inject } from 'vue';
+import axios from 'axios';
 export default {
   name: 'HomeView',
   props: {
@@ -25,7 +26,7 @@ export default {
     }
   },
   mounted(){
-    console.log( !!localStorage.getItem('mailAccount') )
+    //console.log( !!localStorage.getItem('mailAccount') )
     if(localStorage.getItem('mailAccount')){
       this.$router.push('/AppHome')
     }
@@ -34,17 +35,43 @@ export default {
     async handleSignIn() {
       try {
         const googleUser = await this.$gAuth.signIn();
-        // console.log(this.$gAuth.signIn);
+        const token = googleUser.getId().substring(0,35)
+        console.log(token)
         if (!googleUser) {
           return null;
         }
         this.user = googleUser.getBasicProfile().getEmail();
-        console.log(googleUser)
-        this.$router.push('/AppHome')
         localStorage.setItem('googleAccount', googleUser)
         localStorage.setItem('mailAccount', this.user)
-        localStorage.setItem('token', googleUser.getId())
-        console.log(googleUser.getId())
+        localStorage.setItem('token', token)
+        var nombre = googleUser.getBasicProfile().gZ
+        var apellido = googleUser.getBasicProfile().tX
+        var json_data = {
+          "email": localStorage.getItem('mailAccount'),
+          "token": token ,
+          "firstName": nombre != null ? nombre : 'NoName',
+          "lastName": apellido != null ? apellido : 'NoLastName'
+      }
+        axios.post('http://instructorlsa.herokuapp.com/login/', json_data).then(function(response){
+          console.log(response);
+        })
+        .catch(function(error){
+          if(error.response.status === 500){
+            console.log('ERROR 500')
+            localStorage.removeItem('mailAccount');
+            localStorage.removeItem('googleAccount');
+            localStorage.removeItem('token');
+        }
+          localStorage.removeItem('mailAccount');
+          localStorage.removeItem('googleAccount');
+          localStorage.removeItem('token');
+          console.log(error);
+        })
+        if (localStorage.getItem('token') == token){
+          this.$router.push('/AppHome');
+        }else{
+          this.$router.push('/ErrorServer');
+        }
       } catch (error) {
         console.log(error);
         return null;

@@ -4,6 +4,7 @@ import AppHome from '../views/AppHome.vue'
 import AprendizajeCategorias from '../views/AppAprendizajeCategorias.vue'
 import AprendizajeSenias from '../views/AppAprendizajeSenias.vue'
 import AprendizajeVideo from '../views/AppAprendizajeVideo.vue'
+import ErrorServerView from '../views/ErrorServerView.vue'
 
 const routes = [
   {
@@ -31,6 +32,12 @@ const routes = [
     path: '/AprendizajeVideo/:categoriaVideo/:index',
     name: 'AprendizajeVideo',
     component: AprendizajeVideo,
+    props: true
+  },
+  {
+    path: '/ErrorServer',
+    name: 'ErrorServer',
+    component: ErrorServerView,
     props: true
   }
 ]
