@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'app-aprendizaje-senias',
   props: {
@@ -22,16 +23,19 @@ export default {
   },
   data () {
     return {
-      senias: [
-        { id: 1, nombre: 'Hola', ruta: 'https://drive.google.com/file/d/104i7fGeVl3K_U7CjTlUeOY118-RqI_Wi/preview' },
-        { id: 2, nombre: 'Chau', ruta: 'ponerRuta' },
-        { id: 3, nombre: '¿Cómo Estas?', ruta: 'ponerRuta' },
-        { id: 4, nombre: '¿Cómo?', ruta: 'ponerRuta' },
-        { id: 5, nombre: '¿Cual?', ruta: 'ponerRuta' },
-        { id: 6, nombre: '¿Donde?', ruta: 'ponerRuta' },
-        { id: 7, nombre: '¿Cuando?', ruta: 'ponerRuta' }
-      ]
+      senias: null
     }
+  },
+  mounted(){
+    var url = 'http://instructorlsa.herokuapp.com/sign/category?category='+this.categoria
+    var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
+    var tokenSend = 'Token '+token
+    var response_prueba = axios.get(url, {
+      headers: {
+        'Authorization': tokenSend
+      }
+    }).then(response => (this.senias = response.data))
+    console.log(response_prueba)
   }
 }
 </script>
