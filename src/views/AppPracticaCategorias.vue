@@ -8,16 +8,17 @@
     </div>
     <div class="containerCategorias" >
       <div class="categoria" v-for="(categoria, index) in categorias" v-bind:key="index">
-        <router-link :to="{name: 'PracticaSenias', params: {categoria: categoria.nombre}}"><span>{{categoria.nombre}}</span></router-link>
-        <router-link :to="{name: 'PracticaSenias', params: {categoria: categoria.nombre}}" class="categoria_enlace_imagen">
+        <a @click="prueba(index)" >{{categoria.nombre}}</a>
+        <a @click="prueba(index)" class="categoria_enlace_imagen">
           <img :src="categoria.pathImg" :alt="categoria.nombre" :title="categoria.nombre" class="categoria_imagen">
-        </router-link>
+        </a>
       </div>
     </div>
   </section>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'app-practica-categorias',
   data () {
@@ -32,7 +33,36 @@ export default {
         {nombre: 'Personas', pathImg: require('../assets/personas.png'), habilitada: true},
         {nombre: 'Preguntas', pathImg: require('../assets/preguntas.png'), habilitada: true},
         {nombre: 'Verbos', pathImg: require('../assets/verbos.png'), habilitada: true}
-      ]
+      ],
+      juegos: null
+    }
+  },
+  methods: {
+    async prueba(index) {
+      var cat = this.categorias[index].nombre;
+      console.log(cat)
+      var url_get = 'http://instructorlsa.herokuapp.com/practice/games/?categoryName='+cat
+      var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
+      var tokenSend = 'Token '+token
+      let response = await axios.get(url_get, {
+        headers: {
+          'Authorization': tokenSend
+        }
+      })
+      this.juegos = response.data
+      this.p2(cat , index)
+      console.log(response.data)
+    },
+    p2(cat , index){
+      if(this.juegos[0].name == "Escribi la seña"){
+        this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(this.juegos), categoria: cat, index: index} })
+      }
+      if(this.juegos[0].name == "Adivina la seña"){
+        //escribir codigo
+      }
+      if(this.juegos[0].name == "Signa la palabra"){
+        //escribir codigo
+      }
     }
   }
 }
@@ -44,6 +74,9 @@ h1{
     padding: 10px 1%;
     text-align: left;
     margin: 0;
+}
+.categoria a{
+  cursor: pointer;
 }
 h3 {
   text-align: center;
