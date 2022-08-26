@@ -70,6 +70,10 @@ export default{
     .botonImagenMenu{
         width: 25vw;
         text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
+        align-items: center;
     }
     button{
     background-color: #2673E4;
@@ -98,7 +102,7 @@ export default{
         min-width: 250px;
         max-width: 350px;
         max-height: 55px;
-        margin: 10px;
+        margin: 10px 0px;
     }
 
     .container{

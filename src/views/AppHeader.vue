@@ -10,7 +10,7 @@
     <div class="nav_derecha">
         <ul class="nav_menu">
         <li class="nav_menu_item"><router-link to="/aprendizajeCategorias">Aprendizaje</router-link></li>
-        <li class="nav_menu_item"><router-link to="/">Práctica</router-link></li>
+        <li class="nav_menu_item"><router-link to="/practicaCategorias">Práctica</router-link></li>
         <li class="nav_menu_item"><router-link to="/">Juegos Integrales</router-link></li>
         <li class="nav_menu_item"><router-link to="/" @click="handleSignOut">Cerrar Sesión</router-link></li>
         </ul>

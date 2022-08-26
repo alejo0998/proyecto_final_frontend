@@ -50,12 +50,12 @@ export default {
         }
       })
       this.juegos = response.data
-      this.p2(cat , index)
+      this.p2(cat)
       console.log(response.data)
     },
-    p2(cat , index){
+    p2(cat ){
       if(this.juegos[0].name == "Escribi la seña"){
-        this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(this.juegos), categoria: cat, index: index} })
+        this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(this.juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
       }
       if(this.juegos[0].name == "Adivina la seña"){
         //escribir codigo

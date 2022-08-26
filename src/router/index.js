@@ -44,7 +44,7 @@ const routes = [
     props: true
   },
   {
-    path: '/PracticaEscribi/:categoria/:index',
+    path: '/PracticaEscribi/:categoriaVideo/:index',
     name: 'PracticaEscribi',
     component: PracticaEscribi,
     props: true
@@ -56,7 +56,7 @@ const routes = [
     props: true
   },
   {
-    path: '/PracticaSenias/:categoria',
+    path: '/PracticaSenias/:categoriaVideo',
     name: 'PracticaSenias',
     component: PracticaSenias,
     props: true

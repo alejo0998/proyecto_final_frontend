@@ -16,45 +16,56 @@
                 <span class="resultado_texto"> {{resultado}}</span>
                 <button @click="avanzar" >Avanzar</button>
             </div>
+            <div id="resultadosFinales">
+                <span class="resultado_texto">Respuestas correctas: {{cantidadAciertos}}/{{juegosVideo.length}}</span>
+                <button @click="volverPracticar" >Volver a practicar</button>
+                <button @click="volverMenu" >Menu principal</button>
+                <button @click="volverAprendizaje" >Ir a la sección de aprendizaje</button>
+                <button @click="volverCategoria" >Volver a selección de categoria</button>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'app-practica_escribi',
   props: {
     juegos: String,
     categoriaVideo: String,
-    index: Number
+    index: Number,
+    respuestasCorrectas: Number
   },
   data() {
     return {
         juegosVideo:JSON.parse(this.juegos),
         respuesta:"",
-        resultado:null
+        resultado:null,
+        cantidadAciertos:null
     }
   },
   mounted(){
     document.getElementById("respuesta").style.display = "flex";
     document.getElementById("resultado").style.display = "none";
+    document.getElementById("resultadosFinales").style.display="none";
+    this.cantidadAciertos=Number(this.respuestasCorrectas)
   },
   methods: {
     validar() {
         console.log("Valida")
+        this.cantidadAciertos=Number(this.respuestasCorrectas)
         document.getElementById("respuesta").style.display = "none";
         document.getElementById("resultado").style.display = "flex";
+        document.getElementById("resultadosFinales").style.display="none";
         if(this.respuesta.toUpperCase() == this.juegosVideo[this.index].sign.name.toUpperCase()){
             console.log("Bien")
             this.resultado = "¡Respuesta correcta!"
-            if(this.juegosVideo.length == Number(this.index)+1){
-                //A PANTALLA DE RESULTADOS
-            }else{
-                //Muestra resultado de la respuesta
-            }
+
+            this.cantidadAciertos = Number(this.respuestasCorrectas)+1;
         }else{
-            this.resultado = "¡Respuesta incorrecta!"
-            console.log("Mal")
+            this.resultado = "¡Respuesta incorrecta!";
+            console.log("Mal");
         }
     },
     avanzar() {
@@ -62,20 +73,62 @@ export default {
         console.log(this.juegosVideo)
         console.log(this.index+1);
         console.log(this.juegosVideo[Number(this.index)+1])
-        if(this.juegosVideo[Number(this.index)+1].name == "Escribi la seña"){
-            document.getElementById("respuesta").style.display = "flex";
-            document.getElementById("resultado").style.display = "none";
-            this.resultado = "";
-            this.respuesta = "";
-            this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1} })
+        if(this.juegosVideo.length == Number(this.index)+1){
+            document.getElementById("resultadosFinales").style.display="flex";
+            document.getElementById("respuesta").style.display = "none";
+            document.getElementById("resultado").style.display = "none";    
+        }else{
+            if(this.juegosVideo[Number(this.index)+1].name == "Escribi la seña"){
+                document.getElementById("respuesta").style.display = "flex";
+                document.getElementById("resultado").style.display = "none";
+                document.getElementById("resultadosFinales").style.display="none";
+                this.resultado = "";
+                this.respuesta = "";
+                this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: this.cantidadAciertos}})
+            }
+            if(this.juegosVideo[Number(this.index)+1].name == "Adivina la seña"){
+                //escribir codigo
+            }
+            if(this.juegosVideo[Number(this.index)+1].name == "Signa la palabra"){
+                //escribir codigo
+            } 
+        }       
+    },
+    async volverPracticar(){
+      var url_get = 'http://instructorlsa.herokuapp.com/practice/games/?categoryName='+this.categoriaVideo
+      var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
+      var tokenSend = 'Token '+token
+      let response = await axios.get(url_get, {
+        headers: {
+          'Authorization': tokenSend
         }
-        if(this.juegosVideo[Number(this.index)+1].name == "Adivina la seña"){
-            //escribir codigo
-        }
-        if(this.juegosVideo[Number(this.index)+1].name == "Signa la palabra"){
-            //escribir codigo
-        }
-        
+      })
+      var juegos = response.data
+      this.p2(this.categoriaVideo, juegos)
+      console.log(response.data)
+    },
+    p2(cat , juegos ){
+      if(juegos[0].name == "Escribi la seña"){
+        document.getElementById("respuesta").style.display = "flex";
+        document.getElementById("resultado").style.display = "none";
+        document.getElementById("resultadosFinales").style.display="none";
+        this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
+      }
+      if(juegos[0].name == "Adivina la seña"){
+        //escribir codigo
+      }
+      if(juegos[0].name == "Signa la palabra"){
+        //escribir codigo
+      }
+    },
+    volverMenu(){
+        this.$router.push("/AppHome")
+    },
+    volverAprendizaje(){
+        this.$router.push("/aprendizajeCategorias")
+    },
+    volverCategoria(){
+        this.$router.push("/practicaCategorias")
     }
   }
 }
@@ -115,6 +168,15 @@ export default {
 
 button{
     width: 80%;
+    padding: 13px;
+    margin: 10px auto;
+}
+
+#resultadosFinales{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 input{
