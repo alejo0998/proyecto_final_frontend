@@ -67,6 +67,7 @@ export default {
           localStorage.removeItem('token');
           console.log(error);
         })
+        document.getElementById("linksHeader").style.display = "flex";
         if (localStorage.getItem('token') == token){
           this.$router.push('/AppHome');
         }else{

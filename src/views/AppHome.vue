@@ -56,7 +56,6 @@ export default{
     #headerMenu{
         display: flex;
         background-color: #2673E4;
-        padding: 5px;
     }
 
     .imagenMenu{

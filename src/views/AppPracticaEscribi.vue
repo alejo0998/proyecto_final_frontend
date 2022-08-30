@@ -36,7 +36,7 @@ export default {
     categoriaVideo: String,
     index: Number,
     respuestasCorrectas: Number
-  },
+  }, 
   data() {
     return {
         juegosVideo:JSON.parse(this.juegos),

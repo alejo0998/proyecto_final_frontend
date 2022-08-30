@@ -5,14 +5,14 @@
         <div id="imagenLogo">
         <img src="../assets/icono.png" alt="Logo Instructor LSA" title="Instructor LSA" id="logo">
         </div>
-        <h2><router-link to="/AppHome">Instructor LSA </router-link></h2>
+        <h2><router-link @click="validarLog" to="/AppHome">Instructor LSA </router-link></h2>
     </div>
-    <div class="nav_derecha">
+    <div class="nav_derecha" id="linksHeader">
         <ul class="nav_menu">
-        <li class="nav_menu_item"><router-link to="/aprendizajeCategorias">Aprendizaje</router-link></li>
-        <li class="nav_menu_item"><router-link to="/practicaCategorias">Práctica</router-link></li>
-        <li class="nav_menu_item"><router-link to="/">Juegos Integrales</router-link></li>
-        <li class="nav_menu_item"><router-link to="/" @click="handleSignOut">Cerrar Sesión</router-link></li>
+        <li class="nav_menu_item" id="linkHeader"><router-link @click="validarLog" to="/aprendizajeCategorias">Aprendizaje</router-link></li>
+        <li class="nav_menu_item" id="linkHeader"><router-link @click="validarLog" to="/practicaCategorias">Práctica</router-link></li>
+        <li class="nav_menu_item" id="linkHeader"><router-link @click="validarLog" to="/">Juegos Integrales</router-link></li>
+        <li class="nav_menu_item" id="linkHeader"><router-link to="/" @click="handleSignOut">Cerrar Sesión</router-link></li>
         </ul>
     </div>
     </nav>
@@ -41,6 +41,13 @@ export default{
       SesionLog: localStorage.getItem('token') != null,
     }
   },
+  mounted(){
+    if(!this.SesionLog){
+        document.getElementById("linksHeader").style.display = "none";
+    }else{
+        document.getElementById("linksHeader").style.display = "flex";
+    }
+  },
   methods:{
     async handleSignOut() {
       try {
@@ -50,11 +57,19 @@ export default{
         localStorage.removeItem('mailAccount');
         localStorage.removeItem('googleAccount');
         localStorage.removeItem('token');
+        
+        document.getElementById("linksHeader").style.display = "none";
+        
         this.$router.push("/");
       } catch (error) {
         console.log(error);
       }
     },
+    validarLog(){
+        if(!this.user){
+            this.$router.push("/");
+        }
+    }
 },
 }
 </script>
@@ -63,7 +78,6 @@ export default{
     header{
         background-color: #2673E4;
         display: flex;
-        padding: 5px;
     }
     nav {
         display: flex;
@@ -76,6 +90,7 @@ export default{
     .nav_izquierda{
         width: 30%;
         display: flex;
+        margin: 5px;
     }
     #imagenLogo{
         align-content: center ;
@@ -105,6 +120,11 @@ export default{
         font-size: large;
         color: white;
         margin: auto;
+        align-items: right;
+        vertical-align: middle;
+        display: flex;
+        height: 100%;
+        justify-content: right;
     }
     .nav_derecha a{
         text-decoration: none;
@@ -116,15 +136,20 @@ export default{
         display: flex;
         justify-content: right;
         list-style: none;
-        margin: auto;
+        height: 100%;
+        margin: 0 5px;
     }
 
     .nav_menu li{
         width: 180px;
         margin: auto 10px;
         text-align: center;
-    }
+        height: 100%;
+        align-items: center;
+        display: flex;
+        justify-content: center;
 
+    }
     .nav_menu li a {
         text-decoration: none;
         font-size: large;
@@ -147,7 +172,7 @@ export default{
         padding: 5px;
     }
     
-@media only screen and (max-width:850px){
+@media only screen and (max-width:1000px){
     .imagenMenu{
         display: none;
     }
