@@ -9,10 +9,10 @@
     </div>
     <div class="nav_derecha" id="linksHeader">
         <ul class="nav_menu">
-        <li class="nav_menu_item" id="linkHeader"><router-link @click="validarLog" to="/aprendizajeCategorias">Aprendizaje</router-link></li>
-        <li class="nav_menu_item" id="linkHeader"><router-link @click="validarLog" to="/practicaCategorias">Práctica</router-link></li>
-        <li class="nav_menu_item" id="linkHeader"><router-link @click="validarLog" to="/">Juegos Integrales</router-link></li>
-        <li class="nav_menu_item" id="linkHeader"><router-link to="/" @click="handleSignOut">Cerrar Sesión</router-link></li>
+        <li class="nav_menu_item" id="linkHeader"><a @click="validarLog('/aprendizajeCategorias')">Aprendizaje</a></li>
+        <li class="nav_menu_item" id="linkHeader"><a @click="validarLog('/practicaCategorias')" >Práctica</a></li>
+        <li class="nav_menu_item" id="linkHeader"><a @click="validarLog('/')">Juegos Integrales</a></li>
+        <li class="nav_menu_item" id="linkHeader"><a @click="handleSignOut">Cerrar Sesión</a></li>
         </ul>
     </div>
     </nav>
@@ -52,7 +52,7 @@ export default{
     async handleSignOut() {
       try {
         await this.$gAuth.signOut();
-        this.user = '';
+        this.SesionLog = '';
         //console.log(this.user);
         localStorage.removeItem('mailAccount');
         localStorage.removeItem('googleAccount');
@@ -65,9 +65,13 @@ export default{
         console.log(error);
       }
     },
-    validarLog(){
-        if(!this.user){
+    validarLog(ruta){
+        this.SesionLog=localStorage.getItem('mailAccount')
+        if(!this.SesionLog){
+            console.log("entroif")
             this.$router.push("/");
+        }else{
+            this.$router.push(ruta)
         }
     }
 },
@@ -149,6 +153,9 @@ export default{
         display: flex;
         justify-content: center;
 
+    }
+    .nav_menu_item a{
+        cursor: pointer;
     }
     .nav_menu li a {
         text-decoration: none;
