@@ -7,7 +7,7 @@
       <h3>{{categoria}}</h3>
     </div>
     <div class="section_senias">
-    <router-link v-for="(senia, index) in senias" v-bind:key="index" :to="{name: 'AprendizajeVideo' , params: {senias: JSON.stringify(senias), categoria: categoria, index: index}}" class="contenedor_senia">
+    <router-link v-for="(senia, index) in senias" v-bind:key="index" :to="{name: 'AprendizajeVideo' , params: {senias: JSON.stringify(senias), categoria: categoria, index: index}}" class="contenedor_senia" :class="vista[index]">
       <span class="boton_senia">{{senia.nombre}}</span>
     </router-link>
   </div>
@@ -23,7 +23,8 @@ export default {
   },
   data () {
     return {
-      senias: null
+      senias: null,
+      vista: []
     }
   },
   mounted(){
@@ -37,14 +38,28 @@ export default {
     })
     .then(response => (this.senias = response.data,
     console.log(response.data),
-    console.log(response.data[0].url)),
-    
+    console.log(response.data[0].url),
+    this.darEstilos()), 
     )
+  },
+  methods: {
+    darEstilos(){
+      for(var i = 0 ; i< this.senias.length ; i++){
+        if(this.senias[i].realizado){
+          this.vista[i] = "realizado"
+        }else{
+          this.vista[i]=null
+        }
+      } 
+    }
   }
 }
 </script>
 
 <style>
+.realizado{
+  background-color: darkgreen !important;
+}
 h1{
     font-size: xx-large;
     padding: 10px 1%;

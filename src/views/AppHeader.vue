@@ -47,6 +47,7 @@ export default{
     }else{
         document.getElementById("linksHeader").style.display = "flex";
     }
+    
   },
   methods:{
     async handleSignOut() {

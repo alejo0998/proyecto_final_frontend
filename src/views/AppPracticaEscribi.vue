@@ -16,13 +16,6 @@
                 <span class="resultado_texto"> {{resultado}}</span>
                 <button @click="avanzar" >Avanzar</button>
             </div>
-            <div id="resultadosFinales">
-                <span class="resultado_texto">Respuestas correctas: {{cantidadAciertos}}/{{juegosVideo.length}}</span>
-                <button @click="volverPracticar" >Volver a practicar</button>
-                <button @click="volverMenu" >Menu principal</button>
-                <button @click="volverAprendizaje" >Ir a la sección de aprendizaje</button>
-                <button @click="volverCategoria" >Volver a selección de categoria</button>
-            </div>
         </div>
     </div>
 </template>
@@ -48,7 +41,6 @@ export default {
   mounted(){
     document.getElementById("respuesta").style.display = "flex";
     document.getElementById("resultado").style.display = "none";
-    document.getElementById("resultadosFinales").style.display="none";
     this.cantidadAciertos=Number(this.respuestasCorrectas)
   },
   methods: {
@@ -57,7 +49,6 @@ export default {
         this.cantidadAciertos=Number(this.respuestasCorrectas)
         document.getElementById("respuesta").style.display = "none";
         document.getElementById("resultado").style.display = "flex";
-        document.getElementById("resultadosFinales").style.display="none";
         if(this.respuesta.toUpperCase() == this.juegosVideo[this.index].sign.name.toUpperCase()){
             console.log("Bien")
             this.resultado = "¡Respuesta correcta!"
@@ -74,20 +65,24 @@ export default {
         console.log(this.index+1);
         console.log(this.juegosVideo[Number(this.index)+1])
         if(this.juegosVideo.length == Number(this.index)+1){
-            document.getElementById("resultadosFinales").style.display="flex";
             document.getElementById("respuesta").style.display = "none";
-            document.getElementById("resultado").style.display = "none";    
+            document.getElementById("resultado").style.display = "none";
+            this.$router.push({name:"PracticaResultados",params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, respuestasCorrectas: this.cantidadAciertos }}) 
         }else{
             if(this.juegosVideo[Number(this.index)+1].name == "Escribi la seña"){
                 document.getElementById("respuesta").style.display = "flex";
                 document.getElementById("resultado").style.display = "none";
-                document.getElementById("resultadosFinales").style.display="none";
                 this.resultado = "";
                 this.respuesta = "";
                 this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: this.cantidadAciertos}})
             }
-            if(this.juegosVideo[Number(this.index)+1].name == "Adivina la seña"){
+            if(this.juegosVideo[Number(this.index)+1].name == "Adiviná la seña"){
                 //escribir codigo
+                document.getElementById("respuesta").style.display = "flex";
+                document.getElementById("resultado").style.display = "none";
+                this.resultado = "";
+                this.respuesta = "";
+                this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: this.cantidadAciertos}})
             }
             if(this.juegosVideo[Number(this.index)+1].name == "Signa la palabra"){
                 //escribir codigo
@@ -111,11 +106,14 @@ export default {
       if(juegos[0].name == "Escribi la seña"){
         document.getElementById("respuesta").style.display = "flex";
         document.getElementById("resultado").style.display = "none";
-        document.getElementById("resultadosFinales").style.display="none";
         this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
       }
       if(juegos[0].name == "Adivina la seña"){
         //escribir codigo
+        document.getElementById("respuesta").style.display = "flex";
+        document.getElementById("resultado").style.display = "none";
+        this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
+
       }
       if(juegos[0].name == "Signa la palabra"){
         //escribir codigo

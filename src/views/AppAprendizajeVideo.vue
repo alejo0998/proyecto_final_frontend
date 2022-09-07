@@ -4,17 +4,18 @@
             <h1 id="titulo_senia">{{seniasVideo[index].nombre}}</h1>
         </div>
         <div class="container_video_flechas">
-            <div class="container_flecha"><router-link :to="{name: 'AprendizajeVideo' , params: {seniasVideo:JSON.stringify(seniasVideo) ,categoriaVideo: categoriaVideo , index: anteriorSenia(index)}}"><i class="fas fa-solid fa-angle-left flecha"></i></router-link></div>
+            <div class="container_flecha"><a @click="anteriorSenia(index)"><i class="fas fa-solid fa-angle-left flecha"></i></a></div>
             <div class="container_video">
                 <iframe :src="seniasVideo[index].url+'?vq=hd1080'" allow="autoplay"
                     class="video"></iframe>
             </div>
-            <div class="container_flecha"><router-link :to="{name: 'AprendizajeVideo' , params: {seniasVideo:JSON.stringify(seniasVideo) ,categoriaVideo: categoriaVideo , index: proximaSenia(index)}}"><i class="fas fa-solid fa-angle-right flecha"></i></router-link></div>
+            <div class="container_flecha"><a @click="proximaSenia(index)"><i class="fas fa-solid fa-angle-right flecha"></i></a></div>
         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'app-aprendizaje-video',
   props: {
@@ -27,23 +28,103 @@ export default {
         seniasVideo:JSON.parse(this.senias)
     }
   },
+  mounted() {
+    const token = localStorage.getItem("token")
+    
+    if (!token) {
+        return null;
+    }
+    var idSenia = this.seniasVideo[this.index].id;
+    console.log("token a mandar: " + token)
+    console.log("Seña a mandar: " + idSenia)
+    var json_data = {
+        idSign: idSenia
+      }
+    axios.post('http://instructorlsa.herokuapp.com/sign/' , json_data, {
+      headers: {
+        'Authorization': 'Token '+token
+      }
+    }).then(function(response){
+        console.log(response);
+    })
+    .catch(function(error){
+        if(error.response.status === 500){
+        console.log('ERROR 500')
+    }
+        console.log(error);
+    })
+  },
   methods: {
     anteriorSenia(i){
         var anterior = Number(i)-1
         var resultado = (this.seniasVideo.length + anterior) % this.seniasVideo.length
-        return resultado
+        const token = localStorage.getItem("token")
+    
+        if (!token) {
+            return null;
+        }
+        var idSenia = this.seniasVideo[Number(this.index)-1].id;
+        console.log("token a mandar: " + token)
+        console.log("Seña a mandar: " + idSenia)
+        var json_data = {
+            idSign: idSenia
+        }
+        axios.post('http://instructorlsa.herokuapp.com/sign/' , json_data, {
+        headers: {
+            'Authorization': 'Token '+token
+        }
+        }).then(function(response){
+            console.log(response);
+        })
+        .catch(function(error){
+            if(error.response.status === 500){
+            console.log('ERROR 500')
+        }
+            console.log(error);
+        })
+        this.$router.push({name: 'AprendizajeVideo' , params: {seniasVideo:JSON.stringify(this.seniasVideo) ,categoriaVideo: this.categoriaVideo , index: resultado}})
     },
     proximaSenia(i){
         var anterior = Number(i)+1
         var resultado = (this.seniasVideo.length + anterior) % this.seniasVideo.length
+        const token = localStorage.getItem("token")
+    
+        if (!token) {
+            return null;
+        }
+        var idSenia = this.seniasVideo[Number(this.index)+1].id;
+        console.log("token a mandar: " + token)
+        console.log("Seña a mandar: " + idSenia)
+        var json_data = {
+            idSign: idSenia
+        }
+        axios.post('http://instructorlsa.herokuapp.com/sign/' , json_data, {
+        headers: {
+            'Authorization': 'Token '+token
+        }
+        }).then(function(response){
+            console.log(response);
+        })
+        .catch(function(error){
+            if(error.response.status === 500){
+            console.log('ERROR 500')
+        }
+            console.log(error);
+        })
         console.log(resultado)
-        return resultado
+        this.$router.push({name: 'AprendizajeVideo' , params: {seniasVideo:JSON.stringify(this.seniasVideo) ,categoriaVideo: this.categoriaVideo , index: resultado}})
+    },
+    guardarVideo(){
+        console.log("prueba si anda")
     }
   }
 }
 </script>
 
 <style>
+.container_flecha a i{
+    cursor: pointer;
+}
 #titulo_senia {
     text-align: center;
 }

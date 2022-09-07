@@ -57,7 +57,8 @@ export default {
       if(this.juegos[0].name == "Escribi la seña"){
         this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(this.juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
       }
-      if(this.juegos[0].name == "Adivina la seña"){
+      if(this.juegos[0].name == "Adiviná la seña"){
+        this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(this.juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
         //escribir codigo
       }
       if(this.juegos[0].name == "Signa la palabra"){

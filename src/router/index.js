@@ -7,7 +7,9 @@ import AprendizajeVideo from '../views/AppAprendizajeVideo.vue'
 import ErrorServerView from '../views/ErrorServerView.vue'
 import PracticaEscribi from '../views/AppPracticaEscribi.vue'
 import PracticaCategorias from '../views/AppPracticaCategorias.vue'
-import PracticaSenias from '../views/AppPracticaSenias.vue'
+import PracticaAdivina from '../views/AppPracticaAdivina.vue'
+import PracticaResultados from '../views/AppPracticaResultados.vue'
+
 
 const routes = [
   {
@@ -56,9 +58,15 @@ const routes = [
     props: true
   },
   {
-    path: '/PracticaSenias/:categoriaVideo',
-    name: 'PracticaSenias',
-    component: PracticaSenias,
+    path: '/PracticaAdivina/:categoriaVideo/:index',
+    name: 'PracticaAdivina',
+    component: PracticaAdivina,
+    props: true
+  },
+  {
+    path: '/PracticaResultados/:categoriaVideo/',
+    name: 'PracticaResultados',
+    component: PracticaResultados,
     props: true
   }
 ]

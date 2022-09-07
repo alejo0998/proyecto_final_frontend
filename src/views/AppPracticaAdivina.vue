@@ -9,19 +9,15 @@
                   class="video"></iframe>
           </div>
           <div id="respuesta" class="adivina">
-              <input type="text" v-model="respuesta" placeholder="Elija una opción">
-              <button v-for="(opcion, i) in juegosVideo[index].options" v-bind:key="i" @click="validar(i)" >{{opcion.text}}</button>
-          </div>
-          <div id="resultado">
-              <span class="resultado_texto"> {{resultado}}</span>
-              <button @click="avanzar" >Avanzar</button>
-          </div>
-          <div id="resultadosFinales">
-              <span class="resultado_texto">Respuestas correctas: {{cantidadAciertos}}/{{juegosVideo.length}}</span>
-              <button @click="volverPracticar" >Volver a practicar</button>
-              <button @click="volverMenu" >Menu principal</button>
-              <button @click="volverAprendizaje" >Ir a la sección de aprendizaje</button>
-              <button @click="volverCategoria" >Volver a selección de categoria</button>
+              <div class="containerRespuestas">
+                <span>{{tituloRespuesta}}</span>
+                <div v-for="(opcion, i) in juegosVideo[index].options" v-bind:key="i" >
+                  <button @click="valida(i)" class="buttonLista">{{opcion.text}}</button>
+                </div>
+              </div>
+              <div id="resultado">
+                <button @click="avanzar">Avanzar</button>
+            </div> 
           </div>
       </div>
   </div>
@@ -30,7 +26,7 @@
 <script>
 import axios from 'axios';
 export default {
-name: 'app-practica_escribi',
+name: 'app-practica_adivina',
 props: {
   juegos: String,
   categoriaVideo: String,
@@ -40,19 +36,20 @@ props: {
 data() {
   return {
       juegosVideo:JSON.parse(this.juegos),
-      respuesta:"",
+      tituloRespuesta:"Elegí una opción",
       resultado:null,
       cantidadAciertos:null
   }
 },
 mounted(){
   document.getElementById("respuesta").style.display = "flex";
-  document.getElementById("resultado").style.display = "none";
-  document.getElementById("resultadosFinales").style.display="none";
-  this.cantidadAciertos=Number(this.respuestasCorrectas)
+  document.getElementById("resultado").style.visibility = "hidden";
+  this.cantidadAciertos=Number(this.respuestasCorrectas);
+  this.tituloRespuesta = "Elegí una opción"
+
 },
 methods: {
-  validar() {
+  /*validar() {
       console.log("Valida")
       this.cantidadAciertos=Number(this.respuestasCorrectas)
       document.getElementById("respuesta").style.display = "none";
@@ -67,31 +64,53 @@ methods: {
           this.resultado = "¡Respuesta incorrecta!";
           console.log("Mal");
       }
-  },
+  },*/
   avanzar() {
       console.log("avanzar");
       console.log(this.juegosVideo)
       console.log(this.index+1);
       console.log(this.juegosVideo[Number(this.index)+1])
+      console.log(this.respuestasCorrectas)
+
+      var opciones = this.juegosVideo[this.index].options;
+      var botones = document.getElementsByClassName("buttonLista");
+      for(var j = 0 ; j < opciones.length ; j++){
+        botones.item(j).disabled =false;
+        botones.item(j).classList.remove("buttonDisabled")
+        botones.item(j).classList.remove("correcto")
+        botones.item(j).classList.remove("incorrecto")
+      }
+
       if(this.juegosVideo.length == Number(this.index)+1){
-          document.getElementById("resultadosFinales").style.display="flex";
           document.getElementById("respuesta").style.display = "none";
-          document.getElementById("resultado").style.display = "none";    
+          document.getElementById("resultado").style.visibility = "hidden";  
+          this.$router.push({name:"PracticaResultados",params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, respuestasCorrectas: this.cantidadAciertos }}) 
+          console.log("termina")  
       }else{
           if(this.juegosVideo[Number(this.index)+1].name == "Escribi la seña"){
               document.getElementById("respuesta").style.display = "flex";
-              document.getElementById("resultado").style.display = "none";
-              document.getElementById("resultadosFinales").style.display="none";
+              document.getElementById("resultado").style.visibility = "hidden";
+              console.log("escribi")
               this.resultado = "";
               this.respuesta = "";
               this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: this.cantidadAciertos}})
           }
-          if(this.juegosVideo[Number(this.index)+1].name == "Adivina la seña"){
+          if(this.juegosVideo[Number(this.index)+1].name == "Adiviná la seña"){
+            //escribir codigo
+              document.getElementById("respuesta").style.display = "flex";
+              document.getElementById("resultado").style.visibility = "hidden";
+              console.log("adivina")
+              this.resultado = "";
+              this.respuesta = "";
+              this.tituloRespuesta = "Elegí una opción"
+              this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: this.cantidadAciertos}})
+
               //escribir codigo
           }
           if(this.juegosVideo[Number(this.index)+1].name == "Signa la palabra"){
               //escribir codigo
           } 
+          console.log("no llegó")
       }       
   },
   async volverPracticar(){
@@ -110,16 +129,43 @@ methods: {
   p2(cat , juegos ){
     if(juegos[0].name == "Escribi la seña"){
       document.getElementById("respuesta").style.display = "flex";
-      document.getElementById("resultado").style.display = "none";
-      document.getElementById("resultadosFinales").style.display="none";
+      document.getElementById("resultado").style.visibility = "hidden";
       this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
     }
     if(juegos[0].name == "Adivina la seña"){
+      document.getElementById("respuesta").style.display = "flex";
+      document.getElementById("resultado").style.visibility = "hidden";
+      this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
       //escribir codigo
     }
     if(juegos[0].name == "Signa la palabra"){
       //escribir codigo
     }
+  },
+  valida(index){
+    var opciones = this.juegosVideo[this.index].options
+    var correcto = opciones[index].correct;
+    var botones = document.getElementsByClassName("buttonLista");
+    for(var j = 0 ; j < opciones.length ; j++){
+      botones.item(j).disabled =true;
+      botones.item(j).classList.add("buttonDisabled")
+    }
+    if(correcto){
+      botones.item(index).classList.add("correcto")
+      this.tituloRespuesta = "¡Respuesta correcta!"
+      this.cantidadAciertos = Number(this.respuestasCorrectas)+1;
+    }else{
+      this.tituloRespuesta = "¡Respuesta incorrecta!"  
+      for(var i = 0 ; i < opciones.length ; i++){
+        botones.item(index).classList.add("incorrecto")
+        if(opciones[i].correct){
+          botones.item(i).classList.add("correcto")
+        }
+      }
+    }
+
+    document.getElementById("resultado").style.visibility = "visible"
+
   },
   volverMenu(){
       this.$router.push("/AppHome")
@@ -139,10 +185,15 @@ methods: {
   text-align: center;
 }
 #resultado{
-  display: none;
+  visibility: hidden;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.buttonDisabled{
+  cursor:not-allowed
 }
 
 .resultado_texto{
@@ -153,17 +204,43 @@ methods: {
   margin: 25px;
 }
 
+.correcto{
+  background-color: darkgreen;
+}
+.incorrecto{
+  background-color: darkred;
+}
+.containerRespuestas{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15vh; 
+}
+
 .container_video_flechas {
   margin: 25px auto;
   display: flex;
   justify-content: space-evenly !important;
 }
 
-.escribi{
+.adivina{
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  align-self: flex-end;
+}
+
+
+.adivina span{
+  font-size: x-large;
+  font-weight: bolder;
+  padding: 15px 25px;
+  font-style: italic;
+  min-width: 260px;
+}
+
+.adivina div{
+  width: 100%;
 }
 
 button{
