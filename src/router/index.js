@@ -8,6 +8,7 @@ import ErrorServerView from '../views/ErrorServerView.vue'
 import PracticaEscribi from '../views/AppPracticaEscribi.vue'
 import PracticaCategorias from '../views/AppPracticaCategorias.vue'
 import PracticaAdivina from '../views/AppPracticaAdivina.vue'
+import PracticaSigna from '../views/AppPracticaSigna.vue'
 import PracticaResultados from '../views/AppPracticaResultados.vue'
 
 
@@ -61,6 +62,12 @@ const routes = [
     path: '/PracticaAdivina/:categoriaVideo/:index',
     name: 'PracticaAdivina',
     component: PracticaAdivina,
+    props: true
+  },
+  {
+    path: '/PracticaSigna',
+    name: 'PracticaSigna',
+    component: PracticaSigna,
     props: true
   },
   {
