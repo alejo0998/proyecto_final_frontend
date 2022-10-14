@@ -63,7 +63,7 @@ export default {
         if (!token) {
             return null;
         }
-        var idSenia = this.seniasVideo[Number(this.index)-1].id;
+        var idSenia = this.seniasVideo[resultado].id;
         console.log("token a mandar: " + token)
         console.log("Seña a mandar: " + idSenia)
         var json_data = {
@@ -92,7 +92,7 @@ export default {
         if (!token) {
             return null;
         }
-        var idSenia = this.seniasVideo[Number(this.index)+1].id;
+        var idSenia = this.seniasVideo[resultado].id;
         console.log("token a mandar: " + token)
         console.log("Seña a mandar: " + idSenia)
         var json_data = {
@@ -116,6 +116,9 @@ export default {
     },
     guardarVideo(){
         console.log("prueba si anda")
+    },
+    pruebaClick(){
+        console.log("PRUEBA")
     }
   }
 }

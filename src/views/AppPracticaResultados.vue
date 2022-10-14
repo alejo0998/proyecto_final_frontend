@@ -99,7 +99,8 @@
         this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
         //escribir codigo
       }
-      if(juegos[0].name == "Signa la palabra"){
+      if(juegos[0].name == "Signá la palabra"){
+        this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
         //escribir codigo
       }
     },

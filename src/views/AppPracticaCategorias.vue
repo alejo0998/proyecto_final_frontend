@@ -41,7 +41,7 @@ export default {
     async prueba(index) {
       var cat = this.categorias[index].nombre;
       console.log(cat)
-      var url_get = 'http://instructorlsa.herokuapp.com/practice/games/?categoryName='+cat
+      var url_get = 'http://instructorlsa.herokuapp.com/practice/games_v2/?categoryName='+cat
       var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
       var tokenSend = 'Token '+token
       let response = await axios.get(url_get, {
@@ -50,10 +50,10 @@ export default {
         }
       })
       this.juegos = response.data
-      this.p2(cat)
+      this.siguienteJuego(cat)
       console.log(response.data)
     },
-    p2(cat ){
+    siguienteJuego(cat ){
       if(this.juegos[0].name == "Escribi la seña"){
         this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(this.juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
       }
@@ -61,8 +61,10 @@ export default {
         this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(this.juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
         //escribir codigo
       }
-      if(this.juegos[0].name == "Signa la palabra"){
+      if(this.juegos[0].name == "Signá la palabra"){
         //escribir codigo
+        console.log(this.juegos[0].name)
+        this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(this.juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
       }
     }
   }

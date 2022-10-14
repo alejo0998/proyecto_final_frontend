@@ -18,9 +18,9 @@
             </div>
             <div class="botonImagenMenu">
                 <img src="../assets/Integrales.png" alt="Juegos Integrales" title="Integrales" class="imagenMenu">
-                
-                    <button @click="cerrarSesion" class="botonMenu">Sección Juegos Integrales</button>
-                
+                <router-link to="PracticaSigna">
+                    <button class="botonMenu">Sección Juegos Integrales</button>
+                </router-link>    
             </div>
         </div>
       </div>

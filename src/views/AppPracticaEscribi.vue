@@ -9,7 +9,7 @@
                     class="video"></iframe>
             </div>
             <div id="respuesta" class="escribi">
-                <input type="text" v-model="respuesta" placeholder="Ingrese la seña">
+                <input type="text" v-model="respuesta" placeholder="Ingresá la seña">
                 <button @click="validar">Aceptar</button>
             </div>
             <div id="resultado">
@@ -84,8 +84,13 @@ export default {
                 this.respuesta = "";
                 this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: this.cantidadAciertos}})
             }
-            if(this.juegosVideo[Number(this.index)+1].name == "Signa la palabra"){
+            if(this.juegosVideo[Number(this.index)+1].name == "Signá la palabra"){
                 //escribir codigo
+                document.getElementById("respuesta").style.display = "flex";
+                document.getElementById("resultado").style.display = "none";
+                this.resultado = "";
+                this.respuesta = "";
+                this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: this.cantidadAciertos}})
             } 
         }       
     },
@@ -99,10 +104,10 @@ export default {
         }
       })
       var juegos = response.data
-      this.p2(this.categoriaVideo, juegos)
+      this.siguienteJuego(this.categoriaVideo, juegos)
       console.log(response.data)
     },
-    p2(cat , juegos ){
+    siguienteJuego(cat , juegos ){
       if(juegos[0].name == "Escribi la seña"){
         document.getElementById("respuesta").style.display = "flex";
         document.getElementById("resultado").style.display = "none";
@@ -115,8 +120,11 @@ export default {
         this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
 
       }
-      if(juegos[0].name == "Signa la palabra"){
+      if(juegos[0].name == "Signá la palabra"){
         //escribir codigo
+        document.getElementById("respuesta").style.display = "flex";
+        document.getElementById("resultado").style.display = "none";
+        this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
       }
     },
     volverMenu(){

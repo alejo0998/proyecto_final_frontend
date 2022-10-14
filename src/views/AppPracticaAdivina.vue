@@ -107,8 +107,16 @@ methods: {
 
               //escribir codigo
           }
-          if(this.juegosVideo[Number(this.index)+1].name == "Signa la palabra"){
+          if(this.juegosVideo[Number(this.index)+1].name == "Signá la palabra"){
               //escribir codigo
+              document.getElementById("respuesta").style.display = "flex";
+              document.getElementById("resultado").style.visibility = "hidden";
+              console.log("adivina")
+              this.resultado = "";
+              this.respuesta = "";
+              this.tituloRespuesta = "Elegí una opción"
+              this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: this.cantidadAciertos}})
+
           } 
           console.log("no llegó")
       }       
@@ -123,10 +131,10 @@ methods: {
       }
     })
     var juegos = response.data
-    this.p2(this.categoriaVideo, juegos)
+    this.siguienteJuego(this.categoriaVideo, juegos)
     console.log(response.data)
   },
-  p2(cat , juegos ){
+  siguienteJuego(cat , juegos ){
     if(juegos[0].name == "Escribi la seña"){
       document.getElementById("respuesta").style.display = "flex";
       document.getElementById("resultado").style.visibility = "hidden";
@@ -138,7 +146,10 @@ methods: {
       this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
       //escribir codigo
     }
-    if(juegos[0].name == "Signa la palabra"){
+    if(juegos[0].name == "Signá la palabra"){
+      document.getElementById("respuesta").style.display = "flex";
+      document.getElementById("resultado").style.visibility = "hidden";
+      this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
       //escribir codigo
     }
   },

@@ -9,6 +9,7 @@ import PracticaEscribi from '../views/AppPracticaEscribi.vue'
 import PracticaCategorias from '../views/AppPracticaCategorias.vue'
 import PracticaAdivina from '../views/AppPracticaAdivina.vue'
 import PracticaResultados from '../views/AppPracticaResultados.vue'
+import PracticaSigna from '../views/AppPracticaSigna.vue'
 
 
 const routes = [
@@ -67,6 +68,12 @@ const routes = [
     path: '/PracticaResultados/:categoriaVideo/',
     name: 'PracticaResultados',
     component: PracticaResultados,
+    props: true
+  },
+  {
+    path: '/PracticaSigna/:categoriaVideo/:index',
+    name: 'PracticaSigna',
+    component: PracticaSigna,
     props: true
   }
 ]
