@@ -124,11 +124,21 @@ export default{
     //aca deberia enviar el video
     function enviarVideo(){
       const formData = new FormData();
-      formData.append("video", blob);
+
+      const myFile = new File(
+          [blob],
+          "demo.mp4",
+          { type: 'video/mp4' }
+      );
+
+      console.log(myFile)
+      formData.append("video", myFile);
       console.log("envio video");
       var correcto = null
       //enviar video
 
+
+      
       var url_get = 'http://127.0.0.1:5000/send_video'
       var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
       var tokenSend = 'Token '+token
