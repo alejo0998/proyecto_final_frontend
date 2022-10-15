@@ -125,6 +125,8 @@ export default{
     function enviarVideo(){
       const formData = new FormData();
       formData.append("video", blob);
+      formData.append("position", "0" )
+      formData.append("category", "5")
       console.log("envio video");
       var correcto = null
       //enviar video
@@ -136,7 +138,7 @@ export default{
         headers: {
           'Authorization': tokenSend
         }
-      }).then(response => correcto = response.data)
+      }, formData).then(response => correcto = response.data)
 
       //Mostrar resultados
       if(correcto){
