@@ -10,6 +10,7 @@ import PracticaCategorias from '../views/AppPracticaCategorias.vue'
 import PracticaAdivina from '../views/AppPracticaAdivina.vue'
 import PracticaResultados from '../views/AppPracticaResultados.vue'
 import PracticaSigna from '../views/AppPracticaSigna.vue'
+import Prueba from '../views/prueba.vue'
 
 
 const routes = [
@@ -75,7 +76,14 @@ const routes = [
     name: 'PracticaSigna',
     component: PracticaSigna,
     props: true
+  },
+  {
+    path: '/Prueba/',
+    name: 'Prueba',
+    component: Prueba,
+    props: true
   }
+  
 ]
 
 const router = createRouter({
@@ -84,3 +92,4 @@ const router = createRouter({
 })
 
 export default router
+

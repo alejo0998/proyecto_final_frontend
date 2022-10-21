@@ -58,7 +58,8 @@ export default{
       timerGrabando:4,
       juegosVideo:JSON.parse(this.juegos),
       resultado:null,
-      cantidadAciertos:null
+      cantidadAciertos:null,
+      blob:null
     }
   },
   mounted(){
@@ -66,9 +67,9 @@ export default{
     let datos = [];
     let mediaRecorder=null;
     var vista = this;
-    let blob = null
+    //let blob = null
     document.querySelector("#botonAbrirCamara").addEventListener("click", function(){
-      navigator.mediaDevices.getUserMedia({video:{ width: 405, height: 720 }}).then(mostrarVideo).catch(err => console.log(err))
+      navigator.mediaDevices.getUserMedia({video:{ width: 405, height: 720 , frameRate: 8 }}).then(mostrarVideo).catch(err => console.log(err))
     })
     
     document.getElementById("post_grabacion").style.display="none";
@@ -78,7 +79,7 @@ export default{
     
     document.querySelector("#botonGrabar").addEventListener("click",grabarConRetraso)
     document.querySelector("#botonReintentar").addEventListener("click",grabarConRetraso)
-    document.querySelector("#botonContinuar").addEventListener("click",enviarVideo)
+    document.querySelector("#botonContinuar").addEventListener("click",vista.enviarVideo)
     
     function mostrarVideo(stream){
       document.getElementsByClassName("cont_signa_video")[0].style.display = "block";
@@ -94,15 +95,30 @@ export default{
       }
       mediaRecorder.onstop = function(){
         //alert("FINALIZÓ LA GRABACIÓN")
-        blob = new Blob(datos , {type:"video/mp4"});
+        vista.blob = new Blob(datos , {type:"video/mp4"});
         datos=[];
-        console.log(blob)
+        console.log(vista.blob)
         console.log("finaliza grabacion");
         document.getElementById("video").style = "border:none";
         document.getElementById("post_grabacion").style.display="flex";
-        //download(blob)
+        console.log(mediaRecorder)
+        /*const myFile = new File(
+          [vista.blob],
+          "demo.mp4",
+          { type: 'video/mp4'}
+        );*/
+        //download(myFile)
       }
     }
+    /*function download(blob){
+        let link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+        link.setAttribute("download","video_recorded.mp4");
+        link.style.display = "none";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }*/
     function grabarConRetraso(){
       document.getElementById("timer").style.display="block";
       document.getElementById("botonGrabar").style.display = "none";
@@ -119,45 +135,10 @@ export default{
       console.log("empieza a grabar posta");
       mediaRecorder.start();
       document.getElementById("video").style = "border:5px solid red";
+      //
       setTimeout(()=> mediaRecorder.stop() , 4000);
     }
-    //aca deberia enviar el video
-    function enviarVideo(){
-      const formData = new FormData();
-
-      const myFile = new File(
-          [blob],
-          "demo.mp4",
-          { type: 'video/mp4' }
-      );
-
-      console.log(myFile)
-      formData.append("video", myFile);
-      console.log("envio video");
-      var correcto = null
-      //enviar video
-
-
-      
-      var url_get = 'http://127.0.0.1:5000/send_video'
-      var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
-      var tokenSend = 'Token '+token
-      axios.get(url_get, {
-        headers: {
-          'Authorization': tokenSend
-        }
-      }).then(response => correcto = response.data)
-
-      //Mostrar resultados
-      if(correcto){
-        vista.resultado = "¡Respuesta correcta!"
-        vista.cantidadAciertos = Number(vista.respuestasCorrectas)+1;
-      }else{
-        vista.resultado = "¡Respuesta incorrecta!"  
-      }
-      document.getElementById("resultados_grabación").style.display="block";
-      document.getElementById("post_grabacion").style.display="none";
-    }
+    
   },
   methods: {
     cambiarAGrabacion() {
@@ -168,6 +149,56 @@ export default{
       let timerId = setInterval(() => {vista.timerGrabando = Number(vista.timerGrabando)-1} , 1000);
       // después de 5 segundos parar
       setTimeout(() => { clearInterval(timerId); document.getElementById("grabando").style.display="none";}, 4000);
+    },
+    async enviarVideo(){
+      var vista = this
+      const formData = new FormData();
+
+      const myFile = new File(
+          [vista.blob],
+          "demo.mp4",
+          { type: 'video/mp4'}
+      );
+      var posicion = vista.juegosVideo[vista.index].position;
+      var categoria = vista.juegosVideo[vista.index].category;
+      console.log(myFile)
+      formData.append("video", myFile);
+      formData.append("position", posicion);
+      formData.append("category", categoria);
+      formData.append("web", true);
+      console.log("envio video");
+      //enviar video
+      var respuesta = null
+      console.log(formData)
+
+      
+      var url_get = 'http://127.0.0.1:5000/send_video'
+      //var url_get = 'http://18.233.165.211:8080/send_video'
+      var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
+      var tokenSend = 'Token '+ token
+      await axios.post(url_get, formData , {
+        headers: {
+          'Authorization': tokenSend
+        }
+      }).then(response => respuesta = obtenerResponse(response))
+      function obtenerResponse(r){
+        console.log(r)
+        respuesta = {}
+        respuesta.response = r.data.response;
+        respuesta.validation = r.data.validation;
+        return respuesta
+      }
+      
+      console.log(respuesta)
+      //Mostrar resultados
+      if(respuesta.validation){
+        vista.resultado = "¡Respuesta correcta!"
+        vista.cantidadAciertos = Number(vista.respuestasCorrectas)+1;
+      }else{
+        vista.resultado = "¡Respuesta incorrecta!"  
+      }
+      document.getElementById("resultados_grabación").style.display="block";
+      document.getElementById("post_grabacion").style.display="none";
     },
     ponerSoloLectura(campo,soloLectura){
       document.getElementById(campo).readOnly = soloLectura;
@@ -191,6 +222,7 @@ export default{
       document.getElementsByClassName("cont_signa_explicacion")[0].style.display = "block";
       document.getElementById("botonAbrirCamara").style.display = "block";
       document.getElementById("botonSaltear").style.display = "block";
+      if(this.video.srcObject)
       this.video.srcObject.getTracks().forEach( track => track.stop() ); // stop each of them
 
 

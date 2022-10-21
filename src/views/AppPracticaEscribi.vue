@@ -5,16 +5,17 @@
         </div>
         <div class="container_video_flechas">
             <div class="container_video">
-                <iframe :src="juegosVideo[index].sign.urlVideo+'?controls=0'" allow="autoplay" allowfullscreen="false" aria-setsize="1920px"
+                <iframe @change="ejecutarTimer" :src="juegosVideo[index].sign.urlVideo+'?controls=0'" allow="autoplay" allowfullscreen="false" aria-setsize="1920px"
                     class="video"></iframe>
             </div>
             <div id="respuesta" class="escribi">
                 <input type="text" v-model="respuesta" placeholder="Ingresá la seña">
                 <button @click="validar">Aceptar</button>
+                <h3 id="timer">Tiempo disponible: {{timer}}</h3>
             </div>
             <div id="resultado">
                 <span class="resultado_texto"> {{resultado}}</span>
-                <button @click="avanzar" >Avanzar</button>
+                <button @click="avanzar">Avanzar</button>
             </div>
         </div>
     </div>
@@ -29,15 +30,23 @@ export default {
     categoriaVideo: String,
     index: Number,
     respuestasCorrectas: Number
-  }, 
+  },
   data() {
     return {
         juegosVideo:JSON.parse(this.juegos),
         respuesta:"",
         resultado:null,
-        cantidadAciertos:null
+        cantidadAciertos:null,
+        timer:30
     }
-  },
+  },/*
+  setup(){
+    var vista = this
+    vista.timer=30
+    let timerId = setInterval(() => {vista.timer = Number(vista.timer)-1} , 1000);
+      // después de 5 segundos parar
+    setTimeout(() => { clearInterval(timerId)}, 30000);
+  },*/
   mounted(){
     document.getElementById("respuesta").style.display = "flex";
     document.getElementById("resultado").style.display = "none";
@@ -107,7 +116,11 @@ export default {
       this.siguienteJuego(this.categoriaVideo, juegos)
       console.log(response.data)
     },
+    ejecutarTimer(){
+        console.log("cambia");
+    },
     siguienteJuego(cat , juegos ){
+      this.timer=30
       if(juegos[0].name == "Escribi la seña"){
         document.getElementById("respuesta").style.display = "flex";
         document.getElementById("resultado").style.display = "none";
