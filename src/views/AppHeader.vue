@@ -11,7 +11,7 @@
         <ul class="nav_menu">
         <li class="nav_menu_item" id="linkHeader"><a @click="validarLog('/aprendizajeCategorias')">Aprendizaje</a></li>
         <li class="nav_menu_item" id="linkHeader"><a @click="validarLog('/practicaCategorias')" >Práctica</a></li>
-        <li class="nav_menu_item" id="linkHeader"><a @click="validarLog('/')">Juegos Integrales</a></li>
+        <li class="nav_menu_item" id="linkHeader"><a @click="validarLog('/JuegosIntegrales')">Juegos Integrales</a></li>
         <li class="nav_menu_item" id="linkHeader"><a @click="handleSignOut">Cerrar Sesión</a></li>
         </ul>
     </div>

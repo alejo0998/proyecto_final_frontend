@@ -6,11 +6,11 @@
     <div>
       <h3>Categorías</h3>
     </div>
-    <div class="containerCategorias" >
+    <div class="containerCategorias">
       <div class="categoria" v-for="(categoria, index) in categorias" v-bind:key="index">
-        <a @click="prueba(index)" >{{categoria.nombre}}</a>
-        <a @click="prueba(index)" class="categoria_enlace_imagen">
-          <img :src="categoria.pathImg" :alt="categoria.nombre" :title="categoria.nombre" class="categoria_imagen">
+        <a @click="prueba(index)" :class="verificarClase(true, categoria.enabled)" :aria-disabled="!categoria.enabled">{{categoria.name}}</a>
+        <a @click="prueba(index)" class="categoria_enlace_imagen" :aria-disabled="!categoria.enabled">
+          <img :src="imagenes[index]" :alt="categoria.name" :title="categoria.name" class="categoria_imagen" :class="verificarClase(false, categoria.enabled)">
         </a>
       </div>
     </div>
@@ -24,7 +24,7 @@ export default {
   data () {
     return {
       categorias: [
-        {nombre: 'Abecedario', pathImg: require('../assets/abecedario.png'), habilitada: true},
+        /*{nombre: 'Abecedario', pathImg: require('../assets/abecedario.png'), habilitada: true},
         {nombre: 'Colores', pathImg: require('../assets/colores.png'), habilitada: true},
         {nombre: 'Comidas', pathImg: require('../assets/comidas.png'), habilitada: true},
         {nombre: 'Geografía', pathImg: require('../assets/geografia.png'), habilitada: true},
@@ -32,16 +32,23 @@ export default {
         {nombre: 'Números', pathImg: require('../assets/numeros.png'), habilitada: true},
         {nombre: 'Personas', pathImg: require('../assets/personas.png'), habilitada: true},
         {nombre: 'Preguntas', pathImg: require('../assets/preguntas.png'), habilitada: true},
-        {nombre: 'Verbos', pathImg: require('../assets/verbos.png'), habilitada: true}
+        {nombre: 'Verbos', pathImg: require('../assets/verbos.png'), habilitada: true}*/
+      ],
+      imagenes:[require('../assets/abecedario.png'),
+                require('../assets/colores.png'), 
+                require('../assets/comidas.png'),
+                require('../assets/geografia.png'),
+                require('../assets/modales.png'),
+                require('../assets/numeros.png'),
+                require('../assets/personas.png'),
+                require('../assets/preguntas.png'),
+                require('../assets/verbos.png')
       ],
       juegos: null
     }
   },
-  methods: {
-    async prueba(index) {
-      var cat = this.categorias[index].nombre;
-      console.log(cat)
-      var url_get = 'http://instructorlsa.herokuapp.com/practice/games_v2/?categoryName='+cat
+  async mounted(){
+    var url_get = "http://instructorlsa.herokuapp.com/practice/categories"
       var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
       var tokenSend = 'Token '+token
       let response = await axios.get(url_get, {
@@ -49,23 +56,59 @@ export default {
           'Authorization': tokenSend
         }
       })
-      this.juegos = response.data
-      this.siguienteJuego(cat)
+      this.categorias = response.data
       console.log(response.data)
+  },
+  methods: {
+    async prueba(index) {
+      if(this.categorias[index].enabled){
+        var cat = this.categorias[index].name;
+        console.log(cat)
+        var url_get = 'http://instructorlsa.herokuapp.com/practice/games_v2/?categoryName='+cat
+        var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
+        var tokenSend = 'Token '+token
+        let response = await axios.get(url_get, {
+          headers: {
+            'Authorization': tokenSend
+          }
+        })
+        this.juegos = response.data
+        this.siguienteJuego(cat)
+        console.log(response.data)
+      }
+    },
+    obtenerSiguienteRuta(){
+        const banco = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let aleatoria = "";
+        for (let i = 0; i < 10; i++) {
+            // Lee más sobre la elección del índice aleatorio en:
+            // https://parzibyte.me/blog/2021/11/30/elemento-aleatorio-arreglo-javascript/
+            aleatoria += banco.charAt(Math.floor(Math.random() * banco.length));
+        }
+        return aleatoria;
     },
     siguienteJuego(cat ){
       if(this.juegos[0].name == "Escribi la seña"){
-        this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(this.juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
+        this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(this.juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0 , ruta: this.obtenerSiguienteRuta()} })
       }
       if(this.juegos[0].name == "Adiviná la seña"){
-        this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(this.juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
+        this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(this.juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0 , ruta: this.obtenerSiguienteRuta()}})
         //escribir codigo
       }
       if(this.juegos[0].name == "Signá la palabra"){
         //escribir codigo
         console.log(this.juegos[0].name)
-        this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(this.juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
+        this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(this.juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0 , ruta: this.obtenerSiguienteRuta()} })
       }
+    },
+    verificarClase(esTitulo , enabled){
+      var clase = "";
+      if(esTitulo){
+        clase = enabled? "": "tituloReadOnly"; 
+      }else{
+        clase = enabled? "": "imagenReadOnly"; 
+      }
+      return clase
     }
   }
 }
@@ -80,6 +123,16 @@ h1{
 }
 .categoria a{
   cursor: pointer;
+}
+.rojo{
+  background-color: aqua;
+}
+.tituloReadOnly{
+  cursor: not-allowed !important;
+}
+.imagenReadOnly{
+  opacity: 0.2;
+  cursor: not-allowed !important;
 }
 h3 {
   text-align: center;

@@ -12,7 +12,12 @@ import AppHeader from '@/views/AppHeader'
 
 export default {
   name: 'App',
-  components: {AppHeader, AppFooter}
+  components: {AppHeader, AppFooter},
+  methods:{
+    pruebaGeneral(){
+        console.log("ahsdjkashjdkh")
+    }
+  }
 }
 </script>
 

@@ -10,7 +10,8 @@ import PracticaCategorias from '../views/AppPracticaCategorias.vue'
 import PracticaAdivina from '../views/AppPracticaAdivina.vue'
 import PracticaResultados from '../views/AppPracticaResultados.vue'
 import PracticaSigna from '../views/AppPracticaSigna.vue'
-import Prueba from '../views/prueba.vue'
+import PruebaCarga from '../views/pruebaCarga.vue' 
+import JuegosIntegrales from '../views/AppJuegosIntegrales.vue' 
 
 
 const routes = [
@@ -48,7 +49,7 @@ const routes = [
     props: true
   },
   {
-    path: '/PracticaEscribi/:categoriaVideo/:index',
+    path: '/PracticaEscribi/:ruta',
     name: 'PracticaEscribi',
     component: PracticaEscribi,
     props: true
@@ -60,19 +61,19 @@ const routes = [
     props: true
   },
   {
-    path: '/PracticaAdivina/:categoriaVideo/:index',
+    path: '/PracticaAdivina/:ruta',
     name: 'PracticaAdivina',
     component: PracticaAdivina,
     props: true
   },
   {
-    path: '/PracticaResultados/:categoriaVideo/',
+    path: '/PracticaResultados/',
     name: 'PracticaResultados',
     component: PracticaResultados,
     props: true
   },
   {
-    path: '/PracticaSigna/:categoriaVideo/:index',
+    path: '/PracticaSigna/:ruta',
     name: 'PracticaSigna',
     component: PracticaSigna,
     props: true
@@ -80,7 +81,13 @@ const routes = [
   {
     path: '/Prueba/',
     name: 'Prueba',
-    component: Prueba,
+    component: PruebaCarga,
+    props: true
+  },
+  {
+    path: '/JuegosIntegrales/',
+    name: 'JuegosIntegrales',
+    component: JuegosIntegrales,
     props: true
   }
   

@@ -2,7 +2,7 @@
   <div id="resultadosFinales">
     
     <div class="resultado_grafico">
-      <span style="font-size:xx-large ; font-weight:bolder; margin-bottom: 15px;">Resultados Finales</span>
+      <span style="font-size:xx-large ; font-weight:bolder; margin-bottom: 15px;">Respuestas correctas</span>
       <div class="container-grafico">
         <circle-progress 
         :percent="porcentajeAciertos" 
@@ -57,10 +57,10 @@
   },
   mounted(){
     this.cantidadAciertos=Number(this.respuestasCorrectas)
-    this.porcentajeAciertos=Number(this.cantidadAciertos)*10
+    this.porcentajeAciertos=Number(this.respuestasCorrectas)*10
 
-    console.log(this.respuestasCorrectas)
-    console.log(this.porcentajeAciertos)
+    console.log("respuestas correctas" + this.respuestasCorrectas)
+    console.log("porcentaje aciertos" +this.porcentajeAciertos)
     if(this.porcentajeAciertos > 70){
       this.resultado = "¡Felicitaciones! ¡Seguí así!"
     }else{
@@ -79,7 +79,7 @@
   },
   methods: {
     async volverPracticar(){
-      var url_get = 'http://instructorlsa.herokuapp.com/practice/games/?categoryName='+this.categoriaVideo
+      var url_get = 'http://instructorlsa.herokuapp.com/practice/games_v2/?categoryName='+this.categoriaVideo
       var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
       var tokenSend = 'Token '+token
       let response = await axios.get(url_get, {
@@ -88,19 +88,20 @@
         }
       })
       var juegos = response.data
-      this.p2(this.categoriaVideo, juegos)
       console.log(response.data)
+      this.p2(this.categoriaVideo, juegos)
     },
     p2(cat , juegos ){
+      console.log("empieza de nuevo")
       if(juegos[0].name == "Escribi la seña"){
-        this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
+        this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0, ruta: this.obtenerSiguienteRuta()} })
       }
-      if(juegos[0].name == "Adivina la seña"){
-        this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
+      if(juegos[0].name == "Adiviná la seña"){
+        this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0, ruta: this.obtenerSiguienteRuta()} })
         //escribir codigo
       }
       if(juegos[0].name == "Signá la palabra"){
-        this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
+        this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0, ruta: this.obtenerSiguienteRuta()} })
         //escribir codigo
       }
     },
@@ -112,6 +113,16 @@
     },
     volverCategoria(){
         this.$router.push("/practicaCategorias")
+    },
+    obtenerSiguienteRuta(){
+        const banco = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let aleatoria = "";
+        for (let i = 0; i < 10; i++) {
+            // Lee más sobre la elección del índice aleatorio en:
+            // https://parzibyte.me/blog/2021/11/30/elemento-aleatorio-arreglo-javascript/
+            aleatoria += banco.charAt(Math.floor(Math.random() * banco.length));
+        }
+        return aleatoria;
     },
     porcentaje(){
       this.cantidadAciertos=Number(this.respuestasCorrectas)

@@ -23,7 +23,7 @@
         <h3 style="border: 0px solid black ; width: auto; margin: 5px auto ;padding-bottom: 50px ; text-align: center; font-family: cursive;">{{juegosVideo[index].sign.name}}</h3>
         <button id="botonAbrirCamara">Abrir la cámara</button>
         <button id="botonGrabar">Comenzar a grabar</button>
-        <button id="botonSaltear" @click="avanzar">Saltear juego</button> 
+        <button id="botonSaltear" @click="avanzarSinJugar">Saltear juego</button> 
         <div id="post_grabacion">
           <h3>¿Pudiste grabarte correctamente?</h3>
           <button id="botonContinuar">Si, ver resultados</button>
@@ -38,17 +38,27 @@
       </div>
     </div>
   </div>
+  <loading readonly v-model:active="isLoading"
+               :can-cancel="false"
+               :on-cancel="onCancel"
+               :is-full-page="fullPage"/>
 </template>
 
 <script>
 import axios from 'axios'
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 export default{
   name: 'app-practica-signa',
   props:{
     juegos: String,
     categoriaVideo: String,
     index: Number,
-    respuestasCorrectas: Number
+    respuestasCorrectas: Number,
+    ruta:String
+  },
+  components: {
+          Loading
   },
   data(){
     return {
@@ -59,7 +69,9 @@ export default{
       juegosVideo:JSON.parse(this.juegos),
       resultado:null,
       cantidadAciertos:null,
-      blob:null
+      blob:null,
+      isLoading: false,
+      fullPage: true
     }
   },
   mounted(){
@@ -150,6 +162,16 @@ export default{
       // después de 5 segundos parar
       setTimeout(() => { clearInterval(timerId); document.getElementById("grabando").style.display="none";}, 4000);
     },
+    obtenerSiguienteRuta(){
+        const banco = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let aleatoria = "";
+        for (let i = 0; i < 10; i++) {
+            // Lee más sobre la elección del índice aleatorio en:
+            // https://parzibyte.me/blog/2021/11/30/elemento-aleatorio-arreglo-javascript/
+            aleatoria += banco.charAt(Math.floor(Math.random() * banco.length));
+        }
+        return aleatoria;
+    },
     async enviarVideo(){
       var vista = this
       const formData = new FormData();
@@ -161,7 +183,7 @@ export default{
       );
       var posicion = vista.juegosVideo[vista.index].position;
       var categoria = vista.juegosVideo[vista.index].category;
-      console.log(myFile)
+      console.log("esta es mi posicion: "+posicion)
       formData.append("video", myFile);
       formData.append("position", posicion);
       formData.append("category", categoria);
@@ -171,7 +193,7 @@ export default{
       var respuesta = null
       console.log(formData)
 
-      
+      vista.isLoading = true; 
       var url_get = 'http://127.0.0.1:5000/send_video'
       //var url_get = 'http://18.233.165.211:8080/send_video'
       var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
@@ -185,17 +207,27 @@ export default{
         console.log(r)
         respuesta = {}
         respuesta.response = r.data.response;
+        respuesta.correcta = r.data.validation == "CORRECTA";
         respuesta.validation = r.data.validation;
+        respuesta.prediction = r.data.prediction;
+        //respuesta.indexPredict = r.data.indexPredict;
+        vista.isLoading = false;
         return respuesta
       }
       
       console.log(respuesta)
       //Mostrar resultados
-      if(respuesta.validation){
-        vista.resultado = "¡Respuesta correcta!"
+      vista.cantidadAciertos=Number(vista.respuestasCorrectas);
+      if(respuesta.correcta){
+        vista.resultado = "¡Respuesta correcta!";
         vista.cantidadAciertos = Number(vista.respuestasCorrectas)+1;
-      }else{
-        vista.resultado = "¡Respuesta incorrecta!"  
+      }else{ 
+        if(respuesta.validation == "INCORRECTA"){
+          vista.resultado = "¡Respuesta incorrecta!";
+        }else{
+          vista.resultado =respuesta.response; 
+        }
+        
       }
       document.getElementById("resultados_grabación").style.display="block";
       document.getElementById("post_grabacion").style.display="none";
@@ -208,12 +240,16 @@ export default{
         document.getElementById(campo).style.cursor = "pointer"
       }
     },
+    avanzarSinJugar(){
+      this.cantidadAciertos = Number(this.respuestasCorrectas)
+      this.avanzar()
+    },
     avanzar(){
       console.log("avanzar");
       console.log(this.juegosVideo)
       console.log(this.index+1);
       console.log(this.juegosVideo[Number(this.index)+1])
-      console.log(this.respuestasCorrectas)
+      console.log("cantidad aciertos " + this.cantidadAciertos)
       document.getElementById("post_grabacion").style.display="none";
       document.getElementById("timer").style.display="none";
       document.getElementById("grabando").style.display="none";
@@ -227,16 +263,16 @@ export default{
 
 
       if(this.juegosVideo.length == Number(this.index)+1){ 
-          this.$router.push({name:"PracticaResultados",params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, respuestasCorrectas: this.cantidadAciertos }}) 
+          this.$router.push({name:"PracticaResultados",params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, respuestasCorrectas: Number(this.cantidadAciertos) }}) 
       }else{
           if(this.juegosVideo[Number(this.index)+1].name == "Escribi la seña"){
-              this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: this.cantidadAciertos}})
+              this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: Number(this.cantidadAciertos) , ruta: this.obtenerSiguienteRuta()}})
           }
           if(this.juegosVideo[Number(this.index)+1].name == "Adiviná la seña"){
-              this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: this.cantidadAciertos}})
+              this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: Number(this.cantidadAciertos) , ruta: this.obtenerSiguienteRuta()}})
           }
           if(this.juegosVideo[Number(this.index)+1].name == "Signá la palabra"){
-              this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: this.cantidadAciertos}})
+              this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: Number(this.cantidadAciertos) , ruta: this.obtenerSiguienteRuta()}})
           } 
           console.log("no llegó")
         }
@@ -245,7 +281,7 @@ export default{
 }
 </script>
 
-
+ 
 <style scoped>
   .cont_signa{
     display: flex;
