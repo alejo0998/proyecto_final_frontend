@@ -8,7 +8,7 @@
         </ul>
       </div>
       <div id="avisoSinResultados">
-        <h3>No tenés categorías disponibles para prácticar</h3>
+        <h3>No tenés categorías disponibles para jugar</h3>
         <i class="fas fa-solid fa-face-meh" id="iconoTriste"></i>
       </div>
     </div>

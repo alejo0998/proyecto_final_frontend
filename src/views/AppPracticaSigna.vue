@@ -6,12 +6,13 @@
     <div class="cont_signa">
       <div class="cont_signa_izq">
         <div class="cont_signa_explicacion">
-          <h3>Tips para grabarte</h3>
+          <h3>Instrucciones para grabarte</h3>
           <ul>
-            <li>Recordá que las manos y la cara deben salir en la grabación en todo momento</li>
-            <li>La secuencia para grabarte debería ser la siguiente: comenzar con la manos abajo, realizar la seña y luego terminar con las manos abajo</li>
+            <li>Es recomendable tener buena iluminación</li>
+            <li>Te sugerimos que tus manos y tu cara estén en cuadro en todo momento para un mejor reconocimiento</li>
+            <li>Recomendamos comenzar con la manos abajo, realizar la seña y luego volverlas a bajar</li>
             <li>Tendrás un máximo de 4 segundos para grabarte haciendo la seña</li>
-            <li>Deberás alejarte de la cámara lo suficiente para que se vea desde tu cintura hasta tu cabeza</li>
+            <li>Tratá de alejarte de la cámara lo suficiente para que se vea desde tu cintura hasta tu cabeza</li>
           </ul>
         </div>
         <div class="cont_signa_video">
@@ -210,11 +211,11 @@ export default{
         respuesta.correcta = r.data.validation == "CORRECTA";
         respuesta.validation = r.data.validation;
         respuesta.prediction = r.data.prediction;
-        //respuesta.indexPredict = r.data.indexPredict;
-        vista.isLoading = false;
+        respuesta.indexPredict = r.data.indexPredict;
+        vista.isLoading = false; 
         return respuesta
       }
-      
+      vista.isLoading = false; 
       console.log(respuesta)
       //Mostrar resultados
       vista.cantidadAciertos=Number(vista.respuestasCorrectas);
