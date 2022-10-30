@@ -5,7 +5,7 @@
         </div>
         <div class="container_video_flechas">
             <div class="container_video">
-                <iframe @change="ejecutarTimer" :src="juegosVideo[index].sign.urlVideo+'?controls=0'" allow="autoplay" allowfullscreen="false" aria-setsize="1920px"
+                <iframe  :src="juegosVideo[index].sign.urlVideo+'?controls=0'" allow="autoplay" allowfullscreen="false" aria-setsize="1920px"
                     class="video"></iframe>
             </div>
             <div id="respuesta" class="escribi">
@@ -15,6 +15,9 @@
             </div>
             <div id="resultado">
                 <span class="resultado_texto"> {{resultado}}</span>
+                <div>
+                  <i id="iconoRespuesta" v-show="!!resultado"></i>
+                </div>
                 <button @click="avanzar">Avanzar</button>
             </div>
         </div>
@@ -29,7 +32,8 @@ export default {
     juegos: String,
     categoriaVideo: String,
     index: Number,
-    respuestasCorrectas: Number
+    respuestasCorrectas: Number,
+    ruta:String
   },
   data() {
     return {
@@ -37,7 +41,9 @@ export default {
         respuesta:"",
         resultado:null,
         cantidadAciertos:null,
-        timer:30
+        timer:30,
+        timerId:null,
+        timeoutId:null
     }
   },/*
   setup(){
@@ -47,43 +53,77 @@ export default {
       // después de 5 segundos parar
     setTimeout(() => { clearInterval(timerId)}, 30000);
   },*/
-  mounted(){
+  async mounted(){
     document.getElementById("respuesta").style.display = "flex";
     document.getElementById("resultado").style.display = "none";
-    this.cantidadAciertos=Number(this.respuestasCorrectas)
+    this.cantidadAciertos=Number(this.respuestasCorrectas);
+    this.resultado = null;
+    var vista = this
+    vista.timer=30
+    vista.timerId = setInterval(() => {vista.timer = Number(vista.timer)-1} , 1000);
+      // después de 5 segundos parar
+    vista.timeoutId = setTimeout(() => { clearInterval(vista.timerId);if(!vista.resultado)vista.validar()}, 30000);
   },
   methods: {
+    ejecutarTimer(){
+        this.timerId = setInterval(() => {this.timer = Number(this.timer)-1} , 1000);
+      // después de 5 segundos parar
+        this.timeoutId =setTimeout(() => { clearInterval(this.timerId);if(!this.resultado)this.validar()}, 30000);
+    },
     validar() {
-        console.log("Valida")
+        clearTimeout(this.timeoutId)
+        clearInterval(this.timerId)
         this.cantidadAciertos=Number(this.respuestasCorrectas)
         document.getElementById("respuesta").style.display = "none";
         document.getElementById("resultado").style.display = "flex";
         if(this.respuesta.toUpperCase() == this.juegosVideo[this.index].sign.name.toUpperCase()){
-            console.log("Bien")
             this.resultado = "¡Respuesta correcta!"
-
+            document.getElementById("iconoRespuesta").classList.add("iconoCorrecto");
+            document.getElementById("iconoRespuesta").classList.add("fas")
+            document.getElementById("iconoRespuesta").classList.add("fa-solid");
+            document.getElementById("iconoRespuesta").classList.add("fa-circle-check");
             this.cantidadAciertos = Number(this.respuestasCorrectas)+1;
         }else{
             this.resultado = "¡Respuesta incorrecta!";
-            console.log("Mal");
+            document.getElementById("iconoRespuesta").classList.add("iconoIncorrecto");
+            document.getElementById("iconoRespuesta").classList.add("fas")
+            document.getElementById("iconoRespuesta").classList.add("fa-solid");
+            document.getElementById("iconoRespuesta").classList.add("fa-circle-xmark");
         }
+    },
+    obtenerSiguienteRuta(){
+        const banco = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let aleatoria = "";
+        for (let i = 0; i < 10; i++) {
+            // Lee más sobre la elección del índice aleatorio en:
+            // https://parzibyte.me/blog/2021/11/30/elemento-aleatorio-arreglo-javascript/
+            aleatoria += banco.charAt(Math.floor(Math.random() * banco.length));
+        }
+        return aleatoria;
     },
     avanzar() {
         console.log("avanzar");
         console.log(this.juegosVideo)
         console.log(this.index+1);
+        console.log("cantidad aciertos " + this.cantidadAciertos);
         console.log(this.juegosVideo[Number(this.index)+1])
+        document.getElementById("iconoRespuesta").classList.remove("fa-circle-check");
+        document.getElementById("iconoRespuesta").classList.remove("iconoIncorrecto");
+        document.getElementById("iconoRespuesta").classList.remove("iconoCorrecto");
+        document.getElementById("iconoRespuesta").classList.remove("fa-circle-xmark");
+        this.timer=30
         if(this.juegosVideo.length == Number(this.index)+1){
             document.getElementById("respuesta").style.display = "none";
             document.getElementById("resultado").style.display = "none";
-            this.$router.push({name:"PracticaResultados",params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, respuestasCorrectas: this.cantidadAciertos }}) 
+            this.$router.push({name:"PracticaResultados",params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, respuestasCorrectas: Number(this.cantidadAciertos) }}) 
         }else{
             if(this.juegosVideo[Number(this.index)+1].name == "Escribi la seña"){
                 document.getElementById("respuesta").style.display = "flex";
                 document.getElementById("resultado").style.display = "none";
                 this.resultado = "";
                 this.respuesta = "";
-                this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: this.cantidadAciertos}})
+                this.ejecutarTimer();
+                this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: Number(this.cantidadAciertos) , ruta: this.obtenerSiguienteRuta()}})
             }
             if(this.juegosVideo[Number(this.index)+1].name == "Adiviná la seña"){
                 //escribir codigo
@@ -91,7 +131,7 @@ export default {
                 document.getElementById("resultado").style.display = "none";
                 this.resultado = "";
                 this.respuesta = "";
-                this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: this.cantidadAciertos}})
+                this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: Number(this.cantidadAciertos) , ruta: this.obtenerSiguienteRuta()}})
             }
             if(this.juegosVideo[Number(this.index)+1].name == "Signá la palabra"){
                 //escribir codigo
@@ -99,7 +139,7 @@ export default {
                 document.getElementById("resultado").style.display = "none";
                 this.resultado = "";
                 this.respuesta = "";
-                this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: this.cantidadAciertos}})
+                this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: Number(this.cantidadAciertos) , ruta: this.obtenerSiguienteRuta()}})
             } 
         }       
     },
@@ -115,9 +155,6 @@ export default {
       var juegos = response.data
       this.siguienteJuego(this.categoriaVideo, juegos)
       console.log(response.data)
-    },
-    ejecutarTimer(){
-        console.log("cambia");
     },
     siguienteJuego(cat , juegos ){
       this.timer=30
@@ -262,7 +299,21 @@ input{
 #titulo_senia {
     text-align: center;
 }
+.iconoIncorrecto{
+  width: 30px;
+  height: 30px;
+  font-size: 40px;
+  color: darkred;
+  margin-bottom: 30px;
+}
 
+.iconoCorrecto{
+  width: 30px;
+  height: 30px;
+  font-size: 40px;
+  color: darkgreen;
+  margin-bottom: 30px;
+}
 @media only screen and (max-width:850px){
     .imagenMenu{
         display: none;

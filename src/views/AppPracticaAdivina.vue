@@ -11,10 +11,14 @@
           <div id="respuesta" class="adivina">
               <div class="containerRespuestas">
                 <span>{{tituloRespuesta}}</span>
+                <div>
+                  <i id="iconoRespuesta" v-show="tituloRespuesta!='Elegí una opción'"></i>
+                </div>
                 <div v-for="(opcion, i) in juegosVideo[index].options" v-bind:key="i" >
                   <button @click="valida(i)" class="buttonLista">{{opcion.text}}</button>
                 </div>
               </div>
+              <h3 id="timer" v-show="tituloRespuesta=='Elegí una opción'">Tiempo disponible: {{timer}}</h3>
               <div id="resultado">
                 <button @click="avanzar">Avanzar</button>
             </div> 
@@ -24,53 +28,54 @@
 </template>
 
 <script>
-import axios from 'axios';
 export default {
 name: 'app-practica_adivina',
 props: {
   juegos: String,
   categoriaVideo: String,
   index: Number,
-  respuestasCorrectas: Number
+  respuestasCorrectas: Number,
+  ruta:String
 }, 
 data() {
   return {
       juegosVideo:JSON.parse(this.juegos),
       tituloRespuesta:"Elegí una opción",
       resultado:null,
-      cantidadAciertos:null
+      cantidadAciertos:null,
+      timer:30,
+      timerId:null,
+      timeoutId:null
   }
 },
-mounted(){
+async mounted(){
   document.getElementById("respuesta").style.display = "flex";
   document.getElementById("resultado").style.visibility = "hidden";
   this.cantidadAciertos=Number(this.respuestasCorrectas);
   this.tituloRespuesta = "Elegí una opción"
-
+  var vista = this
+  vista.timer=30
+  vista.timerId = setInterval(() => {vista.timer = Number(vista.timer)-1} , 1000);
+    // después de 5 segundos parar
+  vista.timeoutId=setTimeout(() => { clearInterval(vista.timerId); if(this.tituloRespuesta=="Elegí una opción" )vista.valida(null)} , 30000);
 },
 methods: {
-  /*validar() {
-      console.log("Valida")
-      this.cantidadAciertos=Number(this.respuestasCorrectas)
-      document.getElementById("respuesta").style.display = "none";
-      document.getElementById("resultado").style.display = "flex";
-      document.getElementById("resultadosFinales").style.display="none";
-      if(this.respuesta.toUpperCase() == this.juegosVideo[this.index].sign.name.toUpperCase()){
-          console.log("Bien")
-          this.resultado = "¡Respuesta correcta!"
-
-          this.cantidadAciertos = Number(this.respuestasCorrectas)+1;
-      }else{
-          this.resultado = "¡Respuesta incorrecta!";
-          console.log("Mal");
-      }
-  },*/
+  ejecutarTimer(){
+        this.timerId = setInterval(() => {this.timer = Number(this.timer)-1} , 1000);
+      // después de 5 segundos parar
+        this.timeoutId =setTimeout(() => { clearInterval(this.timerId);if(!this.resultado)this.validar()}, 30000);
+  },
   avanzar() {
       console.log("avanzar");
       console.log(this.juegosVideo)
       console.log(this.index+1);
       console.log(this.juegosVideo[Number(this.index)+1])
-      console.log(this.respuestasCorrectas)
+      console.log("cantidad aciertos " +this.cantidadAciertos )
+      document.getElementById("iconoRespuesta").classList.remove("fa-circle-check");
+      document.getElementById("iconoRespuesta").classList.remove("iconoIncorrecto");
+      document.getElementById("iconoRespuesta").classList.remove("iconoCorrecto");
+      document.getElementById("iconoRespuesta").classList.remove("fa-circle-xmark");
+      this.timer = 30
 
       var opciones = this.juegosVideo[this.index].options;
       var botones = document.getElementsByClassName("buttonLista");
@@ -80,30 +85,28 @@ methods: {
         botones.item(j).classList.remove("correcto")
         botones.item(j).classList.remove("incorrecto")
       }
-
       if(this.juegosVideo.length == Number(this.index)+1){
           document.getElementById("respuesta").style.display = "none";
           document.getElementById("resultado").style.visibility = "hidden";  
-          this.$router.push({name:"PracticaResultados",params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, respuestasCorrectas: this.cantidadAciertos }}) 
+          this.$router.push({name:"PracticaResultados",params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, respuestasCorrectas: Number(this.cantidadAciertos)  }}) 
           console.log("termina")  
       }else{
           if(this.juegosVideo[Number(this.index)+1].name == "Escribi la seña"){
               document.getElementById("respuesta").style.display = "flex";
               document.getElementById("resultado").style.visibility = "hidden";
-              console.log("escribi")
               this.resultado = "";
               this.respuesta = "";
-              this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: this.cantidadAciertos}})
+              this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: Number(this.cantidadAciertos) , ruta: this.obtenerSiguienteRuta()}})
           }
           if(this.juegosVideo[Number(this.index)+1].name == "Adiviná la seña"){
             //escribir codigo
               document.getElementById("respuesta").style.display = "flex";
               document.getElementById("resultado").style.visibility = "hidden";
-              console.log("adivina")
               this.resultado = "";
               this.respuesta = "";
               this.tituloRespuesta = "Elegí una opción"
-              this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: this.cantidadAciertos}})
+              this.ejecutarTimer()
+              this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: Number(this.cantidadAciertos) , ruta: this.obtenerSiguienteRuta()}})
 
               //escribir codigo
           }
@@ -111,72 +114,52 @@ methods: {
               //escribir codigo
               document.getElementById("respuesta").style.display = "flex";
               document.getElementById("resultado").style.visibility = "hidden";
-              console.log("adivina")
               this.resultado = "";
               this.respuesta = "";
               this.tituloRespuesta = "Elegí una opción"
-              this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: this.cantidadAciertos}})
+              this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: Number(this.cantidadAciertos) , ruta: this.obtenerSiguienteRuta()}})
 
           } 
-          console.log("no llegó")
       }       
   },
-  async volverPracticar(){
-    var url_get = 'http://instructorlsa.herokuapp.com/practice/games/?categoryName='+this.categoriaVideo
-    var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
-    var tokenSend = 'Token '+token
-    let response = await axios.get(url_get, {
-      headers: {
-        'Authorization': tokenSend
-      }
-    })
-    var juegos = response.data
-    this.siguienteJuego(this.categoriaVideo, juegos)
-    console.log(response.data)
-  },
-  siguienteJuego(cat , juegos ){
-    if(juegos[0].name == "Escribi la seña"){
-      document.getElementById("respuesta").style.display = "flex";
-      document.getElementById("resultado").style.visibility = "hidden";
-      this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
-    }
-    if(juegos[0].name == "Adivina la seña"){
-      document.getElementById("respuesta").style.display = "flex";
-      document.getElementById("resultado").style.visibility = "hidden";
-      this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
-      //escribir codigo
-    }
-    if(juegos[0].name == "Signá la palabra"){
-      document.getElementById("respuesta").style.display = "flex";
-      document.getElementById("resultado").style.visibility = "hidden";
-      this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0} })
-      //escribir codigo
-    }
-  },
   valida(index){
-    var opciones = this.juegosVideo[this.index].options
-    var correcto = opciones[index].correct;
-    var botones = document.getElementsByClassName("buttonLista");
-    for(var j = 0 ; j < opciones.length ; j++){
-      botones.item(j).disabled =true;
-      botones.item(j).classList.add("buttonDisabled")
-    }
-    if(correcto){
-      botones.item(index).classList.add("correcto")
-      this.tituloRespuesta = "¡Respuesta correcta!"
-      this.cantidadAciertos = Number(this.respuestasCorrectas)+1;
-    }else{
-      this.tituloRespuesta = "¡Respuesta incorrecta!"  
-      for(var i = 0 ; i < opciones.length ; i++){
-        botones.item(index).classList.add("incorrecto")
-        if(opciones[i].correct){
-          botones.item(i).classList.add("correcto")
+      clearTimeout(this.timeoutId)
+      clearInterval(this.timerId)
+      var opciones = this.juegosVideo[this.index].options;
+      var botones = document.getElementsByClassName("buttonLista");
+      this.cantidadAciertos=Number(this.respuestasCorrectas);
+      for(var j = 0 ; j < opciones.length ; j++){
+        botones.item(j).disabled =true;
+        botones.item(j).classList.add("buttonDisabled")
+      }
+      var correcto = index==null? false : opciones[index].correct;
+      if(correcto){
+        botones.item(index).classList.add("correcto")
+        this.tituloRespuesta = "¡Respuesta correcta!"
+        this.cantidadAciertos = Number(this.respuestasCorrectas)+1;
+        document.getElementById("iconoRespuesta").classList.add("iconoCorrecto");
+        document.getElementById("iconoRespuesta").classList.add("fas")
+        document.getElementById("iconoRespuesta").classList.add("fa-solid");
+        document.getElementById("iconoRespuesta").classList.add("fa-circle-check");
+      }else{
+        this.tituloRespuesta = "¡Respuesta incorrecta!" 
+        document.getElementById("iconoRespuesta").classList.add("iconoIncorrecto");
+        document.getElementById("iconoRespuesta").classList.add("fas")
+        document.getElementById("iconoRespuesta").classList.add("fa-solid");
+        document.getElementById("iconoRespuesta").classList.add("fa-circle-xmark");
+        for(var i = 0 ; i < opciones.length ; i++){
+          if(index==null){
+            if(!opciones[i].correct) botones.item(i).classList.add("incorrecto");
+          }else{
+            botones.item(index).classList.add("incorrecto")
+          }
+          if(opciones[i].correct){
+            botones.item(i).classList.add("correcto")
+          }
         }
       }
-    }
 
-    document.getElementById("resultado").style.visibility = "visible"
-
+      document.getElementById("resultado").style.visibility = "visible";
   },
   volverMenu(){
       this.$router.push("/AppHome")
@@ -184,6 +167,16 @@ methods: {
   volverAprendizaje(){
       this.$router.push("/aprendizajeCategorias")
   },
+  obtenerSiguienteRuta(){
+        const banco = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let aleatoria = "";
+        for (let i = 0; i < 10; i++) {
+            // Lee más sobre la elección del índice aleatorio en:
+            // https://parzibyte.me/blog/2021/11/30/elemento-aleatorio-arreglo-javascript/
+            aleatoria += banco.charAt(Math.floor(Math.random() * banco.length));
+        }
+        return aleatoria;
+    },
   volverCategoria(){
       this.$router.push("/practicaCategorias")
   }
@@ -239,6 +232,22 @@ methods: {
   flex-direction: column;
   align-items: center;
   align-self: flex-end;
+}
+
+.iconoIncorrecto{
+  width: 30px;
+  height: 30px;
+  font-size: 40px;
+  color: darkred;
+  margin-bottom: 30px;
+}
+
+.iconoCorrecto{
+  width: 30px;
+  height: 30px;
+  font-size: 40px;
+  color: darkgreen;
+  margin-bottom: 30px;
 }
 
 
