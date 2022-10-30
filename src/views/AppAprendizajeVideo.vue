@@ -40,7 +40,7 @@ export default {
     var json_data = {
         idSign: idSenia
       }
-    axios.post('http://instructorlsa.herokuapp.com/sign/' , json_data, {
+    axios.post('https://instructorlsa.herokuapp.com/sign/' , json_data, {
       headers: {
         'Authorization': 'Token '+token
       }
@@ -69,7 +69,7 @@ export default {
         var json_data = {
             idSign: idSenia
         }
-        axios.post('http://instructorlsa.herokuapp.com/sign/' , json_data, {
+        axios.post('https://instructorlsa.herokuapp.com/sign/' , json_data, {
         headers: {
             'Authorization': 'Token '+token
         }
@@ -98,7 +98,7 @@ export default {
         var json_data = {
             idSign: idSenia
         }
-        axios.post('http://instructorlsa.herokuapp.com/sign/' , json_data, {
+        axios.post('https://instructorlsa.herokuapp.com/sign/' , json_data, {
         headers: {
             'Authorization': 'Token '+token
         }

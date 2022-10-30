@@ -28,7 +28,7 @@ export default {
     }
   },
   mounted(){
-    var url_get = 'http://instructorlsa.herokuapp.com/sign/category?category='+this.categoria
+    var url_get = 'https://instructorlsa.herokuapp.com/sign/category?category='+this.categoria
     var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
     var tokenSend = 'Token '+token
     axios.get(url_get, {

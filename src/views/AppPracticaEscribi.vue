@@ -144,7 +144,7 @@ export default {
         }       
     },
     async volverPracticar(){
-      var url_get = 'http://instructorlsa.herokuapp.com/practice/games/?categoryName='+this.categoriaVideo
+      var url_get = 'https://instructorlsa.herokuapp.com/practice/games/?categoryName='+this.categoriaVideo
       var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
       var tokenSend = 'Token '+token
       let response = await axios.get(url_get, {

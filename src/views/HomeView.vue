@@ -52,7 +52,7 @@ export default {
           "firstName": nombre != null ? nombre : 'NoName',
           "lastName": apellido != null ? apellido : 'NoLastName'
       }
-        axios.post('http://instructorlsa.herokuapp.com/login/', json_data).then(function(response){
+        axios.post('https://instructorlsa.herokuapp.com/login/', json_data).then(function(response){
           console.log(response);
         })
         .catch(function(error){

@@ -48,7 +48,7 @@ export default {
     }
   },
   async mounted(){
-    var url_get = "http://instructorlsa.herokuapp.com/practice/categories"
+    var url_get = "https://instructorlsa.herokuapp.com/practice/categories"
       var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
       var tokenSend = 'Token '+token
       let response = await axios.get(url_get, {
@@ -64,7 +64,7 @@ export default {
       if(this.categorias[index].enabled){
         var cat = this.categorias[index].name;
         console.log(cat)
-        var url_get = 'http://instructorlsa.herokuapp.com/practice/games_v2/?categoryName='+cat
+        var url_get = 'https://instructorlsa.herokuapp.com/practice/games_v2/?categoryName='+cat
         var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
         var tokenSend = 'Token '+token
         let response = await axios.get(url_get, {

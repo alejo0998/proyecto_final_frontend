@@ -31,7 +31,7 @@
     }
   },
   async mounted(){
-    var url_get = "http://instructorlsa.herokuapp.com/practice/categories"
+    var url_get = "https://instructorlsa.herokuapp.com/practice/categories"
       var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
       var tokenSend = 'Token '+token
       let response = await axios.get(url_get, {
@@ -63,7 +63,7 @@
   },
   methods: {
     async practicarJuegosIntegrales(){
-      var url_get = 'http://instructorlsa.herokuapp.com/practice/games_v2/'
+      var url_get = 'https://instructorlsa.herokuapp.com/practice/games_v2/'
       var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
       var tokenSend = 'Token '+token
       let response = await axios.get(url_get, {
