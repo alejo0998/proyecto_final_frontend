@@ -4,7 +4,7 @@ import App from './App.vue'
 const app = createApp(App).use(router)
 import gAuthPlugin from 'vue3-google-oauth2';
 import router from './router'
-let gauthClientId = '1089712608540-enk2ak2g0vcmhv3ghs3en79bhorgdtvi.apps.googleusercontent.com';
+let gauthClientId = '228465296603-irq8gq0p8eomp2ajirimoh9mq61kls2o.apps.googleusercontent.com';
 app.use(gAuthPlugin, {
   clientId: gauthClientId,
   scope: 'email',
