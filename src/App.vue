@@ -1,7 +1,8 @@
 <template>
-  
+
   <v-app>
-    <v-navigation-drawer v-model="sidebar" app>
+  
+    <v-navigation-drawer id="barra" v-model="sidebar" app>
       <v-list>
         <v-list-tile
           v-for="item in menuItems"
@@ -21,10 +22,12 @@
         <v-toolbar-side-icon @click="sidebar = !sidebar">
         </v-toolbar-side-icon>
       </span>
-      <v-toolbar-title>
-
-        <router-link to="/" style="cursor: pointer">
-          {{ appTitle }}
+      <v-toolbar-title class="padre">
+      
+        <router-link to="/" style="cursor: pointer width: 3px" class="padre">
+            <div class="padre"> 
+            <v-img src="./assets/icono.png" alt="Aprendizaje" title="Aprendizaje" id="logo"> </v-img>
+            </div>
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -38,6 +41,7 @@
           {{ item.title }}
         </v-btn>
         <v-btn icon @click="handleSignOut">
+
             <v-icon> mdi-logout</v-icon>
         </v-btn>
       </v-toolbar-items>
@@ -89,7 +93,14 @@ export default {
 };
 </script>
 <style>
-    .imagenMenu{
-        display: none;
-    }
+#logo{
+    width:70px;
+    height:70px;
+};
+.padre{
+    display: inline-block;
+    width:auto;
+    margin: 0px;
+    text-align: justify;
+}
 </style>
