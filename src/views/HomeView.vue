@@ -2,12 +2,11 @@
   <div class="hello" @load='pepe'>
     <div class="container_logo">
       <h1>Bienvenidos</h1>
-      <img src="../assets/icono.png" alt="Instructor LSA" title="Instructor LSA" class="logo">
+      <v-img src="../assets/icono.png" alt="Instructor LSA" title="Instructor LSA" class="logo"> </v-img>
       <h3 class="slogan">¿Qué esperás para practicar Lengua de Señas Argentina como nunca antes?</h3>
     </div>
-    <h2 v-if='user'>Usuario: {{ user }}</h2>
     <div class="container_boton_inicio">
-      <button @click='handleSignIn' class="boton_inicio">Iniciar sesión</button>
+      <v-btn v-on:click='handleSignIn' class="boton_inicio">Iniciar sesión</v-btn>
     </div>
   </div>
 </template>
@@ -34,6 +33,7 @@ export default {
   methods: {
     async handleSignIn() {
       try {
+        console.log(this.$gAuth)
         const googleUser = await this.$gAuth.signIn();
         const token = googleUser.getId().substring(0,35)
         console.log(token)
@@ -52,7 +52,7 @@ export default {
           "firstName": nombre != null ? nombre : 'NoName',
           "lastName": apellido != null ? apellido : 'NoLastName'
       }
-        axios.post('https://instructorlsa.herokuapp.com/login/', json_data).then(function(response){
+        await axios.post('https://instructorlsa.herokuapp.com/login/', json_data).then(function(response){
           console.log(response);
         })
         .catch(function(error){
@@ -67,12 +67,13 @@ export default {
           localStorage.removeItem('token');
           console.log(error);
         })
-        document.getElementById("linksHeader").style.display = "flex";
         if (localStorage.getItem('token') == token){
+          console.log
           this.$router.push('/AppHome');
         }else{
           this.$router.push('/ErrorServer');
         }
+
       } catch (error) {
         console.log(error);
         return null;

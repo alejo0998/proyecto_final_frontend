@@ -1,9 +1,6 @@
 <template>
   <section>
     <div>
-      <h1>Sección Práctica</h1>
-    </div>
-    <div>
       <h3>{{categoria}}</h3>
     </div>
     <div class="section_senias">

@@ -1,136 +1,95 @@
 <template>
-  <div id="app">
-    <app-header></app-header>
-    <router-view></router-view>
-    <app-footer></app-footer>
-  </div>
+  
+  <v-app>
+    <v-navigation-drawer v-model="sidebar" app>
+      <v-list>
+        <v-list-tile
+          v-for="item in menuItems"
+          :key="item.title"
+          :to="item.path">
+          <v-list-tile-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>{{ item.title }}</v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+         
+    </v-navigation-drawer>
+    
+    <v-toolbar app>
+      <span class="hidden-sm-and-up">
+        <v-toolbar-side-icon @click="sidebar = !sidebar">
+        </v-toolbar-side-icon>
+      </span>
+      <v-toolbar-title>
+
+        <router-link to="/" style="cursor: pointer">
+          {{ appTitle }}
+        </router-link>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items class="hidden-xs-only">
+        <v-btn
+          flat
+          v-for="item in menuItems"
+          :key="item.title"
+          :to="item.path">
+          <v-icon left dark>{{ item.icon }}</v-icon>
+          {{ item.title }}
+        </v-btn>
+        <v-btn icon @click="handleSignOut">
+            <v-icon> mdi-logout</v-icon>
+        </v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
+    
+    <v-content>
+      <router-view></router-view>
+    </v-content>
+
+    <AppFooter> </AppFooter>
+  </v-app>
 </template>
 
 <script>
-import AppFooter from '@/views/AppFooter'
-import AppHeader from '@/views/AppHeader'
+import AppFooter from "./views/AppFooter";
 
 export default {
-  name: 'App',
-  components: {AppHeader, AppFooter},
+  name: "App",
+  components: {AppFooter},
+  data(){
+    return {
+      appTitle: 'Instructor LSA',
+      sidebar: false,
+      menuItems: [
+          { title: 'Home', path: '/AppHome', icon: 'home' },
+          { title: 'Aprendizaje', path: '/AprendizajeCategorias', icon: 'face' },
+          { title: 'Practica', path: '/PracticaCategorias', icon: 'lock_open' },
+          { title: 'Juegos Integrales', path: '/JuegosIntegrales', icon: 'lock_open' }
+
+     ]
+    }
+  },
   methods:{
-    pruebaGeneral(){
-        console.log("ahsdjkashjdkh")
+    async handleSignOut() {
+      try {
+        await this.$gAuth.signOut();
+        this.SesionLog = '';
+        //console.log(this.user);
+        localStorage.removeItem('mailAccount');
+        localStorage.removeItem('googleAccount');
+        localStorage.removeItem('token');
+                
+        this.$router.push("/");
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
-}
+};
 </script>
-
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-/*
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-*/
-body{
-  margin: 0;
-}
-
-@media only screen and (max-width:850px){
     .imagenMenu{
         display: none;
     }
-    .container{
-        flex-direction: column;
-        height: 40vh;
-        margin: 0;
-    }
-    .botonImagenMenu{
-        width: 100vw;
-    }
-    .nav_pc{
-        display: none;
-    }
-
-    .nav_responsive{
-        display: flex;
-    }
-
-    .nav_izquierda{
-        width: 80%;
-    }
-    .nav_derecha{
-        width: 20%;
-    }
-
-    header h2{
-        font-size: large;
-    }
-
-    h2{
-        font-size: x-large;
-    }
-
-    button{
-        font-size: small;
-    }
-
-    h4{
-        font-size: small;
-    }
-
-    .menuPrincipal_texto{
-        margin: 5% auto;
-    }
-
-    .menu{
-        height: 70vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .menu_flotante{
-        background-color: white;
-        border: 1px solid black;
-        color:black;
-        font-size: small;
-        position: relative;
-        text-align: right;
-        top:-1000px ;
-        z-index: 1;
-        display: none;
-       /* width: 70vw;*/
-    }
-
-    .icono_menu_responsive{
-        font-size: 30px;
-        /* z-index: 100;*/
-    }
-
-    .icono_menu_responsive:hover > .menu_flotante{
-        top:0;
-    }
-
-    .categoria{
-        width: 150px;
-        height: 150px;
-    }
-
-    .containerCategorias{
-        margin-top: 10px;
-        
-    }
-}
 </style>

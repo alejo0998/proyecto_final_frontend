@@ -1,8 +1,6 @@
 <template>
   <section>
-    <div>
-      <h1>Sección Aprendizaje</h1>
-    </div>
+
     <div>
       <h3>Categorías</h3>
     </div>
@@ -10,7 +8,7 @@
       <div class="categoria" v-for="(categoria, index) in categorias" v-bind:key="index">
         <router-link :to="{name: 'AprendizajeSenias', params: {categoria: categoria.nombre}}"><span>{{categoria.nombre}}</span></router-link>
         <router-link :to="{name: 'AprendizajeSenias', params: {categoria: categoria.nombre}}" class="categoria_enlace_imagen">
-          <img :src="categoria.pathImg" :alt="categoria.nombre" :title="categoria.nombre" class="categoria_imagen">
+          <v-img :src="categoria.pathImg" :alt="categoria.nombre" :title="categoria.nombre" class="categoria_imagen"> </v-img>
         </router-link>
       </div>
     </div>

@@ -1,16 +1,13 @@
 <template>
   <section>
     <div>
-      <h1>Sección Práctica</h1>
-    </div>
-    <div>
       <h3>Categorías</h3>
     </div>
     <div class="containerCategorias">
       <div class="categoria" v-for="(categoria, index) in categorias" v-bind:key="index">
         <a @click="prueba(index)" :class="verificarClase(true, categoria.enabled)" :aria-disabled="!categoria.enabled">{{categoria.name}}</a>
         <a @click="prueba(index)" class="categoria_enlace_imagen" :aria-disabled="!categoria.enabled">
-          <img :src="imagenes[index]" :alt="categoria.name" :title="categoria.name" class="categoria_imagen" :class="verificarClase(false, categoria.enabled)">
+          <v-img :src="imagenes[index]" :alt="categoria.name" :title="categoria.name" class="categoria_imagen" :class="verificarClase(false, categoria.enabled)"> </v-img>
         </a>
       </div>
     </div>

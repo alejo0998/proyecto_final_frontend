@@ -1,23 +1,20 @@
 <template>
     <div class="menu">
-        <div class="menuPrincipal_texto">
-          <h2 class="titulo">Menú Principal</h2>
-        </div>
         <div class="container">
             <div class="botonImagenMenu">
-                <img src="../assets/aprendizaje.png" alt="Aprendizaje" title="Aprendizaje" class="imagenMenu">
+                <v-img src="../assets/aprendizaje.png" alt="Aprendizaje" title="Aprendizaje" class="imagenMenu"> </v-img>
                 <router-link to="AprendizajeCategorias">
                     <button class="botonMenu">Sección Aprendizaje</button>
                 </router-link>
             </div>
             <div class="botonImagenMenu">
-                <img src="../assets/practica.png" alt="Práctica" title="Practica" class="imagenMenu">
+                <v-img src="../assets/practica.png" alt="Práctica" title="Practica" class="imagenMenu"> </v-img>
                 <router-link to="PracticaCategorias">
                     <button class="botonMenu">Sección Práctica</button>
                 </router-link>
             </div>
             <div class="botonImagenMenu">
-                <img src="../assets/Integrales.png" alt="Juegos Integrales" title="Integrales" class="imagenMenu">
+                <v-img src="../assets/Integrales.png" alt="Juegos Integrales" title="Integrales" class="imagenMenu"> </v-img>
                 <router-link to="JuegosIntegrales">
                     <button class="botonMenu">Sección Juegos Integrales</button>
                 </router-link>    

@@ -1,36 +1,44 @@
 <template id="template">
-<header id="headerMenu">
-    <nav class="nav_pc">
-    <div class="nav_izquierda">
-        <div id="imagenLogo">
-        <img src="../assets/icono.png" alt="Logo Instructor LSA" title="Instructor LSA" id="logo">
-        </div>
-        <h2><router-link @click="validarLog" to="/AppHome">Instructor LSA </router-link></h2>
-    </div>
-    <div class="nav_derecha" id="linksHeader">
-        <ul class="nav_menu">
-        <li class="nav_menu_item" id="linkHeader"><a @click="validarLog('/aprendizajeCategorias')">Aprendizaje</a></li>
-        <li class="nav_menu_item" id="linkHeader"><a @click="validarLog('/practicaCategorias')" >Práctica</a></li>
-        <li class="nav_menu_item" id="linkHeader"><a @click="validarLog('/JuegosIntegrales')">Juegos Integrales</a></li>
-        <li class="nav_menu_item" id="linkHeader"><a @click="handleSignOut">Cerrar Sesión</a></li>
-        </ul>
-    </div>
-    </nav>
-    <nav class="nav_responsive"> 
-        <div class="nav_izquierda">
-          <div id="imagenLogo">
-              <img src="../assets/icono.png" alt="Logo Instructor LSA" title="Instructor LSA" id="logo">
-          </div>
-          <h2>Instructor LSA</h2>
-        </div>
-        <div class="nav_derecha">
-          <div class="icono_menu_responsive fas fa-bars"></div>
-          <div class="menu_flotante">
-            <a @click="handleSignOut">Cerrar Sesión</a>
-          </div>
-        </div> 
-      </nav>
-</header>
+
+<v-card class="overflow-hidden" id="linksHeader">
+    <v-app-bar
+      absolute
+      color="#6A76AB"
+      dark
+      shrink-on-scroll
+      prominent
+      src="https://picsum.photos/1920/1080?random"
+      id="headerMenu"
+    >
+
+    <v-toolbar-title>Instructor LSA</v-toolbar-title>
+
+    <v-spacer></v-spacer>
+
+ 
+    <v-btn icon @click="handleSignOut">
+        <v-icon> mdi-logout</v-icon>
+    </v-btn>
+
+
+      <template v-slot:extension>
+        <v-tabs align-with-title>
+          <v-tab @click="validarLog('/aprendizajeCategorias')">Aprendizaje</v-tab>
+
+          <v-tab a @click="validarLog('/practicaCategorias')">Práctica</v-tab>
+
+          <v-tab @click="validarLog('/JuegosIntegrales')">Juegos Integrales</v-tab>
+        </v-tabs>
+      </template>
+    </v-app-bar>
+    <v-sheet
+      id="scrolling-techniques-4"
+      class="overflow-y-auto"
+      max-height="600"
+    >
+      <v-container style="height: 1000px;"></v-container>
+    </v-sheet>
+  </v-card>
 </template>
 
 <script>
@@ -78,6 +86,11 @@ export default{
 },
 }
 </script>
+
+
+
+
+
 
 <style lang="css">
     header{
