@@ -7,7 +7,7 @@
     </div>
     <h2 v-if='user'>Usuario: {{ user }}</h2>
     <div class="container_boton_inicio">
-      <button @click='handleSignIn' class="boton_inicio">Iniciar sesión</button>
+      <button @click='handleSignIn' class="boton_inicio">Iniciar sesión con Google</button>
     </div>
   </div>
 </template>
@@ -36,6 +36,7 @@ export default {
       try {
         const googleUser = await this.$gAuth.signIn();
         const token = googleUser.getId().substring(0,35)
+        var conError = false;
         console.log(token)
         if (!googleUser) {
           return null;
@@ -66,9 +67,10 @@ export default {
           localStorage.removeItem('googleAccount');
           localStorage.removeItem('token');
           console.log(error);
+          conError = true
         })
         document.getElementById("linksHeader").style.display = "flex";
-        if (localStorage.getItem('token') == token){
+        if (!conError){
           this.$router.push('/AppHome');
         }else{
           this.$router.push('/ErrorServer');
@@ -149,7 +151,7 @@ a {
   align-items: center;
 }
 .boton_inicio{
-  min-width: 250px;
+  min-width: 300px;
   max-width: 500px;
   margin: 15px;
   min-height: 50px;
