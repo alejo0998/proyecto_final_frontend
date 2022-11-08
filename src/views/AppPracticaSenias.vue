@@ -64,6 +64,7 @@ h3 {
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
+  margin-bottom: 200px;
 }
 
 .contenedor_senia{

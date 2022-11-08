@@ -9,13 +9,14 @@
           role="dialog" 
           v-if="showModal"
           >
-        <h1 style="text-align: center;"> <b> Aparecerán señas de las siguientes categorías:</b> </h1>
+        <h1 style="text-align: center;" v-if="sePuedeJugar"> <b> Aparecerán señas de las siguientes categorías:</b> </h1>
+        <h1 style="text-align: center;" v-if="!sePuedeJugar"> <b> No tiene señas desbloqueadas</b> </h1>
 
         <ul>
             <li v-for="(categoria, index) in categorias" v-bind:key="index" v-show="categoria.enabled" style="font-size: x-large; text-align: left; display:flex;">  <p> <strong> {{categoria.name}} &nbsp; </strong> </p>  </li>
         </ul>
         <div style=""> 
-          <button  @click="practicarJuegosIntegrales" class="button" style="margin-right:50px"> <b> Empezar a jugar </b></button>
+          <button  @click="practicarJuegosIntegrales" class="button" style="margin-right:50px" v-if="sePuedeJugar"> <b> Empezar a jugar </b></button>
           <button  @click="volverMenu" class="button"><b> Volver al menú </b></button>
         </div>
 
@@ -31,10 +32,10 @@
   name: 'app-practica-juegos-integrales',
   data() {
     return {
-        categorias:[],
-        juegos:null,
-        showModal: true
-
+      categorias:[],
+      juegos:null,
+      showModal: true,
+      sePuedeJugar: false,
     }
   },
   async created(){
@@ -48,6 +49,10 @@
       })
       console.log(response.data)
       this.categorias = response.data
+      if(this.categorias.filter(categoria=>categoria.enabled).length > 0){
+        this.sePuedeJugar = true
+      }
+
   },
   methods: {
     async practicarJuegosIntegrales(){
@@ -138,7 +143,6 @@ body {
   font: inherit;
   font-size: 1.3rem;
   padding: .5em 1em;
-  border-radius: .3em;
   cursor: pointer;
 }
 

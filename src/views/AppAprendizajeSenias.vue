@@ -80,6 +80,7 @@ h3 {
   justify-content: space-evenly;
   flex-wrap: wrap;
   margin: auto;
+  margin-bottom: 200px;
 }
 
 .contenedor_senia{
