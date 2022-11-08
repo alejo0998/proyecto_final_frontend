@@ -1,4 +1,22 @@
 <template>
+  <transition name="fade" appear>
+      <div class="modal-overlay" 
+          v-if="showModal" 
+          @click="showModal"></div>
+    </transition>
+    <transition name="pop" appear>
+      <div class="modal" 
+          role="dialog" 
+          v-if="showModal"
+          >
+        <h1 style="text-align: center;"> <b> ¿Desea cerrar sesión? </b> </h1>
+        <div style=""> 
+          <button  @click="handleSignOut" class="button" style="margin-right:50px"> <b> Cerrar sesión</b></button>
+          <button  @click="showModal=false" class="button"><b> Cancelar </b></button>
+        </div>
+
+      </div>
+    </transition>
 
   <v-app style="background-color: #EAF4FF; max-height:200px">
     
@@ -22,7 +40,7 @@
           :to="item.path">
           {{ item.title }}
         </v-btn>
-        <v-btn flat @click="handleSignOut">
+        <v-btn flat @click="showModal=true">
           <v-icon color="white"> mdi-logout</v-icon>
         </v-btn>
       </v-toolbar-items>
@@ -82,7 +100,7 @@ export default {
       menuItems: [
           { title: 'Menú', path: '/AppHome', icon: 'home' },
           { title: 'Aprendizaje', path: '/AprendizajeCategorias', icon: 'face' },
-          { title: 'Practica', path: '/PracticaCategorias', icon: 'lock_open' },
+          { title: 'Práctica', path: '/PracticaCategorias', icon: 'lock_open' },
           { title: 'Juegos Integrales', path: '/JuegosIntegrales', icon: 'lock_open' }
 
      ],
@@ -91,6 +109,7 @@ export default {
         {icon: 'mdi-twitter', path: 'https://twitter.com/InstructorLsa?t=LHpJob7yisd3QnOziuU6dQ&s=09'},
         {icon: 'mdi-instagram', path: 'https://www.instagram.com/instructorlsa/?igshid=YmMyMTA2M2Y%3D'},
       ],
+      showModal: false,
       autenticado: localStorage.getItem('token') ? true:false
     }
   },
@@ -102,6 +121,7 @@ export default {
         localStorage.removeItem('mailAccount');
         localStorage.removeItem('googleAccount');
         localStorage.removeItem('token');
+        this.showModal = false;
         this.$router.push("/");
       } catch (error) {
         console.log(error);
@@ -111,6 +131,96 @@ export default {
 };
 </script>
 <style>
+
+p{
+  font-size: 28px;
+  
+}
+
+ul{
+    text-align: left;
+    display:inline-block;
+    list-style:none;
+    margin-top:15px;
+    margin-bottom:60px;
+    justify-content: center;
+    font-size: 100px;
+}
+
+
+.button {
+  border: none;
+  color: #FFF;
+  background: #2673e4;
+  appearance: none;
+  font: inherit;
+  font-size: 1.3rem;
+  padding: .5em 1em;
+  border-radius: .3em;
+  cursor: pointer;
+}
+
+.modal {
+  position: absolute;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  text-align: center;
+  width: 30rem;
+  height: 13rem;
+  max-width: auto;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+  background: #FFF;
+  z-index: 999;
+  transform: none;
+}
+.modal h1 {
+  margin: 0 0 1rem;
+  font-size: x-large;
+
+}
+
+.modal-overlay {
+  content: '';
+  position: absolute;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 998;
+  background: #2c3e50;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+/* ---------------------------------- */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .4s linear;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.pop-enter-active,
+.pop-leave-active {
+  transition: transform 0.4s cubic-bezier(0.5, 0, 0.5, 1), opacity 0.4s linear;
+}
+
+.pop-enter,
+.pop-leave-to {
+  opacity: 0;
+  transform: scale(0.3) translateY(-50%);
+}
+
 #logo{
     width:60px;
     height:60px;
