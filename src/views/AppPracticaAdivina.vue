@@ -1,4 +1,25 @@
 <template>
+
+  <transition name="fade" appear>
+      <div class="modal-overlay" 
+          v-if="showModal" 
+          @click="showModal"></div>
+    </transition>
+    <transition name="pop" appear>
+      <div class="modal" 
+          role="dialog" 
+          v-if="showModal"
+          >
+        <h1 style="text-align: center;"> <b> {{tituloRespuesta}} </b> </h1>
+            <i id="iconoRespuesta"></i>
+
+        <div style=""> 
+          <button  @click="avanzar" class="button" style="margin-right:50px"> <b> Continuar </b></button>
+        </div>
+
+      </div>
+    </transition>
+
   <div>
       <div>
           <h1 id="titulo_senia">Adiviná la seña</h1>
@@ -9,13 +30,9 @@
                   class="video"></iframe>
           </div>
           <div id="respuesta" class="adivina">
-              <div class="containerRespuestas">
-                <span>{{tituloRespuesta}}</span>
-                <div>
-                  <i id="iconoRespuesta" v-show="tituloRespuesta!='Elegí una opción'"></i>
-                </div>
+              <div class="containerRespuestas">                
                 <div v-for="(opcion, i) in juegosVideo[index].options" v-bind:key="i" >
-                  <button @click="valida(i)" class="buttonLista">{{opcion.text}}</button>
+                  <button @click="valida(i)" class="buttonLista" >{{opcion.text}}</button>
                 </div>
               </div>
               <h3 id="timer" v-show="tituloRespuesta=='Elegí una opción'">Tiempo disponible: {{timer}}</h3>
@@ -45,7 +62,8 @@ data() {
       cantidadAciertos:null,
       timer:30,
       timerId:null,
-      timeoutId:null
+      timeoutId:null,
+      showModal: false,
   }
 },
 async mounted(){
@@ -76,7 +94,7 @@ methods: {
       document.getElementById("iconoRespuesta").classList.remove("iconoCorrecto");
       document.getElementById("iconoRespuesta").classList.remove("fa-circle-xmark");
       this.timer = 30
-
+      this.showModal = false
       var opciones = this.juegosVideo[this.index].options;
       var botones = document.getElementsByClassName("buttonLista");
       for(var j = 0 ; j < opciones.length ; j++){
@@ -89,7 +107,6 @@ methods: {
           document.getElementById("respuesta").style.display = "none";
           document.getElementById("resultado").style.visibility = "hidden";  
           this.$router.push({name:"PracticaResultados",params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, respuestasCorrectas: Number(this.cantidadAciertos)  }}) 
-          console.log("termina")  
       }else{
           if(this.juegosVideo[Number(this.index)+1].name == "Escribi la seña"){
               document.getElementById("respuesta").style.display = "flex";
@@ -123,6 +140,7 @@ methods: {
       }       
   },
   valida(index){
+      this.showModal = true
       clearTimeout(this.timeoutId)
       clearInterval(this.timerId)
       var opciones = this.juegosVideo[this.index].options;
@@ -147,6 +165,7 @@ methods: {
         document.getElementById("iconoRespuesta").classList.add("fas")
         document.getElementById("iconoRespuesta").classList.add("fa-solid");
         document.getElementById("iconoRespuesta").classList.add("fa-circle-xmark");
+
         for(var i = 0 ; i < opciones.length ; i++){
           if(index==null){
             if(!opciones[i].correct) botones.item(i).classList.add("incorrecto");
@@ -185,6 +204,103 @@ methods: {
 </script>
 
 <style scoped>
+
+
+p{
+  font-size: 28px;
+  
+}
+
+ul{
+    text-align: left;
+    display:inline-block;
+    list-style:none;
+    margin-top:15px;
+    margin-bottom:60px;
+    justify-content: center;
+    font-size: 100px;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+}
+
+.button {
+  border: none;
+  color: #FFF;
+  background: #2673e4;
+  appearance: none;
+  font: inherit;
+  font-size: 1.8rem;
+  padding: .5em 1em;
+  border-radius: .3em;
+  cursor: pointer;
+}
+
+.modal {
+  position: absolute;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  text-align: center;
+  width: 1300px;
+  height: 20rem;
+  max-width: auto;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+  background: #FFF;
+  z-index: 999;
+  transform: none;
+}
+.modal h1 {
+  margin: 0 0 1rem;
+}
+
+.modal-overlay {
+  content: '';
+  position: absolute;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 998;
+  background: #2c3e50;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+/* ---------------------------------- */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .4s linear;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.pop-enter-active,
+.pop-leave-active {
+  transition: transform 0.4s cubic-bezier(0.5, 0, 0.5, 1), opacity 0.4s linear;
+}
+
+.pop-enter,
+.pop-leave-to {
+  opacity: 0;
+  transform: scale(0.3) translateY(-50%);
+}
+
+
 #titulo_senia {
   text-align: center;
 }
@@ -326,8 +442,8 @@ input{
 }
 
 .container_video {
-  width: 60vw;
-  height: 75vh;
+  width: 55vw;
+  height: 55vh;
   display: flex;
   justify-content: center;
   margin-bottom: 200px;
