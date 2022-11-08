@@ -62,11 +62,7 @@
         Aprendé, Jugá, Incluí
       </v-card-text>
 
-      <v-divider></v-divider>
 
-      <v-card-text class="white--text">
-        {{ new Date().getFullYear() }} — <strong>Instructor LSA</strong>
-      </v-card-text>
     </v-card>
   </v-footer>
 

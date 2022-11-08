@@ -428,11 +428,15 @@ input{
   text-align: center;
   width: 100px;
   font-size: 80px;
+  margin-top: auto;
+  margin-bottom: 50vh;
+
+
 }
 
 .container_video {
-  width: 55vw;
-  height: 55vh;
+    width: 65vw;
+    height: 65vh;
   display: flex;
   justify-content: center;
   margin-bottom: 200px;

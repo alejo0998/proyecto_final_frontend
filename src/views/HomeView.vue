@@ -1,5 +1,5 @@
 <template >
-  <div class="hello" @load='pepe'>
+  <div class="hello">
     <div class="container_logo">
       <h1>Bienvenidos</h1>
       <v-img src="../assets/icono.png" alt="Instructor LSA" title="Instructor LSA" class="logo"> </v-img>
@@ -94,9 +94,7 @@ export default {
       Vue3GoogleOauth,
     };
   },
-  pepe(){
-    console.log("hola")
-  }
+
 }
 </script>
 
@@ -115,6 +113,14 @@ export default {
 }
 h1{
   text-align: center;
+}
+
+.slogan{
+  text-align: center;
+  font-size: x-large;
+  margin: 0;
+  margin-bottom: 20px;
+  font-weight: 700;
 }
 ul {
   list-style-type: none;
