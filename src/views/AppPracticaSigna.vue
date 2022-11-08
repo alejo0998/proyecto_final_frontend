@@ -7,7 +7,7 @@
       <div class="cont_signa_izq">
         <div class="cont_signa_explicacion">
           <h3>Instrucciones para grabarte</h3>
-          <ul>
+          <ul> 
             <li>Es recomendable tener buena iluminación</li>
             <li>Te sugerimos que tus manos y tu cara estén en cuadro en todo momento para un mejor reconocimiento</li>
             <li>Recomendamos comenzar con la manos abajo, realizar la seña y luego volverlas a bajar</li>
@@ -22,20 +22,21 @@
       <div class="cont_signa_der">
         <h3>Seña a realizar:</h3>
         <h3 style="border: 0px solid black ; width: auto; margin: 5px auto ;padding-bottom: 50px ; text-align: center; font-family: cursive;">{{juegosVideo[index].sign.name}}</h3>
+        <div id="resultados_grabación">
+          <h3 id="resultado">{{resultado}}</h3>
+          <button id="btnContinuar" @click="avanzar">Continuar</button>
+        </div>
         <button id="botonAbrirCamara">Abrir la cámara</button>
         <button id="botonGrabar">Comenzar a grabar</button>
-        <button id="botonSaltear" @click="avanzarSinJugar">Saltear juego</button> 
+        <button id="reintentar" @click="reintentarVideo">Reintentar</button> 
+        <button id="botonSaltear" @click="avanzarSinJugar">Saltear juego</button>
         <div id="post_grabacion">
           <h3>¿Pudiste grabarte correctamente?</h3>
-          <button id="botonContinuar">Si, ver resultados</button>
+          <button id="botonContinuar">Sí, ver resultados</button>
           <button id="botonReintentar">No, reintentar</button>
         </div>
         <h3 id="timer">La grabación empezará en: {{timer}}</h3>
         <h3 id="grabando">Grabando: {{timerGrabando}}</h3>
-        <div id="resultados_grabación">
-          <h3 id="resultado">{{resultado}}</h3>
-          <button @click="avanzar">Avanzar</button>
-        </div>
       </div>
     </div>
   </div>
@@ -82,13 +83,19 @@ export default{
     var vista = this;
     //let blob = null
     document.querySelector("#botonAbrirCamara").addEventListener("click", function(){
-      navigator.mediaDevices.getUserMedia({video:{ width: 405, height: 720 , frameRate: 8 }}).then(mostrarVideo).catch(err => console.log(err))
+      navigator.mediaDevices.getUserMedia({video:{ width: 360, height: 640 , frameRate: 8 }}).then(mostrarVideo).catch(e => alertar(e))
     })
-    
+    function alertar(e){
+      if(e){
+        alert("Permisos denegados")
+      }
+    }
     document.getElementById("post_grabacion").style.display="none";
     document.getElementById("timer").style.display="none";
     document.getElementById("grabando").style.display="none";
+    document.getElementById("reintentar").style.display="none";
     document.getElementById("resultados_grabación").style.display="none";
+    document.getElementById("btnContinuar").style.display="block";
     
     document.querySelector("#botonGrabar").addEventListener("click",grabarConRetraso)
     document.querySelector("#botonReintentar").addEventListener("click",grabarConRetraso)
@@ -163,6 +170,14 @@ export default{
       // después de 5 segundos parar
       setTimeout(() => { clearInterval(timerId); document.getElementById("grabando").style.display="none";}, 4000);
     },
+    reintentarVideo(){
+      document.getElementsByClassName("cont_signa_video")[0].style.display = "block";
+      document.getElementsByClassName("cont_signa_explicacion")[0].style.display = "none";
+      document.getElementById("botonAbrirCamara").style.display = "none";
+      document.getElementById("botonGrabar").style.display = "block";
+      document.getElementById("reintentar").style.display = "none";
+      document.getElementById("resultados_grabación").style.display = "none";
+    },
     obtenerSiguienteRuta(){
         const banco = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         let aleatoria = "";
@@ -173,13 +188,23 @@ export default{
         }
         return aleatoria;
     },
+    nombreRandom(){
+      const banco = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        let aleatoria = "";
+        for (let i = 0; i < 5; i++) {
+            // Lee más sobre la elección del índice aleatorio en:
+            // https://parzibyte.me/blog/2021/11/30/elemento-aleatorio-arreglo-javascript/
+            aleatoria += banco.charAt(Math.floor(Math.random() * banco.length));
+        }
+        return aleatoria;
+    },
     async enviarVideo(){
       var vista = this
       const formData = new FormData();
-
+      var nombreArchivo = this.nombreRandom()
       const myFile = new File(
           [vista.blob],
-          "demo.mp4",
+          nombreArchivo+".mp4",
           { type: 'video/mp4'}
       );
       var posicion = vista.juegosVideo[vista.index].position;
@@ -218,6 +243,7 @@ export default{
       vista.isLoading = false; 
       console.log(respuesta)
       //Mostrar resultados
+      document.getElementById("btnContinuar").style.display="block";
       vista.cantidadAciertos=Number(vista.respuestasCorrectas);
       if(respuesta.correcta){
         vista.resultado = "¡Respuesta correcta!";
@@ -226,7 +252,9 @@ export default{
         if(respuesta.validation == "INCORRECTA"){
           vista.resultado = "¡Respuesta incorrecta!";
         }else{
-          vista.resultado =respuesta.response; 
+          vista.resultado = "No se detectó una parte del cuerpo, reintentá nuevamente"//respuesta.response; 
+          vista.mostrarReintento()
+          console.log(vista.resultado)
         }
         
       }
@@ -243,7 +271,24 @@ export default{
     },
     avanzarSinJugar(){
       this.cantidadAciertos = Number(this.respuestasCorrectas)
-      this.avanzar()
+      this.saltearJuego()
+    },
+    saltearJuego(){
+      this.resultado = "¡Respuesta incorrecta!";
+      document.getElementById("resultados_grabación").style.display="block";
+      document.getElementById("post_grabacion").style.display="none";
+      document.getElementById("botonAbrirCamara").style.display = "none";
+      document.getElementById("botonGrabar").style.display = "none";
+      document.getElementById("botonSaltear").style.display = "none";
+      document.getElementById("reintentar").style.display = "none";
+      document.getElementById("btnContinuar").style.display="block";
+    },
+    mostrarReintento(){
+      document.getElementById("resultados_grabación").style.display="block";
+      document.getElementById("post_grabacion").style.display="none";
+      document.getElementById("reintentar").style.display="block";
+      document.getElementById("botonSaltear").style.display="block";
+      document.getElementById("btnContinuar").style.display="none";
     },
     avanzar(){
       console.log("avanzar");
@@ -252,6 +297,7 @@ export default{
       console.log(this.juegosVideo[Number(this.index)+1])
       console.log("cantidad aciertos " + this.cantidadAciertos)
       document.getElementById("post_grabacion").style.display="none";
+      document.getElementById("btnContinuar").style.display="block";
       document.getElementById("timer").style.display="none";
       document.getElementById("grabando").style.display="none";
       document.getElementById("resultados_grabación").style.display="none";
@@ -259,6 +305,7 @@ export default{
       document.getElementsByClassName("cont_signa_explicacion")[0].style.display = "block";
       document.getElementById("botonAbrirCamara").style.display = "block";
       document.getElementById("botonSaltear").style.display = "block";
+      document.getElementById("reintentar").style.display="none";
       if(this.video.srcObject)
       this.video.srcObject.getTracks().forEach( track => track.stop() ); // stop each of them
 

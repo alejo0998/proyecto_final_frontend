@@ -92,8 +92,8 @@ export default {
      ],
       icons: [
         {icon: 'mdi-facebook', path: 'https://www.facebook.com/profile.php?id=100083964894684'},
+        {icon: 'mdi-twitter', path: 'https://twitter.com/InstructorLsa?t=LHpJob7yisd3QnOziuU6dQ&s=09'},
         {icon: 'mdi-instagram', path: 'https://www.instagram.com/instructorlsa/?igshid=YmMyMTA2M2Y%3D'},
-        {icon: 'mdi-twitter', path: '/'},
       ],
       autenticado: localStorage.getItem('token') ? true:false
     }

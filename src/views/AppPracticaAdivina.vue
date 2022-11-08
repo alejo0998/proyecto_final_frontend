@@ -20,7 +20,7 @@
               </div>
               <h3 id="timer" v-show="tituloRespuesta=='Elegí una opción'">Tiempo disponible: {{timer}}</h3>
               <div id="resultado">
-                <button @click="avanzar">Avanzar</button>
+                <button @click="avanzar">Continuar</button>
             </div> 
           </div>
       </div>
