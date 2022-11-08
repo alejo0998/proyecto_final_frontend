@@ -1,4 +1,29 @@
 <template>
+
+  <transition name="fade" appear>
+      <div class="modal-overlay" 
+          v-if="showModal" 
+          @click="showModal"></div>
+    </transition>
+    <transition name="pop" appear>
+      <div class="modal" 
+          role="dialog" 
+          v-if="showModal"
+          >
+        <h1 style="text-align: center;"> <b> Instrucciones para grabarte </b> </h1>
+            <p style="text-align: left;">● Es recomendable tener buena iluminación</p>
+            <p style="text-align: left;">● Te sugerimos que tus manos y tu cara estén en cuadro en todo momento para un mejor reconocimiento</p>
+            <p style="text-align: left;">● Recomendamos comenzar con la manos abajo, realizar la seña y luego volverlas a bajar</p>
+            <p style="text-align: left;">● Tendrás un máximo de 4 segundos para grabarte haciendo la seña</p>
+            <p style="text-align: left;">● Tratá de alejarte de la cámara lo suficiente para que se vea desde tu cintura hasta tu cabeza</p>
+
+        <div style=""> 
+          <button  @click="showModal=false" class="button" style="margin-right:50px"> <b> Continuar </b></button>
+        </div>
+
+      </div>
+    </transition>
+
   <div class="cont_principal_signa">
     <div class="cont_titulo_signa">
       <h1>Signá la Palabra</h1>
@@ -6,13 +31,13 @@
     <div class="cont_signa">
       <div class="cont_signa_izq">
         <div class="cont_signa_explicacion">
-          <h3>Instrucciones para grabarte</h3>
+          <h3></h3>
           <ul> 
-            <li>Es recomendable tener buena iluminación</li>
-            <li>Te sugerimos que tus manos y tu cara estén en cuadro en todo momento para un mejor reconocimiento</li>
-            <li>Recomendamos comenzar con la manos abajo, realizar la seña y luego volverlas a bajar</li>
-            <li>Tendrás un máximo de 4 segundos para grabarte haciendo la seña</li>
-            <li>Tratá de alejarte de la cámara lo suficiente para que se vea desde tu cintura hasta tu cabeza</li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
           </ul>
         </div>
         <div class="cont_signa_video">
@@ -57,7 +82,7 @@ export default{
     categoriaVideo: String,
     index: Number,
     respuestasCorrectas: Number,
-    ruta:String
+    ruta:String,
   },
   components: {
           Loading
@@ -73,7 +98,9 @@ export default{
       cantidadAciertos:null,
       blob:null,
       isLoading: false,
-      fullPage: true
+      fullPage: true,
+      showModal: true
+
     }
   },
   mounted(){
@@ -331,6 +358,104 @@ export default{
 
  
 <style scoped>
+
+
+p{
+  font-size: 28px;
+  
+}
+
+ul{
+    text-align: left;
+    display:inline-block;
+    list-style:none;
+    margin-top:15px;
+    margin-bottom:60px;
+    justify-content: center;
+    font-size: 100px;
+}
+
+
+body {
+  min-height: 100%;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+}
+
+.button {
+  border: none;
+  color: #FFF;
+  background: #2673e4;
+  appearance: none;
+  font: inherit;
+  font-size: 1.8rem;
+  padding: .5em 1em;
+  border-radius: .3em;
+  cursor: pointer;
+}
+
+.modal {
+  position: absolute;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  text-align: center;
+  width: 1300px;
+  height: 30rem;
+  max-width: auto;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+  background: #FFF;
+  z-index: 999;
+  transform: none;
+}
+.modal h1 {
+  margin: 0 0 1rem;
+}
+
+.modal-overlay {
+  content: '';
+  position: absolute;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 998;
+  background: #2c3e50;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+/* ---------------------------------- */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .4s linear;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.pop-enter-active,
+.pop-leave-active {
+  transition: transform 0.4s cubic-bezier(0.5, 0, 0.5, 1), opacity 0.4s linear;
+}
+
+.pop-enter,
+.pop-leave-to {
+  opacity: 0;
+  transform: scale(0.3) translateY(-50%);
+}
+
+
   .cont_signa{
     display: flex;
     justify-content: center;
