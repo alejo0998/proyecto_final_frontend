@@ -218,6 +218,7 @@ methods: {
   display: flex;
   flex-direction: column;
   margin-bottom: 15vh; 
+  text-align: center;
 }
 
 .container_video_flechas {
