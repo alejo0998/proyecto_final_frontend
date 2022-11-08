@@ -145,6 +145,17 @@
     position: relative;
     margin-top: -167px;
   }
+  button{
+  background-color: #2673E4;
+  border-radius: 50px;
+  box-shadow: 2px 2px 10px #184a94;
+  border: 2px solid #184a94;
+  color:white;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+}
   .botones_resultados{
     display: flex;
     flex-direction: column;
