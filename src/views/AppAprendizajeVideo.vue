@@ -124,7 +124,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .container_flecha a i{
     cursor: pointer;
 }

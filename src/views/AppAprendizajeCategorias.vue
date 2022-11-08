@@ -33,7 +33,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped> 
 h1{
     font-size: xx-large;
     padding: 10px 1%;
