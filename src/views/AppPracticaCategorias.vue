@@ -12,7 +12,7 @@
             </figure>
           </div>
           <div v-else>
-            <v-img :src="imagenes[index]" :alt="categoria.name" :title="categoria.name" class="categoria_imagen" :class="verificarClase(false, categoria.enabled)"> </v-img>
+            <v-img :src="imagenes[index]" :alt="categoria.name" :title="categoria.name" class="categoria_imagen" :class="verificarClase(false, categoria.enabled)" style="width:200px; height:200px"> </v-img>
           </div>
 
         </a>
