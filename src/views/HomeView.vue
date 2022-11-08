@@ -6,7 +6,7 @@
       <h3 class="slogan">¿Qué esperás para practicar Lengua de Señas Argentina como nunca antes?</h3>
     </div>
     <div class="container_boton_inicio">
-      <v-btn v-on:click='handleSignIn' class="boton_inicio">Iniciar sesión con Google</v-btn>
+      <button v-on:click='handleSignIn' class="botonMenu"><b style="color:white"> Iniciar Sesión con Google </b></button>
     </div>
   </div>
 </template>
@@ -103,6 +103,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.botonMenu{
+    width: 25vw;
+    height: 4vw;
+    min-height: 45px;
+    min-width: 250px;
+    max-width: 350px;
+    max-height: 55px;
+    margin: 10px 0px;
+    background-color: #2673e4;
+}
 h1{
   text-align: center;
 }
