@@ -1,22 +1,27 @@
 <template>
-  <div class="cont_cat_integrales">   
-    <div class="cont_izq">
-      <div id="contResultados">
-        <h3>Aparecerán señas de las siguientes categorías</h3>
-        <ul style="height: 400px; padding: 5px 300px;">
-          <li v-for="(categoria, index) in categorias" v-bind:key="index" v-show="categoria.enabled" style="font-size: x-large; text-align: left;">{{categoria.name}}</li>
+    <transition name="fade" appear>
+      <div class="modal-overlay" 
+          v-if="showModal" 
+          @click="showModal"></div>
+    </transition>
+    <transition name="pop" appear>
+      <div class="modal" 
+          role="dialog" 
+          v-if="showModal"
+          >
+        <h1 style="text-align: center;"> <b> Aparecerán señas de las siguientes categorías:</b> </h1>
+
+        <ul>
+            <li v-for="(categoria, index) in categorias" v-bind:key="index" v-show="categoria.enabled" style="font-size: x-large; text-align: left; display:flex;">  <p> <strong> {{categoria.name}} </strong> </p>  </li>
         </ul>
+        <div style=""> 
+          <button  @click="practicarJuegosIntegrales" class="button" style="margin-right:50px"> <b> Empezar a jugar </b></button>
+          <button  @click="volverMenu" class="button"><b> Volver al menú </b></button>
+        </div>
+
       </div>
-      <div id="avisoSinResultados">
-        <h3>No tenés categorías disponibles para jugar</h3>
-        <i class="fas fa-solid fa-face-meh" id="iconoTriste"></i>
-      </div>
-    </div>
-    <div class="botones_resultados">
-      <button @click="practicarJuegosIntegrales" id="btnEmpezar">Empezar a jugar</button>
-      <button @click="volverMenu" id="btnMenu">Volver al menú principal</button>
-    </div>
-  </div>
+    </transition>
+
 </template>
 
 
@@ -27,11 +32,13 @@
   data() {
     return {
         categorias:[],
-        juegos:null
+        juegos:null,
+        showModal: true
+
     }
   },
-  async mounted(){
-    var url_get = "https://instructorlsa.herokuapp.com/practice/categories"
+  async created(){
+      var url_get = "https://instructorlsa.herokuapp.com/practice/categories"
       var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
       var tokenSend = 'Token '+token
       let response = await axios.get(url_get, {
@@ -41,28 +48,10 @@
       })
       console.log(response.data)
       this.categorias = response.data
-      var cats=this.categorias
-      var conResultados = false;
-      for(var i = 0 ; i<cats.length ; i++){
-        if(cats[i].enabled){
-          conResultados=true
-        }
-      }
-
-      if(!conResultados){
-        document.getElementById("contResultados").style.display="none"
-        document.getElementById("btnEmpezar").style.display="none"
-        document.getElementById("avisoSinResultados").style.display="block"
-        document.getElementById("btnMenu").style.display="block"
-      }else{
-        document.getElementById("contResultados").style.display="block"
-        document.getElementById("btnEmpezar").style.display="block"
-        document.getElementById("avisoSinResultados").style.display="none"
-        document.getElementById("btnMenu").style.display="none"
-      }
   },
   methods: {
     async practicarJuegosIntegrales(){
+      this.dialog = false
       var url_get = 'https://instructorlsa.herokuapp.com/practice/games_v2/'
       var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
       var tokenSend = 'Token '+token
@@ -89,6 +78,7 @@
       }
     },
     volverMenu(){
+        this.dialog = false
         this.$router.push("/AppHome")
     },
     obtenerSiguienteRuta(){
@@ -107,40 +97,107 @@
   </script>
   
 <style scoped>
-  #iconoTriste{
-    width: 50px;
-    height: 50px;
-    font-size: 50px;
-    color: darkred;
-    margin-top: 30px;
-  }
-  .cont_cat_integrales{
-    display: flex;
-    width: 100vw;
-    height: 85vh;
-    justify-content: space-evenly;
-  }
-  #avisoSinResultados{
-    display: none;
-  }
-  #btnMenu{
-    display: none;
-    width: 250px;
-    height: 50px;
-    margin: auto;
-  }
-  .botones_resultados{
-    width: 49vw;
-    align-self: center;
-  }
-  .cont_izq{
-    width: 49vw;
-    align-self: center;
-  }
-  #btnEmpezar{
-    width: 250px;
-    height: 50px;
-    margin: auto;
-  }
+
+p{
+  font-size: 28px;
+  
+}
+
+ul{
+    text-align: left;
+    display:inline-block;
+    list-style:none;
+    margin-top:15px;
+    margin-bottom:60px;
+    justify-content: center;
+    font-size: 100px;
+}
+
+html {
+  height: 100%;
+  background: #FFF;
+  color: #000;
+  font-size: 62.5%;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+}
+
+.button {
+  border: none;
+  color: #FFF;
+  background: #2673e4;
+  appearance: none;
+  font: inherit;
+  font-size: 1.8rem;
+  padding: .5em 1em;
+  border-radius: .3em;
+  cursor: pointer;
+}
+
+.modal {
+  position: absolute;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  text-align: center;
+  width: 1300px;
+  height: 30rem;
+  max-width: auto;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+  background: #FFF;
+  z-index: 999;
+  transform: none;
+}
+.modal h1 {
+  margin: 0 0 1rem;
+}
+
+.modal-overlay {
+  content: '';
+  position: absolute;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 998;
+  background: #2c3e50;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+/* ---------------------------------- */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .4s linear;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.pop-enter-active,
+.pop-leave-active {
+  transition: transform 0.4s cubic-bezier(0.5, 0, 0.5, 1), opacity 0.4s linear;
+}
+
+.pop-enter,
+.pop-leave-to {
+  opacity: 0;
+  transform: scale(0.3) translateY(-50%);
+}
+
 </style>
   
