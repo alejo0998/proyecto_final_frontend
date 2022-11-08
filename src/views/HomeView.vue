@@ -6,7 +6,7 @@
       <h3 class="slogan">¿Qué esperás para practicar Lengua de Señas Argentina como nunca antes?</h3>
     </div>
     <div class="container_boton_inicio">
-      <v-btn v-on:click='handleSignIn' class="boton_inicio">Iniciar sesión</v-btn>
+      <v-btn v-on:click='handleSignIn' class="boton_inicio">Iniciar sesión con Google</v-btn>
     </div>
   </div>
 </template>
@@ -28,6 +28,13 @@ export default {
     //console.log( !!localStorage.getItem('mailAccount') )
     if(localStorage.getItem('mailAccount')){
       this.$router.push('/AppHome')
+    }
+    if (localStorage.getItem('reloaded')) {
+        localStorage.removeItem('reloaded');
+    } else {
+        // Set a flag so that we know not to reload the page twice.
+        localStorage.setItem('reloaded', '1');
+        location.reload();
     }
   },
   methods: {
@@ -70,6 +77,7 @@ export default {
         if (localStorage.getItem('token') == token){
           console.log
           this.$router.push('/AppHome');
+          location.reload()
         }else{
           this.$router.push('/ErrorServer');
         }

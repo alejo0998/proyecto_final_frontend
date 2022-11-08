@@ -1,77 +1,101 @@
 <template>
 
-  <v-app>
-  
-    <v-navigation-drawer id="barra" v-model="sidebar" app>
-      <v-list>
-        <v-list-tile
-          v-for="item in menuItems"
-          :key="item.title"
-          :to="item.path">
-          <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>{{ item.title }}</v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-         
-    </v-navigation-drawer>
+  <v-app style="background-color: #EAF4FF; max-height:200px">
     
-    <v-toolbar app>
+    <v-toolbar app color="#2673e4" v-if="autenticado">
+    <div class="logo_menu"> 
+      <v-img src="./assets/icono.png" alt="Aprendizaje" title="Aprendizaje" id="logo"> </v-img>
+      <v-toolbar-title> <b style="color:white">Instructor LSA</b>  </v-toolbar-title>
+    </div>
+      <v-spacer> </v-spacer>
       <span class="hidden-sm-and-up">
         <v-toolbar-side-icon @click="sidebar = !sidebar">
         </v-toolbar-side-icon>
       </span>
-      <v-toolbar-title class="padre">
-      
-        <router-link to="/" style="cursor: pointer width: 3px" class="padre">
-            <div class="padre"> 
-            <v-img src="./assets/icono.png" alt="Aprendizaje" title="Aprendizaje" id="logo"> </v-img>
-            </div>
-        </router-link>
-      </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
         <v-btn
+          color="white"
           flat
           v-for="item in menuItems"
           :key="item.title"
           :to="item.path">
-          <v-icon left dark>{{ item.icon }}</v-icon>
           {{ item.title }}
         </v-btn>
-        <v-btn icon @click="handleSignOut">
-
-            <v-icon> mdi-logout</v-icon>
+        <v-btn flat @click="handleSignOut">
+          <v-icon color="white"> mdi-logout</v-icon>
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
     
-    <v-content>
+    <v-content id="contenido" style="background-color: #EAF4FF;">
       <router-view></router-view>
     </v-content>
 
-    <AppFooter> </AppFooter>
+
+ <v-footer
+    dark
+    padless
+    style="background-color: #EAF4FF;"
+  >
+    <v-card
+      flat
+      tile
+      class="indigo lighten-1 white--text text-center"
+    >
+      <v-card-text>
+        <v-btn
+          v-for="icon in icons"
+          :key="icon.icon"
+          :href="icon.path"
+          target="_blank"
+          class="mx-4 white--text"
+          icon
+        >
+          <v-icon size="24px">
+            {{ icon.icon }}
+          </v-icon>
+        </v-btn>
+      </v-card-text>
+
+      <v-card-text class="white--text pt-0">
+        Aprendé, Jugá, Incluí
+      </v-card-text>
+
+      <v-divider></v-divider>
+
+      <v-card-text class="white--text">
+        {{ new Date().getFullYear() }} — <strong>Instructor LSA</strong>
+      </v-card-text>
+    </v-card>
+  </v-footer>
+
+
+
   </v-app>
 </template>
 
 <script>
-import AppFooter from "./views/AppFooter";
 
 export default {
   name: "App",
-  components: {AppFooter},
   data(){
     return {
       appTitle: 'Instructor LSA',
       sidebar: false,
       menuItems: [
-          { title: 'Home', path: '/AppHome', icon: 'home' },
+          { title: 'Menú', path: '/AppHome', icon: 'home' },
           { title: 'Aprendizaje', path: '/AprendizajeCategorias', icon: 'face' },
           { title: 'Practica', path: '/PracticaCategorias', icon: 'lock_open' },
           { title: 'Juegos Integrales', path: '/JuegosIntegrales', icon: 'lock_open' }
 
-     ]
+     ],
+      icons: [
+        {icon: 'mdi-facebook', path: 'https://www.facebook.com/profile.php?id=100083964894684'},
+        {icon: 'mdi-instagram', path: 'https://www.instagram.com/instructorlsa/?igshid=YmMyMTA2M2Y%3D'},
+        {icon: 'mdi-twitter', path: '/'},
+      ],
+      autenticado: localStorage.getItem('token') ? true:false
     }
   },
   methods:{
@@ -79,11 +103,9 @@ export default {
       try {
         await this.$gAuth.signOut();
         this.SesionLog = '';
-        //console.log(this.user);
         localStorage.removeItem('mailAccount');
         localStorage.removeItem('googleAccount');
         localStorage.removeItem('token');
-                
         this.$router.push("/");
       } catch (error) {
         console.log(error);
@@ -94,13 +116,56 @@ export default {
 </script>
 <style>
 #logo{
-    width:70px;
-    height:70px;
+    width:60px;
+    height:60px;
+    max-width: 100px;
+};
+#pie #pie #pie{
+    width:500px;
+    min-width:500px;
+    height:500px;
+    display: block;
+    color: #2673e4;
+
+
 };
 .padre{
     display: inline-block;
     width:auto;
     margin: 0px;
     text-align: justify;
+}
+.v-footer{
+  display: contents;
+  color: red;
+  position: fixed;
+}
+.padre2{
+  display:flex;
+}
+.contenido{
+  color:#2673e4;
+}
+.v-card--variant-elevated, .v-card--variant-flat {
+    background: #eaf4ff;
+    color: rgba(var(--v-theme-on-surface), var(--v-high-emphasis-opacity));
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    position: fixed;
+}
+.logo_menu{
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  width: 100%;
+  gap: 5px;
+}
+
+.v-toolbar-title__placeholder {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
 }
 </style>

@@ -1,8 +1,5 @@
 <template>
   <section>
-    <div>
-      <h3>Categorías</h3>
-    </div>
     <div class="containerCategorias">
       <div class="categoria" v-for="(categoria, index) in categorias" v-bind:key="index">
         <a @click="prueba(index)" :class="verificarClase(true, categoria.enabled)" :aria-disabled="!categoria.enabled">{{categoria.name}}</a>
@@ -137,6 +134,8 @@ h3 {
   font-weight: bold;
   margin: 0;
   padding: 5px 1%;
+  margin-top: 40px;
+  margin-bottom: 20px;
 }
 
 .categoria {
@@ -169,6 +168,8 @@ h3 {
   flex-wrap: wrap;
   margin: auto;
   max-width: 1920px;
+  margin-top: 40px;
+
 }
 
 .categoria_imagen {

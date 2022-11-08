@@ -10,7 +10,7 @@
             </div>
             <div id="respuesta" class="escribi">
                 <input type="text" v-model="respuesta" placeholder="Ingresá la seña">
-                <button @click="validar">Aceptar</button>
+                <button @click="validar" class="buttonLista" >Aceptar</button>
                 <h3 id="timer">Tiempo disponible: {{timer}}</h3>
             </div>
             <div id="resultado">
@@ -226,6 +226,9 @@ button{
     width: 80%;
     padding: 13px;
     margin: 10px auto;
+}
+.buttonLista{
+  background-color: #2673e4;
 }
 
 #resultadosFinales{

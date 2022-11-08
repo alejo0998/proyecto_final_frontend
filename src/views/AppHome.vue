@@ -4,19 +4,19 @@
             <div class="botonImagenMenu">
                 <v-img src="../assets/aprendizaje.png" alt="Aprendizaje" title="Aprendizaje" class="imagenMenu"> </v-img>
                 <router-link to="AprendizajeCategorias">
-                    <button class="botonMenu">Sección Aprendizaje</button>
+                    <button class="botonMenu"> <b style="color:white"> Sección Aprendizaje </b> </button>
                 </router-link>
             </div>
             <div class="botonImagenMenu">
                 <v-img src="../assets/practica.png" alt="Práctica" title="Practica" class="imagenMenu"> </v-img>
                 <router-link to="PracticaCategorias">
-                    <button class="botonMenu">Sección Práctica</button>
+                    <button class="botonMenu"><b style="color:white"> Sección Práctica </b></button>
                 </router-link>
             </div>
             <div class="botonImagenMenu">
                 <v-img src="../assets/Integrales.png" alt="Juegos Integrales" title="Integrales" class="imagenMenu"> </v-img>
                 <router-link to="JuegosIntegrales">
-                    <button class="botonMenu">Sección Juegos Integrales</button>
+                    <button class="botonMenu"> <b style="color:white"> Sección Juegos Integrales </b> </button>
                 </router-link>    
             </div>
         </div>
@@ -70,6 +70,7 @@ export default{
         flex-direction: column;
         justify-items: center;
         align-items: center;
+        color: blue;
     }
     button{
     background-color: #2673E4;
@@ -99,6 +100,7 @@ export default{
         max-width: 350px;
         max-height: 55px;
         margin: 10px 0px;
+        background-color: #2673e4;
     }
 
     .container{
@@ -196,7 +198,8 @@ export default{
     }
 
     .containerCategorias{
-        margin-top: 10px;
+        margin-top: 40px;
+
         
     }
 }

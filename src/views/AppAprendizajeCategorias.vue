@@ -1,9 +1,6 @@
 <template>
   <section>
 
-    <div>
-      <h3>Categorías</h3>
-    </div>
     <div class="containerCategorias" >
       <div class="categoria" v-for="(categoria, index) in categorias" v-bind:key="index">
         <router-link :to="{name: 'AprendizajeSenias', params: {categoria: categoria.nombre}}"><span>{{categoria.nombre}}</span></router-link>
@@ -75,11 +72,13 @@ h3 {
 }
 
 .containerCategorias {
+
   display: flex;
   justify-content: space-evenly;
   justify-items: left;
   flex-wrap: wrap;
   margin: auto;
+  margin-top: 40px;
   max-width: 1920px;
 }
 

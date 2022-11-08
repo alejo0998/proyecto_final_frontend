@@ -69,6 +69,8 @@ h3 {
   font-weight: bold;
   margin: 0;
   padding: 5px 1%;
+  margin-top: 40px;
+  margin-bottom: 20px;
 }
 .boton_senia {
   text-decoration: none;
@@ -177,7 +179,8 @@ h3 {
     }
 
     .containerCategorias{
-        margin-top: 10px;
+        margin-top: 40px;
+
         
     }
 }

@@ -311,6 +311,10 @@ export default{
     margin: 10% 5%;
   }
 
+  .buttonLista{
+    background-color: #2673e4;
+  }
+  
   button{
     margin: 2% auto;
     width: 50%;
