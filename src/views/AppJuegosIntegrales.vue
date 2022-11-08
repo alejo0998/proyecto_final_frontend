@@ -16,8 +16,8 @@
               <li v-for="(categoria, index) in categorias" v-bind:key="index" v-show="categoria.enabled" style="font-size: x-large; text-align: left; display:flex;">  <p> <strong> {{categoria.name}} &nbsp; </strong> </p>  </li>
           </ul>
           <div style=""> 
-            <button  @click="practicarJuegosIntegrales" class="button" style="margin-right:50px" v-if="sePuedeJugar"> <b> Empezar a jugar </b></button>
-            <button  @click="volverMenu" class="button"><b> Volver al menú </b></button>
+            <button  @click="practicarJuegosIntegrales" class="botonMenu" style="margin-right:50px" v-if="sePuedeJugar"> <b> Empezar a jugar </b></button>
+            <button  @click="volverMenu" class="botonMenu"><b> Volver al menú </b></button>
           </div>
         </div>
 
@@ -147,6 +147,17 @@ body {
   cursor: pointer;
 }
 
+.botonMenu{
+    width: 25vw;
+    height: 4vw;
+    min-height: 45px;
+    min-width: 250px;
+    max-width: 350px;
+    max-height: 55px;
+    margin: 10px 0px;
+    background-color: #2673e4;
+    cursor: pointer;
+}
 
 
 .modal {
@@ -159,7 +170,7 @@ body {
   left: 0;
   margin: auto;
   text-align: center;
-  width: 35rem;
+  width: 55rem;
   height: 20rem;
   max-width: auto;
   padding: 2rem;

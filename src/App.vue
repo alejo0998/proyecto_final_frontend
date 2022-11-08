@@ -11,8 +11,8 @@
           >
         <h1 style="text-align: center;"> <b> ¿Desea cerrar sesión? </b> </h1>
         <div style=""> 
-          <button  @click="handleSignOut" class="button" style="margin-right:50px"> <b> Cerrar sesión</b></button>
-          <button  @click="showModal=false" class="button"><b> Cancelar </b></button>
+          <button  @click="handleSignOut" class="botonMenu" style="margin-right:50px"> <b style="color:white"> Cerrar sesión</b></button>
+          <button  @click="showModal=false" class="botonMenu" ><b style="color:white"> Cancelar </b></button>
         </div>
 
       </div>
@@ -164,6 +164,16 @@ ul{
   cursor: pointer;
 }
 
+.botonMenu{
+      width: 25vw;
+      height: 4vw;
+      min-height: 45px;
+      min-width: 250px;
+      max-width: 350px;
+      max-height: 55px;
+      margin: 10px 0px;
+      background-color: #2673e4;
+}
 
 .modal {
   position: absolute;
@@ -174,7 +184,7 @@ ul{
   left: 0;
   margin: auto;
   text-align: center;
-  width: 30rem;
+  width: 55rem;
   height: 13rem;
   max-width: auto;
   padding: 2rem;

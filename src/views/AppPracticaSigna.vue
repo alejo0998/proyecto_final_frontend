@@ -433,9 +433,10 @@ body {
   margin: auto;
   text-align: center;
   width: 80%;
-  height: 70%;
+  height: 100%;
   max-width: 1000px;
-  max-height: 500px;
+  max-height: 600px;
+
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
