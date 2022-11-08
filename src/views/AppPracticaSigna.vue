@@ -11,14 +11,14 @@
           v-if="showModal"
           >
         <h1 style="text-align: center;"> <b> Instrucciones para grabarte </b> </h1>
-            <p style="text-align: left;">● Es recomendable tener buena iluminación</p>
-            <p style="text-align: left;">● Te sugerimos que tus manos y tu cara estén en cuadro en todo momento para un mejor reconocimiento</p>
-            <p style="text-align: left;">● Recomendamos comenzar con la manos abajo, realizar la seña y luego volverlas a bajar</p>
-            <p style="text-align: left;">● Tendrás un máximo de 4 segundos para grabarte haciendo la seña</p>
-            <p style="text-align: left;">● Tratá de alejarte de la cámara lo suficiente para que se vea desde tu cintura hasta tu cabeza</p>
+            <p style="text-align: left; margin: 0 0 1rem; font-size: x-large;">● Es recomendable tener buena iluminación</p>
+            <p style="text-align: left; margin: 0 0 1rem; font-size: x-large;">● Te sugerimos que tus manos y tu cara estén en cuadro en todo momento para un mejor reconocimiento</p>
+            <p style="text-align: left; margin: 0 0 1rem; font-size: x-large;">● Recomendamos comenzar con la manos abajo, realizar la seña y luego volverlas a bajar</p>
+            <p style="text-align: left; margin: 0 0 1rem; font-size: x-large;">● Tendrás un máximo de 4 segundos para grabarte haciendo la seña</p>
+            <p style="text-align: left; margin: 0 0 1rem; font-size: x-large;">● Tratá de alejarte de la cámara lo suficiente para que se vea desde tu cintura hasta tu cabeza</p>
 
         <div style=""> 
-          <button @click="showModal=false" class="button" style="margin-right:50px"> <b>  Continuar </b> </button>
+          <button @click="showModal=false" class="button" style="margin-right:50px;"> <b>  Continuar </b> </button>
         </div>
 
       </div>

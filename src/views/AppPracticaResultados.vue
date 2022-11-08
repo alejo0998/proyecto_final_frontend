@@ -191,7 +191,7 @@
     font-weight: bolder;
     font-style: italic;
     text-align: center;
-    margin: 15px auto;
+    margin-top:150px;
   }
   
   button{
