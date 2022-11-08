@@ -172,6 +172,8 @@ export default {
     height: 75vh;
     display: flex;
     justify-content: center;
+    margin-bottom: 200px;
+
 }
 
 .video {
