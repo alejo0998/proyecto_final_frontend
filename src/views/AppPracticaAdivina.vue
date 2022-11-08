@@ -30,6 +30,10 @@
                   class="video"></iframe>
           </div>
           <div id="respuesta" class="adivina">
+            <span>{{tituloRespuesta}}</span>
+                <div>
+                  <i id="iconoRespuesta" v-show="tituloRespuesta!='Elegí una opción'"></i>
+                </div>
               <div class="containerRespuestas">                
                 <div v-for="(opcion, i) in juegosVideo[index].options" v-bind:key="i" >
                   <button @click="valida(i)" class="buttonLista" >{{opcion.text}}</button>
@@ -73,6 +77,7 @@ async mounted(){
   this.tituloRespuesta = "Elegí una opción"
   var vista = this
   vista.timer=30
+
   vista.timerId = setInterval(() => {vista.timer = Number(vista.timer)-1} , 1000);
     // después de 5 segundos parar
   vista.timeoutId=setTimeout(() => { clearInterval(vista.timerId); if(this.tituloRespuesta=="Elegí una opción" )vista.valida(null)} , 30000);
@@ -140,7 +145,7 @@ methods: {
       }       
   },
   valida(index){
-      this.showModal = true
+      //this.showModal = true
       clearTimeout(this.timeoutId)
       clearInterval(this.timerId)
       var opciones = this.juegosVideo[this.index].options;
@@ -148,7 +153,7 @@ methods: {
       this.cantidadAciertos=Number(this.respuestasCorrectas);
       for(var j = 0 ; j < opciones.length ; j++){
         botones.item(j).disabled =true;
-        botones.item(j).classList.add("buttonDisabled")
+        botones.item(j).classList.add("buttonDisabled") 
       }
       var correcto = index==null? false : opciones[index].correct;
       if(correcto){
@@ -245,7 +250,7 @@ body {
   position: absolute;
   position: fixed;
   top: 0;
-  right: 0;
+  right: 0;  
   bottom: 0;
   left: 0;
   margin: auto;
@@ -260,6 +265,10 @@ body {
   z-index: 999;
   transform: none;
 }
+.buttonLista{
+  width:80%;
+}
+
 .modal h1 {
   margin: 0 0 1rem;
 }
@@ -344,7 +353,7 @@ button{
 .containerRespuestas{
   display: flex;
   flex-direction: column;
-  margin-bottom: 15vh; 
+  margin-bottom: 5vh; 
   text-align: center;
 }
 
@@ -352,6 +361,7 @@ button{
   margin: 25px auto;
   display: flex;
   justify-content: space-evenly !important;
+  
 }
 
 .adivina{
@@ -359,7 +369,9 @@ button{
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  align-self: flex-end;
+  width: 25%;
+  text-align: center;
+  align-self: baseline;
 }
 
 .iconoIncorrecto{
@@ -442,11 +454,10 @@ input{
 }
 
 .container_video {
-  width: 55vw;
-  height: 55vh;
+  width: 900px;
+  height: 720px;
   display: flex;
   justify-content: center;
-  margin-bottom: 200px;
 
 }
 
