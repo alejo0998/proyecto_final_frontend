@@ -411,7 +411,7 @@ body {
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
-  background: #FFF;
+  background-color: #eaf4ff;
   z-index: 999;
   transform: none;
 }

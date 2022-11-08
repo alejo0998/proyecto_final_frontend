@@ -9,18 +9,18 @@
           role="dialog" 
           v-if="showModal"
           >
-        <h1 style="text-align: center;" v-if="sePuedeJugar"> <b> Aparecerán señas de las siguientes categorías:</b> </h1>
-        <h1 style="text-align: center;" v-if="!sePuedeJugar"> <b> No tiene señas desbloqueadas</b> </h1>
+          <h1 style="text-align: center;" v-if="sePuedeJugar"> <b> Aparecerán señas de las siguientes categorías:</b> </h1>
+          <h1 style="text-align: center;" v-if="!sePuedeJugar"> <b> No tiene señas desbloqueadas</b> </h1>
 
-        <ul>
-            <li v-for="(categoria, index) in categorias" v-bind:key="index" v-show="categoria.enabled" style="font-size: x-large; text-align: left; display:flex;">  <p> <strong> {{categoria.name}} &nbsp; </strong> </p>  </li>
-        </ul>
-        <div style=""> 
-          <button  @click="practicarJuegosIntegrales" class="button" style="margin-right:50px" v-if="sePuedeJugar"> <b> Empezar a jugar </b></button>
-          <button  @click="volverMenu" class="button"><b> Volver al menú </b></button>
+          <ul>
+              <li v-for="(categoria, index) in categorias" v-bind:key="index" v-show="categoria.enabled" style="font-size: x-large; text-align: left; display:flex;">  <p> <strong> {{categoria.name}} &nbsp; </strong> </p>  </li>
+          </ul>
+          <div style=""> 
+            <button  @click="practicarJuegosIntegrales" class="button" style="margin-right:50px" v-if="sePuedeJugar"> <b> Empezar a jugar </b></button>
+            <button  @click="volverMenu" class="button"><b> Volver al menú </b></button>
+          </div>
         </div>
 
-      </div>
     </transition>
 
 </template>
@@ -34,7 +34,7 @@
     return {
       categorias:[],
       juegos:null,
-      showModal: true,
+      showModal: false,
       sePuedeJugar: false,
     }
   },
@@ -52,6 +52,7 @@
       if(this.categorias.filter(categoria=>categoria.enabled).length > 0){
         this.sePuedeJugar = true
       }
+      this.showModal = true
 
   },
   methods: {
@@ -146,6 +147,8 @@ body {
   cursor: pointer;
 }
 
+
+
 .modal {
   position: absolute;
   position: fixed;
@@ -162,7 +165,7 @@ body {
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
-  background: #FFF;
+  background-color: #eaf4ff;
   z-index: 999;
   transform: none;
 }
