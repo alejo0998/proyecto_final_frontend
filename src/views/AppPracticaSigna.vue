@@ -18,7 +18,7 @@
             <p style="text-align: left;">● Tratá de alejarte de la cámara lo suficiente para que se vea desde tu cintura hasta tu cabeza</p>
 
         <div style=""> 
-          <button  @click="showModal=false" class="button" style="margin-right:50px"> <b> Continuar </b></button>
+          <button @click="showModal=false" class="button" style="margin-right:50px"> <b>  Continuar </b> </button>
         </div>
 
       </div>
@@ -26,7 +26,7 @@
 
   <div class="cont_principal_signa">
     <div class="cont_titulo_signa">
-      <h1>Signá la Palabra</h1>
+      <h1 style="text-align:center; margin-top:5px;">Signá la Palabra</h1>
     </div>
     <div class="cont_signa">
       <div class="cont_signa_izq">
@@ -51,7 +51,7 @@
           <h3 id="resultado">{{resultado}}</h3>
           <button id="btnContinuar" @click="avanzar">Continuar</button>
         </div>
-        <button id="botonAbrirCamara">Abrir la cámara</button>
+        <button id="botonAbrirCamara">Abrir la cámara</button> 
         <button id="botonGrabar">Comenzar a grabar</button>
         <button id="reintentar" @click="reintentarVideo">Reintentar</button> 
         <button id="botonSaltear" @click="avanzarSinJugar">Saltear juego</button>
