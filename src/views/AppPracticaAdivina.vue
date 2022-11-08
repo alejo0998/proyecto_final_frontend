@@ -1,25 +1,4 @@
 <template>
-
-  <transition name="fade" appear>
-      <div class="modal-overlay" 
-          v-if="showModal" 
-          @click="showModal"></div>
-    </transition>
-    <transition name="pop" appear>
-      <div class="modal" 
-          role="dialog" 
-          v-if="showModal"
-          >
-        <h1 style="text-align: center;"> <b> {{tituloRespuesta}} </b> </h1>
-            <i id="iconoRespuesta"></i>
-
-        <div style=""> 
-          <button  @click="avanzar" class="button" style="margin-right:50px"> <b> Continuar </b></button>
-        </div>
-
-      </div>
-    </transition>
-
   <div>
       <div>
           <h1 id="titulo_senia">Adiviná la seña</h1>
@@ -32,7 +11,7 @@
           <div id="respuesta" class="adivina">
               <div class="containerRespuestas">                
                 <div v-for="(opcion, i) in juegosVideo[index].options" v-bind:key="i" >
-                  <button @click="valida(i)" class="buttonLista" >{{opcion.text}}</button>
+                  <button @click="valida(i)" class="buttonLista" > <b style="color:white"> {{opcion.text}} </b>  </button>
                 </div>
               </div>
               <h3 id="timer" v-show="tituloRespuesta=='Elegí una opción'">Tiempo disponible: {{timer}}</h3>
@@ -63,7 +42,6 @@ data() {
       timer:30,
       timerId:null,
       timeoutId:null,
-      showModal: false,
   }
 },
 async mounted(){
@@ -71,11 +49,11 @@ async mounted(){
   document.getElementById("resultado").style.visibility = "hidden";
   this.cantidadAciertos=Number(this.respuestasCorrectas);
   this.tituloRespuesta = "Elegí una opción"
-  var vista = this
-  vista.timer=30
-  vista.timerId = setInterval(() => {vista.timer = Number(vista.timer)-1} , 1000);
+  //var vista = this
+  //vista.timer=30
+  //vista.timerId = setInterval(() => {vista.timer = Number(vista.timer)-1} , 1000);
     // después de 5 segundos parar
-  vista.timeoutId=setTimeout(() => { clearInterval(vista.timerId); if(this.tituloRespuesta=="Elegí una opción" )vista.valida(null)} , 30000);
+  //vista.timeoutId=setTimeout(() => { clearInterval(vista.timerId); if(this.tituloRespuesta=="Elegí una opción" )vista.valida(null)} , 30000);
 },
 methods: {
   ejecutarTimer(){
@@ -94,7 +72,6 @@ methods: {
       document.getElementById("iconoRespuesta").classList.remove("iconoCorrecto");
       document.getElementById("iconoRespuesta").classList.remove("fa-circle-xmark");
       this.timer = 30
-      this.showModal = false
       var opciones = this.juegosVideo[this.index].options;
       var botones = document.getElementsByClassName("buttonLista");
       for(var j = 0 ; j < opciones.length ; j++){
@@ -140,7 +117,6 @@ methods: {
       }       
   },
   valida(index){
-      this.showModal = true
       clearTimeout(this.timeoutId)
       clearInterval(this.timerId)
       var opciones = this.juegosVideo[this.index].options;
@@ -205,6 +181,9 @@ methods: {
 
 <style scoped>
 
+.buttonLista{
+  background-color: #2673e4;
+}
 
 p{
   font-size: 28px;
