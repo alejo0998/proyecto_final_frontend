@@ -51,6 +51,9 @@
         <h3 style="border: 0px solid black ; width: auto; margin: 5px auto ;padding-bottom: 50px ; text-align: center; font-family: cursive;">{{juegosVideo[index].sign.name}}</h3>
         <div id="resultados_grabación">
           <h3 id="resultado">{{resultado}}</h3>
+          <div style="margin-bottom: 25px; margin-top: 10px;">
+            <i id="iconoRespuesta" style="display: none; text-align: center; margin: 0 auto;"></i>
+          </div>
           <button id="btnContinuar" @click="avanzar">Continuar</button>
         </div>
         <button id="botonAbrirCamara">Abrir la cámara</button> 
@@ -280,12 +283,22 @@ export default{
       //Mostrar resultados
       document.getElementById("btnContinuar").style.display="block";
       vista.cantidadAciertos=Number(vista.respuestasCorrectas);
+
+      document.getElementById("iconoRespuesta").style.display = "block";
       if(respuesta.correcta){
         vista.resultado = "¡Respuesta correcta!";
+        document.getElementById("iconoRespuesta").classList.add("iconoCorrecto");
+        document.getElementById("iconoRespuesta").classList.add("fas")
+        document.getElementById("iconoRespuesta").classList.add("fa-solid");
+        document.getElementById("iconoRespuesta").classList.add("fa-circle-check");
         vista.cantidadAciertos = Number(vista.respuestasCorrectas)+1;
       }else{ 
         if(respuesta.validation == "INCORRECTA"){
           vista.resultado = "¡Respuesta incorrecta!";
+          document.getElementById("iconoRespuesta").classList.add("iconoIncorrecto");
+          document.getElementById("iconoRespuesta").classList.add("fas")
+          document.getElementById("iconoRespuesta").classList.add("fa-solid");
+          document.getElementById("iconoRespuesta").classList.add("fa-circle-xmark");
         }else{
           vista.resultado = "No se detectó una parte del cuerpo, reintentá nuevamente"//respuesta.response; 
           vista.mostrarReintento()
@@ -318,6 +331,11 @@ export default{
       document.getElementById("botonSaltear").style.display = "none";
       document.getElementById("reintentar").style.display = "none";
       document.getElementById("btnContinuar").style.display="block";
+      document.getElementById("iconoRespuesta").style.display = "block";
+      document.getElementById("iconoRespuesta").classList.add("iconoIncorrecto");
+      document.getElementById("iconoRespuesta").classList.add("fas")
+      document.getElementById("iconoRespuesta").classList.add("fa-solid");
+      document.getElementById("iconoRespuesta").classList.add("fa-circle-xmark");
     },
     mostrarReintento(){
       document.getElementById("resultados_grabación").style.display="block";
@@ -325,6 +343,9 @@ export default{
       document.getElementById("reintentar").style.display="block";
       document.getElementById("botonSaltear").style.display="block";
       document.getElementById("btnContinuar").style.display="none";
+    },
+    mostrarModal(){
+      this.showModal=true;
     },
     avanzar(){
       console.log("avanzar");
@@ -342,6 +363,7 @@ export default{
       document.getElementById("botonAbrirCamara").style.display = "block";
       document.getElementById("botonSaltear").style.display = "block";
       document.getElementById("reintentar").style.display="none";
+      document.getElementById("iconoRespuesta").style.display = "none";
       if(this.video.srcObject)
       this.video.srcObject.getTracks().forEach( track => track.stop() ); // stop each of them
 
@@ -353,6 +375,7 @@ export default{
               this.$router.push({name: "PracticaEscribi" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: Number(this.cantidadAciertos) , ruta: this.obtenerSiguienteRuta()}})
           }
           if(this.juegosVideo[Number(this.index)+1].name == "Adiviná la seña"){
+              this.mostrarModal();
               this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: Number(this.cantidadAciertos) , ruta: this.obtenerSiguienteRuta()}})
           }
           if(this.juegosVideo[Number(this.index)+1].name == "Signá la palabra"){
@@ -391,7 +414,21 @@ p{
   font-size: 24px;
   
 }
+.iconoIncorrecto{
+  width: 30px;
+  height: 30px;
+  font-size: 40px;
+  color: darkred;
+  margin-bottom: 30px;
+}
 
+.iconoCorrecto{
+  width: 30px;
+  height: 30px;
+  font-size: 40px;
+  color: darkgreen;
+  margin-bottom: 30px;
+}
 ul{
     text-align: left;
     display:inline-block;
