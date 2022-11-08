@@ -18,7 +18,7 @@
                 <div>
                   <i id="iconoRespuesta" v-show="!!resultado"></i>
                 </div>
-                <button @click="avanzar">Avanzar</button>
+                <button @click="avanzar">Continuar</button>
             </div>
         </div>
     </div>
@@ -76,7 +76,10 @@ export default {
         this.cantidadAciertos=Number(this.respuestasCorrectas)
         document.getElementById("respuesta").style.display = "none";
         document.getElementById("resultado").style.display = "flex";
-        if(this.respuesta.toUpperCase() == this.juegosVideo[this.index].sign.name.toUpperCase()){
+
+        var respSinAcentos = this.quitarAcentos(this.respuesta.toUpperCase().trim())
+
+        if(respSinAcentos == this.juegosVideo[this.index].sign.name.toUpperCase()){
             this.resultado = "¡Respuesta correcta!"
             document.getElementById("iconoRespuesta").classList.add("iconoCorrecto");
             document.getElementById("iconoRespuesta").classList.add("fas")
@@ -185,6 +188,10 @@ export default {
     },
     volverCategoria(){
         this.$router.push("/practicaCategorias")
+    },
+    quitarAcentos(cadena){
+        const acentos = {'á':'a','é':'e','í':'i','ó':'o','ú':'u','Á':'A','É':'E','Í':'I','Ó':'O','Ú':'U'};
+        return cadena.split('').map( letra => acentos[letra] || letra).join('').toString();	
     }
   }
 }
@@ -291,6 +298,8 @@ input{
     height: 75vh;
     display: flex;
     justify-content: center;
+    margin-bottom: 200px;
+
 }
 
 .video {
@@ -411,7 +420,8 @@ input{
 
     .containerCategorias{
         margin-top: 10px;
-        
+          margin-bottom: 200px;
+
     }
 }
 </style>

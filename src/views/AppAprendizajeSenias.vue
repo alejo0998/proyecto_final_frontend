@@ -180,6 +180,7 @@ h3 {
 
     .containerCategorias{
         margin-top: 40px;
+          margin-bottom: 200px;
 
         
     }

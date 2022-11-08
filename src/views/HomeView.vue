@@ -75,7 +75,6 @@ export default {
           console.log(error);
         })
         if (localStorage.getItem('token') == token){
-          console.log
           this.$router.push('/AppHome');
           location.reload()
         }else{
@@ -169,7 +168,7 @@ a {
   align-items: center;
 }
 .boton_inicio{
-  min-width: 250px;
+  min-width: 300px;
   max-width: 500px;
   margin: 15px;
   min-height: 50px;
@@ -261,7 +260,8 @@ a {
 
     .containerCategorias{
         margin-top: 10px;
-        
+          margin-bottom: 200px;
+
     }
 }
 </style>

@@ -92,8 +92,8 @@ export default {
      ],
       icons: [
         {icon: 'mdi-facebook', path: 'https://www.facebook.com/profile.php?id=100083964894684'},
+        {icon: 'mdi-twitter', path: 'https://twitter.com/InstructorLsa?t=LHpJob7yisd3QnOziuU6dQ&s=09'},
         {icon: 'mdi-instagram', path: 'https://www.instagram.com/instructorlsa/?igshid=YmMyMTA2M2Y%3D'},
-        {icon: 'mdi-twitter', path: '/'},
       ],
       autenticado: localStorage.getItem('token') ? true:false
     }
@@ -120,15 +120,7 @@ export default {
     height:60px;
     max-width: 100px;
 };
-#pie #pie #pie{
-    width:500px;
-    min-width:500px;
-    height:500px;
-    display: block;
-    color: #2673e4;
 
-
-};
 .padre{
     display: inline-block;
     width:auto;

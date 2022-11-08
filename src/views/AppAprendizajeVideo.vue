@@ -172,6 +172,8 @@ export default {
     height: 75vh;
     display: flex;
     justify-content: center;
+    margin-bottom: 200px;
+
 }
 
 .video {
@@ -278,6 +280,7 @@ export default {
 
     .containerCategorias{
             margin-top: 40px;
+    margin-bottom: 200px;
 
         
     }
