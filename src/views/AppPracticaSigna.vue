@@ -10,15 +10,24 @@
           role="dialog" 
           v-if="showModal"
           >
-        <h1 style="text-align: center;"> <b> Instrucciones para grabarte </b> </h1>
-            <p style="text-align: left;">● Es recomendable tener buena iluminación</p>
-            <p style="text-align: left;">● Te sugerimos que tus manos y tu cara estén en cuadro en todo momento para un mejor reconocimiento</p>
-            <p style="text-align: left;">● Recomendamos comenzar con la manos abajo, realizar la seña y luego volverlas a bajar</p>
-            <p style="text-align: left;">● Tendrás un máximo de 4 segundos para grabarte haciendo la seña</p>
-            <p style="text-align: left;">● Tratá de alejarte de la cámara lo suficiente para que se vea desde tu cintura hasta tu cabeza</p>
+          <h1 style="text-align: center;"> <b> Instrucciones para grabarte </b> </h1>
+          <div class="cont_modal">
+            <div class="tabla_inst">
+              <p style="text-align: left; ">● Es recomendable tener buena iluminación</p>
+              <p style="text-align: left; ">● Te sugerimos que tus manos y tu cara estén en cuadro en todo momento para un mejor reconocimiento</p>
+              <p style="text-align: left; ">● Recomendamos comenzar con la manos abajo, realizar la seña y luego volverlas a bajar</p>
+              <p style="text-align: left; ">● Tendrás un máximo de 4 segundos para grabarte haciendo la seña</p>
+              <p style="text-align: left; ">● Tratá de alejarte de la cámara lo suficiente para que se vea desde tu cintura hasta tu cabeza</p>
+            </div>
+            <i class="fas fa-solid fa-camera video_modal" ></i>
+          </div>
+          
 
-        <div style=""> 
-          <button  @click="showModal=false" class="button" style="margin-right:50px"> <b> Continuar </b></button>
+        
+
+        <div class="modal_btn"> 
+          <button  class="boton_inst" id="abrirCamaraModal" > <b> Abrir cámara </b></button>
+          <button  @click="avanzarSinJugar" class="boton_inst" > <b> Saltear juego </b></button>
         </div>
 
       </div>
@@ -30,15 +39,8 @@
     </div>
     <div class="cont_signa">
       <div class="cont_signa_izq">
-        <div class="cont_signa_explicacion">
-          <h3></h3>
-          <ul> 
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-          </ul>
+        <div class="cont_signa_explicacion" style="text-align: center;">
+          <i class="fas fa-solid fa-camera video_modal" ></i>
         </div>
         <div class="cont_signa_video">
           <video autoplay id="video"></video>
@@ -112,6 +114,11 @@ export default{
     document.querySelector("#botonAbrirCamara").addEventListener("click", function(){
       navigator.mediaDevices.getUserMedia({video:{ width: 360, height: 640 , frameRate: 8 }}).then(mostrarVideo).catch(e => alertar(e))
     })
+    document.querySelector("#abrirCamaraModal").addEventListener("click", function(){
+      navigator.mediaDevices.getUserMedia({video:{ width: 360, height: 640 , frameRate: 8 }}).then(mostrarVideo).catch(e => alertar(e))
+    })
+
+    
     function alertar(e){
       if(e){
         alert("Permisos denegados")
@@ -129,6 +136,7 @@ export default{
     document.querySelector("#botonContinuar").addEventListener("click",vista.enviarVideo)
     
     function mostrarVideo(stream){
+      vista.showModal=false; 
       document.getElementsByClassName("cont_signa_video")[0].style.display = "block";
       document.getElementsByClassName("cont_signa_explicacion")[0].style.display = "none";
       document.getElementById("botonAbrirCamara").style.display = "none";
@@ -157,7 +165,7 @@ export default{
         //download(myFile)
       }
     }
-    /*function download(blob){
+    /*function download(blob){ 
         let link = document.createElement("a");
         link.href = window.URL.createObjectURL(blob);
         link.setAttribute("download","video_recorded.mp4");
@@ -301,6 +309,7 @@ export default{
       this.saltearJuego()
     },
     saltearJuego(){
+      this.showModal=false
       this.resultado = "¡Respuesta incorrecta!";
       document.getElementById("resultados_grabación").style.display="block";
       document.getElementById("post_grabacion").style.display="none";
@@ -358,10 +367,28 @@ export default{
 
  
 <style scoped>
-
+.tabla_inst{
+  
+}
+.video_modal{
+  font-size: 200px;
+  align-self: center;
+  margin-right: 20px;
+  margin-left: 50px;
+}
+.cont_modal{
+  display: flex;
+}
+.boton_inst{
+  width: 30%;
+}
+.modal_btn{
+  display: flex;
+  justify-content: center;
+}
 
 p{
-  font-size: 28px;
+  font-size: 24px;
   
 }
 
@@ -405,15 +432,19 @@ body {
   left: 0;
   margin: auto;
   text-align: center;
-  width: 1300px;
-  height: 30rem;
-  max-width: auto;
+  width: 80%;
+  height: 70%;
+  max-width: 1000px;
+  max-height: 500px;
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
   background-color: #eaf4ff;
   z-index: 999;
   transform: none;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
 }
 .modal h1 {
   margin: 0 0 1rem;
