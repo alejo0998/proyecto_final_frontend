@@ -168,8 +168,8 @@ export default {
 }
 
 .container_video {
-    width: 75vw;
-    height: 75vh;
+    width: 55vw;
+    height: 55vh;
     display: flex;
     justify-content: center;
     margin-bottom: 200px;
