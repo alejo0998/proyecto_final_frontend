@@ -338,10 +338,10 @@ button{
 }
 
 .container_video_flechas {
-  margin: 25px auto;
+  margin: 10px auto;
   display: flex;
   justify-content: space-evenly !important;
-  
+  margin-bottom: 120px;
 }
 
 .adivina{
@@ -351,7 +351,6 @@ button{
   align-items: center;
   width: 25%;
   text-align: center;
-  align-self: baseline;
 }
 
 .iconoIncorrecto{
@@ -418,12 +417,6 @@ input{
   margin-bottom: 50px;
 }
 
-.container_video_flechas {
-  margin: 25px auto;
-  display: flex;
-  justify-content: center;
-}
-
 .container_flecha {
   display: flex;
   flex-direction: column;
@@ -438,9 +431,9 @@ input{
 }
 
 .container_video {
-  width: 900px;
-  height: 720px;
-  display: flex;
+  width: 65vw;
+  height: 65vh;
+  display: flex; 
   justify-content: center;
 
 }
