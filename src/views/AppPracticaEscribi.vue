@@ -407,7 +407,8 @@ input{
 
     .containerCategorias{
         margin-top: 10px;
-        
+          margin-bottom: 200px;
+
     }
 }
 </style>

@@ -120,15 +120,7 @@ export default {
     height:60px;
     max-width: 100px;
 };
-#pie #pie #pie{
-    width:500px;
-    min-width:500px;
-    height:500px;
-    display: block;
-    color: #2673e4;
 
-
-};
 .padre{
     display: inline-block;
     width:auto;

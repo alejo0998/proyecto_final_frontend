@@ -252,6 +252,7 @@ h3 {
   margin: auto;
   max-width: 1920px;
   margin-top: 40px;
+  margin-bottom: 200px;
 
 }
 

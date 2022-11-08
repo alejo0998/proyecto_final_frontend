@@ -80,6 +80,8 @@ h3 {
   margin: auto;
   margin-top: 40px;
   max-width: 1920px;
+  margin-bottom: 200px;
+
 }
 
 .categoria_imagen {

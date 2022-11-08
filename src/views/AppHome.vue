@@ -199,6 +199,7 @@ export default{
 
     .containerCategorias{
         margin-top: 40px;
+      margin-bottom: 200px;
 
         
     }

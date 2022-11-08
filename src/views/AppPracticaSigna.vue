@@ -336,7 +336,6 @@ export default{
     justify-content: center;
     text-align: center;
     vertical-align: middle;
-    height: 70vh;
     margin: 3%;
   }
   .cont_signa_der{
