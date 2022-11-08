@@ -1,10 +1,20 @@
 <template>
+
+
   <section>
     <div class="containerCategorias">
       <div class="categoria" v-for="(categoria, index) in categorias" v-bind:key="index">
         <a @click="prueba(index)" :class="verificarClase(true, categoria.enabled)" :aria-disabled="!categoria.enabled">{{categoria.name}}</a>
         <a @click="prueba(index)" class="categoria_enlace_imagen" :aria-disabled="!categoria.enabled">
-          <v-img :src="imagenes[index]" :alt="categoria.name" :title="categoria.name" class="categoria_imagen" :class="verificarClase(false, categoria.enabled)"> </v-img>
+          <div v-if="!categoria.enabled">
+            <figure title="Falta completar el aprendizaje" tooltip-dir="bottom">
+              <img :src="imagenes[index]" :alt="categoria.name" :title="categoria.name" class="categoria_imagen" :class="verificarClase(false, categoria.enabled)" style="width:200px; height:200px" />
+            </figure>
+          </div>
+          <div v-else>
+            <v-img :src="imagenes[index]" :alt="categoria.name" :title="categoria.name" class="categoria_imagen" :class="verificarClase(false, categoria.enabled)"> </v-img>
+          </div>
+
         </a>
       </div>
     </div>
@@ -12,6 +22,14 @@
 </template>
 
 <script>
+document.addEventListener('DOMContentLoaded', function () {
+  let figure = document.getElementById('photo');
+  let directions = document.getElementById('directions');
+
+  directions.addEventListener('change', function () {
+    figure.setAttribute('tooltip-dir', this.value);
+  });
+});
 import axios from 'axios';
 export default {
   name: 'app-practica-categorias',
@@ -109,6 +127,71 @@ export default {
 </script>
 
 <style>
+
+figure {
+  border-radius: 100%;
+  display: block;
+  height: 150px;
+  position: relative;
+  width: 150px;
+}
+
+img {
+  border-radius: inherit;
+  height: inherit;
+  width: inherit;
+}
+
+figure:after {
+  background-color: rgba(0, 0, 0, .5);
+  border-radius: 5px;
+  color: #fff;
+  content: attr(title);
+  opacity: 0;
+  padding: 6px 12px;
+  position: absolute;
+  left: 110%;
+  top: 30px;
+  transition: all .25s ease;
+  visibility: hidden;
+  white-space: nowrap;
+}
+
+figure[tooltip-dir="left"]:after {
+  left: auto;
+  right: 110%;
+}
+
+figure[tooltip-dir="bottom"]:after,
+figure[tooltip-dir="top"]:after {
+  left: 50%;
+    right: auto;
+
+  transform: translateX(-40%);
+}
+
+figure[tooltip-dir="bottom"]:after {
+  bottom: auto;
+  top: 110%;
+}
+
+figure[tooltip-dir="top"]:after {
+  bottom: 110%;
+  top: auto;
+}
+
+figure:hover:after {
+  opacity: 1;
+  visibility: visible;
+}
+
+select {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 6px 12px;
+}
+
+
 h1{
     font-size: xx-large;
     padding: 10px 1%;
