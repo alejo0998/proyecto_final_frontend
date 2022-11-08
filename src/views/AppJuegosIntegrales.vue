@@ -12,7 +12,7 @@
         <h1 style="text-align: center;"> <b> Aparecerán señas de las siguientes categorías:</b> </h1>
 
         <ul>
-            <li v-for="(categoria, index) in categorias" v-bind:key="index" v-show="categoria.enabled" style="font-size: x-large; text-align: left; display:flex;">  <p> <strong> {{categoria.name}} </strong> </p>  </li>
+            <li v-for="(categoria, index) in categorias" v-bind:key="index" v-show="categoria.enabled" style="font-size: x-large; text-align: left; display:flex;">  <p> <strong> {{categoria.name}} &nbsp; </strong> </p>  </li>
         </ul>
         <div style=""> 
           <button  @click="practicarJuegosIntegrales" class="button" style="margin-right:50px"> <b> Empezar a jugar </b></button>
@@ -99,19 +99,21 @@
 <style scoped>
 
 p{
-  font-size: 28px;
+  font-size: 22px;
   
 }
 
 ul{
     text-align: left;
-    display:inline-block;
-    list-style:none;
-    margin-top:15px;
-    margin-bottom:60px;
-    justify-content: center;
-    font-size: 100px;
+    /* list-style: none; */
+    /* margin-top: 10px; */
+    /* padding-bottom: 30px; */
+    display: flex;
+    /* justify-content: center;*/
 }
+
+
+
 
 html {
   height: 100%;
@@ -134,7 +136,7 @@ body {
   background: #2673e4;
   appearance: none;
   font: inherit;
-  font-size: 1.8rem;
+  font-size: 1.3rem;
   padding: .5em 1em;
   border-radius: .3em;
   cursor: pointer;
@@ -143,14 +145,15 @@ body {
 .modal {
   position: absolute;
   position: fixed;
+  
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   margin: auto;
   text-align: center;
-  width: 1300px;
-  height: 30rem;
+  width: 35rem;
+  height: 20rem;
   max-width: auto;
   padding: 2rem;
   border-radius: 1rem;

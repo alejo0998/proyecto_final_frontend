@@ -21,7 +21,8 @@
   <v-app style="background-color: #EAF4FF; max-height:200px">
     
     <v-toolbar app color="#2673e4" v-if="autenticado">
-    <div class="logo_menu"> 
+    
+    <div class="logo_menu" v-on:click="volverMenu()"> 
       <v-img src="./assets/icono.png" alt="Aprendizaje" title="Aprendizaje" id="logo"> </v-img>
       <v-toolbar-title> <b style="color:white">Instructor LSA</b>  </v-toolbar-title>
     </div>
@@ -98,7 +99,7 @@ export default {
       appTitle: 'Instructor LSA',
       sidebar: false,
       menuItems: [
-          { title: 'Menú', path: '/AppHome', icon: 'home' },
+          //{ title: 'Menú', path: '/AppHome', icon: 'home' },
           { title: 'Aprendizaje', path: '/AprendizajeCategorias', icon: 'face' },
           { title: 'Práctica', path: '/PracticaCategorias', icon: 'lock_open' },
           { title: 'Juegos Integrales', path: '/JuegosIntegrales', icon: 'lock_open' }
@@ -126,6 +127,9 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    volverMenu(){
+      this.$router.push("/AppHome");
     }
   }
 };
@@ -258,6 +262,7 @@ ul{
   align-items: center;
   width: 100%;
   gap: 5px;
+  cursor:pointer;
 }
 
 .v-toolbar-title__placeholder {
