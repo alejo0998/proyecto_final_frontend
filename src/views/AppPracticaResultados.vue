@@ -19,8 +19,8 @@
             startColor: '#2673E4',
             stopColor: '#95bffc'
         }"/>
-        <span class="clase_porcentaje">{{porcentajeAciertos}}%</span>
       </div>
+      <span class="clase_porcentaje">{{porcentajeAciertos}}%</span>
       
       <span class="texto_resultado">{{resultado}}</span>
     </div>
