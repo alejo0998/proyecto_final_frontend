@@ -478,5 +478,12 @@ input{
   .adivina{
     margin-bottom: 25px;
   }
+  .container_video {
+        width: 60vw;
+        height: 60vh;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 25px;
+    }
 }
 </style>
