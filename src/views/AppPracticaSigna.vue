@@ -598,5 +598,15 @@ body {
   #grabando{
     color:red;
   }
+  @media only screen and (max-width:1350px){
+    #video{
+      height: 55vh;
+    }
+    button{
+      padding: 8px;
+      font-size: small;
+      margin: 5px auto
+    }      
+  }
 </style>
 

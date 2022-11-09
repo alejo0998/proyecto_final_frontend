@@ -470,6 +470,13 @@ input{
   button{
     padding: 8px;
     font-size: small;
+    margin: 5px auto
+  }
+  .containerRespuestas{
+    margin-bottom: 4vh; 
+  }
+  .adivina{
+    margin-bottom: 25px;
   }
 }
 </style>

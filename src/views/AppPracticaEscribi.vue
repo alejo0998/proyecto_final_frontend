@@ -341,91 +341,19 @@ input{
   color: darkgreen;
   margin-bottom: 30px;
 }
-@media only screen and (max-width:850px){
-    .imagenMenu{
-        display: none;
-    }
-    .container{
-        flex-direction: column;
-        height: 40vh;
-        margin: 0;
-    }
-    .botonImagenMenu{
-        width: 100vw;
-    }
-    .nav_pc{
-        display: none;
-    }
 
-    .nav_responsive{
+@media only screen and (max-width:1350px){
+    .container_video {
+        width: 60vw;
+        height: 60vh;
         display: flex;
-    }
-
-    .nav_izquierda{
-        width: 80%;
-    }
-    .nav_derecha{
-        width: 20%;
-    }
-
-    header h2{
-        font-size: large;
-    }
-
-    h2{
-        font-size: x-large;
-    }
-
-    button{
-        font-size: small;
-    }
-
-    h4{
-        font-size: small;
-    }
-
-    .menuPrincipal_texto{
-        margin: 5% auto;
-    }
-
-    .menu{
-        height: 70vh;
-        display: flex;
-        flex-direction: column;
         justify-content: center;
+        margin-bottom: 25px;
     }
-
-    .menu_flotante{
-        background-color: white;
-        border: 1px solid black;
-        color:black;
-        font-size: small;
-        position: relative;
-        text-align: right;
-        top:-1000px ;
-        z-index: 1;
-        display: none;
-       /* width: 70vw;*/
-    }
-
-    .icono_menu_responsive{
-        font-size: 30px;
-        /* z-index: 100;*/
-    }
-
-    .icono_menu_responsive:hover > .menu_flotante{
-        top:0;
-    }
-
-    .categoria{
-        width: 150px;
-        height: 150px;
-    }
-
-    .containerCategorias{
-        margin-top: 10px;
-          margin-bottom: 200px;
-
-    }
+    button{
+      padding: 8px;
+      font-size: small;
+      margin: 5px auto
+    }  
 }
 </style>
