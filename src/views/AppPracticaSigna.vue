@@ -258,7 +258,7 @@ export default{
       console.log(formData)
 
       vista.isLoading = true; 
-      var url_get = 'https://instructor-lsa.azurewebsites.net/send_video'
+      var url_get = 'https://instructor-lsa-v2.azurewebsites.net/send_video'
       //var url_get = 'https://18.233.165.211:8080/send_video'
       var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
       var tokenSend = 'Token '+ token
