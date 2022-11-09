@@ -10,10 +10,10 @@
           </div>
           <div id="respuesta" class="adivina">
             <span>{{tituloRespuesta}}</span>
-                <div>
+                <div style="height: 50px;">
                   <i id="iconoRespuesta" v-show="tituloRespuesta!='Elegí una opción'"></i>
                 </div>
-              <div class="containerRespuestas">                
+              <div class="containerRespuestas">                 
                 <div v-for="(opcion, i) in juegosVideo[index].options" v-bind:key="i" >
                   <button @click="valida(i)" class="buttonLista" > <b style="color:white"> {{opcion.text}} </b>  </button>
                 </div>
@@ -58,7 +58,7 @@ async mounted(){
 
   vista.timerId = setInterval(() => {vista.timer = Number(vista.timer)-1} , 1000);
     // después de 5 segundos parar
-  //vista.timeoutId=setTimeout(() => { clearInterval(vista.timerId); if(this.tituloRespuesta=="Elegí una opción" )vista.valida(null)} , 30000);
+  vista.timeoutId=setTimeout(() => { clearInterval(vista.timerId); if(this.tituloRespuesta=="Elegí una opción" )vista.valida(null)} , 30000);
 },
 methods: {
   ejecutarTimer(){
@@ -351,6 +351,7 @@ button{
   align-items: center;
   width: 25%;
   text-align: center;
+  align-self: baseline;
 }
 
 .iconoIncorrecto{
@@ -359,6 +360,11 @@ button{
   font-size: 40px;
   color: darkred;
   margin-bottom: 30px;
+}
+#iconoRespuesta{
+  width: 30px;
+  height: 30px;
+  font-size: 40px;
 }
 
 .iconoCorrecto{
@@ -373,7 +379,8 @@ button{
 .adivina span{
   font-size: x-large;
   font-weight: bolder;
-  padding: 15px 25px;
+  padding: 0px 25px;
+  padding-bottom: 15px;
   font-style: italic;
   min-width: 260px;
 }
@@ -384,8 +391,8 @@ button{
 
 button{
   width: 80%;
-  padding: 13px;
-  margin: 10px auto;
+  padding: 10px;
+  margin: 8px auto;
 }
 
 #resultadosFinales{
@@ -459,91 +466,9 @@ input{
   text-align: center;
 }
 
-@media only screen and (max-width:850px){
-  .imagenMenu{
-      display: none;
-  }
-  .container{
-      flex-direction: column;
-      height: 40vh;
-      margin: 0;
-  }
-  .botonImagenMenu{
-      width: 100vw;
-  }
-  .nav_pc{
-      display: none;
-  }
-
-  .nav_responsive{
-      display: flex;
-  }
-
-  .nav_izquierda{
-      width: 80%;
-  }
-  .nav_derecha{
-      width: 20%;
-  }
-
-  header h2{
-      font-size: large;
-  }
-
-  h2{
-      font-size: x-large;
-  }
-
+@media only screen and (max-width:1280px){
   button{
-      font-size: small;
-  }
-
-  h4{
-      font-size: small;
-  }
-
-  .menuPrincipal_texto{
-      margin: 5% auto;
-  }
-
-  .menu{
-      height: 70vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-  }
-
-  .menu_flotante{
-      background-color: white;
-      border: 1px solid black;
-      color:black;
-      font-size: small;
-      position: relative;
-      text-align: right;
-      top:-1000px ;
-      z-index: 1;
-      display: none;
-     /* width: 70vw;*/
-  }
-
-  .icono_menu_responsive{
-      font-size: 30px;
-      /* z-index: 100;*/
-  }
-
-  .icono_menu_responsive:hover > .menu_flotante{
-      top:0;
-  }
-
-  .categoria{
-      width: 150px;
-      height: 150px;
-  }
-
-  .containerCategorias{
-      margin-top: 10px;
-      margin-bottom: 200px;
-  
+    padding: 8px;
   }
 }
 </style>

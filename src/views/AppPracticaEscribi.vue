@@ -9,7 +9,7 @@
                     class="video"></iframe>
             </div>
             <div id="respuesta" class="escribi">
-                <input type="text" v-model="respuesta" placeholder="Ingresá la seña">
+                <input type="text" v-model="respuesta" placeholder="Ingresá la palabra">
                 <button @click="validar" class="buttonLista" >Aceptar</button>
                 <h3 id="timer">Tiempo disponible: {{timer}}</h3>
             </div>
@@ -228,7 +228,7 @@ button{
 }
 
 .container_video_flechas {
-    margin: 25px auto;
+    margin: 10px auto;
     display: flex;
     justify-content: space-evenly !important;
 }
@@ -242,7 +242,7 @@ button{
 
 button{
     width: 80%;
-    padding: 13px;
+    padding: 10px;
     margin: 10px auto;
 }
 .buttonLista{
@@ -279,7 +279,7 @@ input{
 }
 
 .container_video_flechas {
-    margin: 25px auto;
+    margin: 10px auto;
     display: flex;
     justify-content: center;
 }
@@ -302,7 +302,7 @@ input{
     height: 65vh;
     display: flex;
     justify-content: center;
-    margin-bottom: 200px;
+    margin-bottom: 25px;
 
 }
 

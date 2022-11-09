@@ -133,7 +133,7 @@ export default {
 }
 
 .container_video_flechas {
-    margin: 25px auto;
+    margin: 10px auto;
     display: flex;
     justify-content: center;
 }
@@ -153,7 +153,7 @@ export default {
 }
 
 .container_video_flechas {
-    margin: 25px auto;
+    margin: 10px auto;
     display: flex;
     justify-content: center;
 }

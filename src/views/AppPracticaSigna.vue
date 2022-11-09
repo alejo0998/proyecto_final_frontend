@@ -532,6 +532,7 @@ body {
     vertical-align: middle;
     height: 70vh;
     margin: 3%;
+    margin-top: 15px;
   }
   button{
   background-color: #2673E4;
@@ -558,6 +559,7 @@ body {
     justify-content: center;
     text-align: left;
     width: 49vw;
+    align-self: baseline;
   }
   .cont_signa_explicacion{
     margin: 10% 5%;
@@ -570,9 +572,11 @@ body {
   .cont_signa_video{
     display: none;
     text-align: center;
+
   }
   #video{
-    height: 70vh;
+    align-self: baseline;
+    height: 60vh;
     box-shadow: 15px 15px 15px black;
   }
   .cont_signa_explicacion ul li{
