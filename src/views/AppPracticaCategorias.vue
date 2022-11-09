@@ -6,13 +6,13 @@
       <div class="categoria" v-for="(categoria, index) in categorias" v-bind:key="index">
         <a @click="prueba(index)" :class="verificarClase(true, categoria.enabled)" :aria-disabled="!categoria.enabled">{{categoria.name}}</a>
         <a @click="prueba(index)" class="categoria_enlace_imagen" :aria-disabled="!categoria.enabled">
-          <div v-if="!categoria.enabled">
+          <div v-if="!categoria.enabled" style="height: 100%;">
             <figure title="Falta completar el aprendizaje" tooltip-dir="bottom">
-              <img :src="imagenes[index]" :alt="categoria.name" :title="categoria.name" class="categoria_imagen" :class="verificarClase(false, categoria.enabled)" style="width:200px; height:200px" />
+              <img :src="imagenes[index]" :alt="categoria.name" :title="categoria.name" class="categoria_imagen" :class="verificarClase(false, categoria.enabled)"  />
             </figure>
           </div>
-          <div v-else>
-            <v-img :src="imagenes[index]" :alt="categoria.name" :title="categoria.name" class="categoria_imagen" :class="verificarClase(false, categoria.enabled)" style="width:200px; height:200px"> </v-img>
+          <div v-else style="height: 100%;">
+            <img :src="imagenes[index]" :alt="categoria.name" :title="categoria.name" class="categoria_imagen" :class="verificarClase(false, categoria.enabled)" >
           </div>
 
         </a>
@@ -131,9 +131,9 @@ export default {
 figure {
   border-radius: 100%;
   display: block;
-  height: 150px;
+  height: 100%;
   position: relative;
-  width: 150px;
+  width: 100%;
 }
 
 img {
@@ -270,5 +270,15 @@ h3 {
   height: 80%;
   margin: auto;
   border-radius: 500px;
+}
+@media only screen and (max-width:1350px){
+  .categoria {
+    width: 180px;
+    height: 180px;
+  }
+  .containerCategorias{
+    margin-top: 10px;
+    margin-bottom: 100px;
+  }
 }
 </style>

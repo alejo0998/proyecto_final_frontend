@@ -64,7 +64,7 @@ methods: {
   ejecutarTimer(){
         this.timerId = setInterval(() => {this.timer = Number(this.timer)-1} , 1000);
       // después de 5 segundos parar
-        this.timeoutId =setTimeout(() => { clearInterval(this.timerId);if(!this.resultado)this.validar()}, 30000);
+        this.timeoutId =setTimeout(() => { clearInterval(this.timerId);if(!this.resultado)this.valida()}, 30000);
   },
   avanzar() {
       console.log("avanzar");
@@ -351,7 +351,6 @@ button{
   align-items: center;
   width: 25%;
   text-align: center;
-  align-self: baseline;
 }
 
 .iconoIncorrecto{
