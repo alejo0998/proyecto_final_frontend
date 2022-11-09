@@ -466,9 +466,10 @@ input{
   text-align: center;
 }
 
-@media only screen and (max-width:1280px){
+@media only screen and (max-width:1300px){
   button{
     padding: 8px;
+    font-size: small;
   }
 }
 </style>
