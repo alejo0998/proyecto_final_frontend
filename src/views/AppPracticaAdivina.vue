@@ -60,6 +60,10 @@ async mounted(){
     // después de 5 segundos parar
   vista.timeoutId=setTimeout(() => { clearInterval(vista.timerId); if(this.tituloRespuesta=="Elegí una opción" )vista.valida(null)} , 30000);
 },
+unmounted(){
+  clearTimeout(this.timeoutId)
+  clearInterval(this.timerId)
+},
 methods: {
   ejecutarTimer(){
         this.timerId = setInterval(() => {this.timer = Number(this.timer)-1} , 1000);

@@ -54,6 +54,8 @@ export default {
     setTimeout(() => { clearInterval(timerId)}, 30000);
   },*/
   async mounted(){
+    clearTimeout(this.timeoutId)
+    clearInterval(this.timerId)
     document.getElementById("respuesta").style.display = "flex";
     document.getElementById("resultado").style.display = "none";
     this.cantidadAciertos=Number(this.respuestasCorrectas);
@@ -64,6 +66,10 @@ export default {
       // después de 5 segundos parar
     vista.timeoutId = setTimeout(() => { clearInterval(vista.timerId);if(!vista.resultado)vista.validar()}, 30000);
   },
+  unmounted(){
+    clearTimeout(this.timeoutId)
+    clearInterval(this.timerId)
+    },
   methods: {
     ejecutarTimer(){
         this.timerId = setInterval(() => {this.timer = Number(this.timer)-1} , 1000);
