@@ -599,7 +599,7 @@ body {
   #grabando{
     color:red;
   }
-  @media only screen and (max-width:1350px){
+  @media only screen and (max-width:1380px){
     #video{
       height: 55vh;
     }

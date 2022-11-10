@@ -348,7 +348,7 @@ input{
   margin-bottom: 30px;
 }
 
-@media only screen and (max-width:1350px){
+@media only screen and (max-width:1380px){
     .container_video {
         width: 60vw;
         height: 60vh;

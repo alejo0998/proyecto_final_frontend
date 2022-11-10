@@ -99,7 +99,7 @@ h3 {
   margin: auto;
   border-radius: 500px;
 }
-@media only screen and (max-width:1350px){
+@media only screen and (max-width:1380px){
   .categoria {
     width: 180px;
     height: 180px;

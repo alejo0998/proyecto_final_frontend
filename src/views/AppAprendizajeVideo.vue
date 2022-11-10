@@ -198,7 +198,7 @@ export default {
 #titulo_senia {
     text-align: center;
 }
-@media only screen and (max-width:1350px){
+@media only screen and (max-width:1380px){
     .video {
         width: 60vw;
         height: 60vh;
