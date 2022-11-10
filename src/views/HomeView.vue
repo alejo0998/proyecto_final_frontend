@@ -180,7 +180,7 @@ a {
   min-height: 50px;
 }
 
-    @media only screen and (max-width:1350px){
+    @media only screen and (max-width:1380px){
       .logo{
         width: 200px;
         height: 200px;
