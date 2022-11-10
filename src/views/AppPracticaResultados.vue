@@ -101,7 +101,7 @@
         //escribir codigo
       }
       if(juegos[0].name == "Signá la palabra"){
-        this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0, ruta: this.obtenerSiguienteRuta()} })
+        this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0, ruta: this.obtenerSiguienteRuta(), showModalBool:"T"} })
         //escribir codigo
       }
     },

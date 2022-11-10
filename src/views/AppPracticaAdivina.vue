@@ -116,7 +116,7 @@ methods: {
               this.resultado = "";
               this.respuesta = "";
               this.tituloRespuesta = "Elegí una opción"
-              this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: Number(this.cantidadAciertos) , ruta: this.obtenerSiguienteRuta()}})
+              this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: Number(this.cantidadAciertos) , ruta: this.obtenerSiguienteRuta(), showModalBool:"T"}})
 
           } 
       }       
@@ -390,8 +390,8 @@ button{
 
 button{
   width: 80%;
-  padding: 10px;
-  margin: 8px auto;
+  padding: 13px;
+  margin: 10px auto;
 }
 
 #resultadosFinales{

@@ -110,7 +110,7 @@ export default {
       if(this.juegos[0].name == "Signá la palabra"){
         //escribir codigo
         console.log(this.juegos[0].name)
-        this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(this.juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0 , ruta: this.obtenerSiguienteRuta()} })
+        this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(this.juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0 , ruta: this.obtenerSiguienteRuta(), showModalBool:"T"} })
       }
     },
     verificarClase(esTitulo , enabled){

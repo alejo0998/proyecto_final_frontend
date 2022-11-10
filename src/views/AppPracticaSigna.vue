@@ -88,6 +88,7 @@ export default{
     index: Number,
     respuestasCorrectas: Number,
     ruta:String,
+    showModalBool:String
   },
   components: {
           Loading
@@ -104,7 +105,7 @@ export default{
       blob:null,
       isLoading: false,
       fullPage: true,
-      showModal: true
+      showModal: this.showModalBool=="T"
 
     }
   },
@@ -379,7 +380,7 @@ export default{
               this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: Number(this.cantidadAciertos) , ruta: this.obtenerSiguienteRuta()}})
           }
           if(this.juegosVideo[Number(this.index)+1].name == "Signá la palabra"){
-              this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: Number(this.cantidadAciertos) , ruta: this.obtenerSiguienteRuta()}})
+              this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: Number(this.cantidadAciertos) , ruta: this.obtenerSiguienteRuta(), showModalBool:"T"}})
           } 
           console.log("no llegó")
         }
