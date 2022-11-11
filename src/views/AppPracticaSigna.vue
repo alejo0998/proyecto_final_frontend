@@ -88,6 +88,7 @@ export default{
     index: Number,
     respuestasCorrectas: Number,
     ruta:String,
+    showModalBool:String
   },
   components: {
           Loading
@@ -104,7 +105,7 @@ export default{
       blob:null,
       isLoading: false,
       fullPage: true,
-      showModal: true
+      showModal: this.showModalBool=="T"
 
     }
   },
@@ -379,7 +380,7 @@ export default{
               this.$router.push({name: "PracticaAdivina" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: Number(this.cantidadAciertos) , ruta: this.obtenerSiguienteRuta()}})
           }
           if(this.juegosVideo[Number(this.index)+1].name == "Signá la palabra"){
-              this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: Number(this.cantidadAciertos) , ruta: this.obtenerSiguienteRuta()}})
+              this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(this.juegosVideo), categoriaVideo: this.categoriaVideo, index: Number(this.index)+1, respuestasCorrectas: Number(this.cantidadAciertos) , ruta: this.obtenerSiguienteRuta(), showModalBool:"T"}})
           } 
           console.log("no llegó")
         }
@@ -532,6 +533,7 @@ body {
     vertical-align: middle;
     height: 70vh;
     margin: 3%;
+    margin-top: 15px;
   }
   button{
   background-color: #2673E4;
@@ -558,6 +560,7 @@ body {
     justify-content: center;
     text-align: left;
     width: 49vw;
+    align-self: baseline;
   }
   .cont_signa_explicacion{
     margin: 10% 5%;
@@ -570,9 +573,11 @@ body {
   .cont_signa_video{
     display: none;
     text-align: center;
+
   }
   #video{
-    height: 70vh;
+    align-self: baseline;
+    height: 60vh;
     box-shadow: 15px 15px 15px black;
   }
   .cont_signa_explicacion ul li{
@@ -593,6 +598,14 @@ body {
   }
   #grabando{
     color:red;
+  }
+  @media only screen and (max-width:1380px){
+    #video{
+      height: 55vh;
+    }
+    .modal{
+      height: 94%;
+    }
   }
 </style>
 

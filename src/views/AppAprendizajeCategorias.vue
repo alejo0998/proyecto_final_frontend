@@ -99,4 +99,14 @@ h3 {
   margin: auto;
   border-radius: 500px;
 }
+@media only screen and (max-width:1380px){
+  .categoria {
+    width: 180px;
+    height: 180px;
+  }
+  .containerCategorias{
+    margin-top: 10px;
+    margin-bottom: 100px;
+  }
+}
 </style>

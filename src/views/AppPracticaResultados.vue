@@ -101,7 +101,7 @@
         //escribir codigo
       }
       if(juegos[0].name == "Signá la palabra"){
-        this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0, ruta: this.obtenerSiguienteRuta()} })
+        this.$router.push({name: "PracticaSigna" , params:{juegos: JSON.stringify(juegos), categoriaVideo: cat, index: 0, respuestasCorrectas: 0, ruta: this.obtenerSiguienteRuta(), showModalBool:"T"} })
         //escribir codigo
       }
     },
@@ -204,7 +204,7 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    margin: 10% auto;
+    margin: 8% auto;
   }
   
   input{
@@ -218,93 +218,16 @@
   #titulo_senia {
     text-align: center;
   }
-  
-  @media only screen and (max-width:850px){
-    .imagenMenu{
-        display: none;
-    }
-    .container{
-        flex-direction: column;
-        height: 40vh;
-        margin: 0;
-    }
-    .botonImagenMenu{
-        width: 100vw;
-    }
-    .nav_pc{
-        display: none;
-    }
-  
-    .nav_responsive{
-        display: flex;
-    }
-  
-    .nav_izquierda{
-        width: 80%;
-    }
-    .nav_derecha{
-        width: 20%;
-    }
-  
-    header h2{
-        font-size: large;
-    }
-  
-    h2{
-        font-size: x-large;
-    }
-  
+  @media only screen and (max-width:1380px){
     button{
-        font-size: small;
+      padding: 8px;
+      font-size: small;
+      margin: 10px auto;
     }
-  
-    h4{
-        font-size: small;
+    #resultadosFinales{
+      margin: 1% auto;
     }
-  
-    .menuPrincipal_texto{
-        margin: 5% auto;
-    }
-  
-    .menu{
-        height: 70vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-  
-    .menu_flotante{
-        background-color: white;
-        border: 1px solid black;
-        color:black;
-        font-size: small;
-        position: relative;
-        text-align: right;
-        top:-1000px ;
-        z-index: 1;
-        display: none;
-       /* width: 70vw;*/
-    }
-  
-    .icono_menu_responsive{
-        font-size: 30px;
-        /* z-index: 100;*/
-    }
-  
-    .icono_menu_responsive:hover > .menu_flotante{
-        top:0;
-    }
-  
-    .categoria{
-        width: 150px;
-        height: 150px;
-    }
-  
-    .containerCategorias{
-        margin-top: 10px;
-          margin-bottom: 200px;
 
-    }
-  }
+  } 
   </style>
   
