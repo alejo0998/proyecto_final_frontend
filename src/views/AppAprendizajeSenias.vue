@@ -87,7 +87,7 @@ h3 {
   background-color: #2673E4;
   width: 200px;
   border-radius: 10px;
-  height: 30px;
+  height: 70px;
   text-decoration: none;
   color: white;
   font-size: larger;
@@ -96,6 +96,7 @@ h3 {
   align-items: center;
   display: flex;
   justify-content: center;
+  text-align: center;
 }
 
 @media only screen and (max-width:850px){
