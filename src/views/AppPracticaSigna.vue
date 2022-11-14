@@ -260,6 +260,7 @@ export default{
 
       vista.isLoading = true; 
       var url_get = 'https://instructor-lsa.azurewebsites.net/send_video'
+      //var url_get = "http://127.0.0.1:5000/send_video"
       //var url_get = 'https://18.233.165.211:8080/send_video'
       var token = localStorage.getItem('token') != null ? localStorage.getItem('token') : '123';
       var tokenSend = 'Token '+ token
@@ -270,7 +271,7 @@ export default{
       }).then(response => respuesta = obtenerResponse(response))
       function obtenerResponse(r){
         console.log(r)
-        respuesta = {}
+        respuesta = {} 
         respuesta.response = r.data.response;
         respuesta.correcta = r.data.validation == "CORRECTA";
         respuesta.validation = r.data.validation;
@@ -363,8 +364,12 @@ export default{
       document.getElementsByClassName("cont_signa_explicacion")[0].style.display = "block";
       document.getElementById("botonAbrirCamara").style.display = "block";
       document.getElementById("botonSaltear").style.display = "block";
-      document.getElementById("reintentar").style.display="none";
+      document.getElementById("reintentar").style.display="none"; 
       document.getElementById("iconoRespuesta").style.display = "none";
+      document.getElementById("iconoRespuesta").classList.remove("fa-circle-check");
+      document.getElementById("iconoRespuesta").classList.remove("iconoIncorrecto");
+      document.getElementById("iconoRespuesta").classList.remove("iconoCorrecto");
+      document.getElementById("iconoRespuesta").classList.remove("fa-circle-xmark");
       if(this.video.srcObject)
       this.video.srcObject.getTracks().forEach( track => track.stop() ); // stop each of them
 
