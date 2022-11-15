@@ -13,7 +13,7 @@
           <h1 style="text-align: center;" v-if="!sePuedeJugar"> <b> No tiene señas desbloqueadas</b> </h1>
 
           <ul>
-              <li v-for="(categoria, index) in categorias" v-bind:key="index" v-show="categoria.enabled" style="font-size: x-large; text-align: left; display:flex;">  <p> <strong> {{categoria.name}} &nbsp; </strong> </p>  </li>
+              <li v-for="(categoria, index) in categorias" v-bind:key="index" v-show="categoria.enabled" style="font-size: x-large;">  <p> <strong> {{categoria.name}} &nbsp; </strong> </p>  </li>
           </ul>
           <div style=""> 
             <button  @click="practicarJuegosIntegrales" class="botonMenu" style="margin-right:50px" v-if="sePuedeJugar"> <b> Empezar a jugar </b></button>
@@ -110,12 +110,14 @@ p{
 }
 
 ul{
+    list-style: circle;
     text-align: left;
-    /* list-style: none; */
-    /* margin-top: 10px; */
-    /* padding-bottom: 30px; */
-    display: flex;
     /* justify-content: center;*/
+    text-align: left;
+    display: inline-block;
+    /* margin-top: 15px; */
+    justify-content: center;
+    font-size: 100px;
 }
 
 
@@ -161,24 +163,8 @@ body {
 
 
 .modal {
-  position: absolute;
-  position: fixed;
-  
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto;
-  text-align: center;
-  width: 55rem;
-  height: 20rem;
-  max-width: auto;
-  padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
-  background-color: #eaf4ff;
-  z-index: 999;
-  transform: none;
+  display: table;
+  align-items: center;
 }
 .modal h1 {
   margin: 0 0 1rem;
